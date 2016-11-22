@@ -1,0 +1,34 @@
+<% include ../partials/header %>
+    <div class="container">
+        
+        <div class="row">
+        
+            <h1>Create a New Campground</h1>
+    
+            <form action="/campgrounds" method="POST">
+        
+                <div class="form-group">
+                    <label for="campname">Campground Name</label>
+                    <input id="campname" class="form-control" type="text" name="campgroundname" placeholder="name">
+                </div>
+                <div class="form-group">
+                    <label for="imgurl">Image Url</label>
+                    <input id="imgurl" class="form-control" type="text" name="imageurl" placeholder="imageurl">
+                </div>
+                <div class="form-group">
+                    <label for="desc">Description</label>
+                    <input id="desc" class="form-control" type="textarea" name="description" placeholder="Description">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+                </div>
+            </form>
+    
+            <a href="/campgrounds">Back</a>    
+            
+        </div>    
+       
+
+    </div><!-- Container End -->
+
+<% include ../partials/footer %>
