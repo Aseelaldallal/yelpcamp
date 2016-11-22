@@ -47,8 +47,8 @@ app.use(express.static(__dirname + "/public")); //dirname is directory this scri
 
 // Connect to database 
 mongoose.Promise = global.Promise;
-console.log(process.env.DATABASEURL);
-mongoose.connect("mongodb://localhost/yelp_camp");
+//mongoose.connect("mongodb://localhost/yelp_camp");
+mongoose.connect(process.env.DATABASEURL);
 //mongoose.connect("mongodb://aseel:inmahead@ds049558.mlab.com:49558/yelpcamp_asool");
 // You don't want to use the same db for development and production purposes
 
