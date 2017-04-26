@@ -42,7 +42,7 @@ router.post("/", middleware.isLoggedIn,  function(req,res) {
         } else {
             Comment.create(req.body.comment, function(err, createdComment) {
                 if(err) {
-                    req.flash("error", "something went wrong");
+                    req.flash("error", err);
                     console.log(err);
                 } else {
                     // Add username and id to comment
