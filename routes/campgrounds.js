@@ -11,8 +11,6 @@ var Campground = require("../models/campground");
 var middleware = require("../middleware") // we named it index.js because if we require a directory, it will automatically require index.js
 
 
-
-
 /* ------------------------------------- */
 /* -----------------ROUTES-------------- */
 /* ------------------------------------- */
@@ -34,16 +32,19 @@ router.get("/", function(req,res) {
 
 
 // CREATE ROUTE -- Add new campground to database
-router.post("/", middleware.isLoggedIn,  function(req,res) {
-   // get data from form and add to campgrounds database
-    var cname = req.body.campgroundname;
-    var url = req.body.imageurl; 
-    var desc = req.sanitize(req.body.description);
+router.post("/", middleware.isLoggedIn, middleware.sanitizeUserInput, middleware.validateForm,  function(req,res) {
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newCampground = { name: cname, image: url, description: desc, author: author };
+    var newCampground = { 
+        name: req.body.campName, 
+        location: req.body.location,
+        latlng: req.body.mapCoord,
+        description: req.body.desc, 
+        image: req.body.imgURL,
+        author: author
+    };
     Campground.create(newCampground, function(err, newlyCreated) {
         if(err) {
             console.log(err);
@@ -93,13 +94,14 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req,res) {
 
 // UPDATE ROUTE
 // NEED TO FIGURE OUT ALLOWING HTML
-router.put("/:id", middleware.checkCampgroundOwnership, function(req,res) {
-    var updatedGround = {
-        name: req.body.campground.name,
-        image: req.body.campground.image,
-        description: req.sanitize(req.body.campground.description)
-    };
-    console.log(updatedGround);
+router.put("/:id", middleware.checkCampgroundOwnership,  middleware.validateForm, function(req,res) {
+    var updatedGround = { 
+        name: req.body.campName, 
+        location: req.body.location,
+        latlng: req.body.mapCoord,
+        description: req.body.desc, 
+        image: req.body.imgURL
+    }
     Campground.findByIdAndUpdate(req.params.id, updatedGround, function(err, updatedGround) {
         if(err) {
             console.log(err);
@@ -114,7 +116,6 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req,res) {
 // DESTROY ROUTE
 
 router.delete("/:id", middleware.checkCampgroundOwnership, function(req,res) {
-    console.log("got to delete");
     Campground.findByIdAndRemove(req.params.id, function(err, deletedGround) {
         if(err) {
             console.log(err);

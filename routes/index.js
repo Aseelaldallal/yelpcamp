@@ -58,13 +58,15 @@ router.get("/login", function(req,res) {
 
 // LOGIN POST
 
-router.post("/login", passport.authenticate("local", {
-        successRedirect: "/campgrounds",
-        failureRedirect: "/login"
-    }), function(req,res) {
-        //Nothing here
+router.post("/login", passport.authenticate("local", 
+    {   failureRedirect: "/login",
+        failureFlash: true,
+    }), function(req, res){
+        req.flash("success","Welcome " + req.user.username + "!");
+        res.redirect("/campgrounds");
     }
 );
+
 
 // LOGOUT ROUTE
 

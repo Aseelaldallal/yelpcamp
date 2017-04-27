@@ -16,11 +16,14 @@
     "express": "^4.15.2",
     "express-sanitizer": "^1.0.2",
     "express-session": "^1.15.2",
+    "indicative": "^2.2.1",
     "method-override": "^2.3.8",
     "mongoose": "^4.9.6",
+    "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "sanitize-html": "^1.14.1"
   }
 }

@@ -1,32 +1,55 @@
 <% include ../partials/header %>
 
-    <div class="container">
-        
+<script type="text/javascript" src="/js/campgroundForm.js"></script>
+
+    <div class="page container">
+        <% include ../partials/flash %>
         <div class="row">
         
-            <h1>Edit <%=campground.name %></h1>
-    
+            <div class="pageTitle">
+                <h2>Edit <%=campground.name %></h2>
+            </div>
+        
+
             <form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST">
         
-               <div class="form-group">
-                    <label for="campname">Campground Name</label>
-                    <input id="campname" class="form-control" type="text" name="campground[name]" value="<%=campground.name%>">
-                </div>
+        
+                <!------------------ NAME ----------------->
                 <div class="form-group">
-                    <label for="imgurl">Image Url</label>
-                    <input id="imgurl" class="form-control" type="text" name="campground[image]" value="<%=campground.image%>">
+                    <label for="campName" class="required">Campground Name</label>
+                    <input id="campName" class="form-control" type="text" name="campName" value="<%=campground.name%>" >
+                    <div id="campNameError" class="error hidden"></div>
+                    <div id="campNameTip" class="tip hidden"> Remaining: <span id="campNameCharsLeft"></span></div>
                 </div>
+                
+                <!---------------- LOCATION --------------->
                 <div class="form-group">
-                    <label for="desc">Description</label>
-                    <input id="desc" class="form-control" type="textarea" name="campground[description]" value="<%=campground.description%>">
+                    <label for="location" class="required">Location</label>
+                    <input name="location" type="text" class="form-control" id="location" value="<%=campground.location%>">
+                    <input name="mapCoord" id="mapCoord" type="hidden">
+                    <div id="locationError" class="error hidden"></div>
                 </div>
+                
+                <!-------------- DESCRIPTION -------------->
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+                    <label for="desc" class="required">Description</label>
+                    <textarea name="desc" class="form-control req" id="desc" rows="8"><%=campground.description%></textarea>
+                    <div id="descError" class="error hidden"></div>
+                    <p id="descTip" class="tip hidden"> Remaining: <span id="descCharsLeft"></span></p>
                 </div>
+                
+                <!--------------- IMAGE URL --------------->
+                <div class="form-group">
+                    <label for="imgURL" class="required">Image Url</label>
+                    <input id="imgURL" class="form-control" type="text" name="imgURL" value="<%=campground.image%>">
+                    <div id="imgURLError" class="error hidden"></div>
+                </div>
+                
+               
+            <button type="submit" class="btn btn-tomato btn-lg btn-block submit">Submit</button>
+
             </form>
     
-            <a href="/campgrounds/<%=campground._id%>/">Back</a>    
-            
         </div>    
        
 

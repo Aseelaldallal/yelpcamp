@@ -1,0 +1,35 @@
+
+
+<% if(  (error && error.length > 0) || (success && success.length > 0) ) { %>
+    <div class="flash"> 
+        <% if(error && error.length > 0 ) { %>
+            <div class="flashError">
+                <% if(error.length === 1) { %>
+                   <strong> <%= error %> </strong>
+                   <p class="pull-right"><i class="fa fa-times close" aria-hidden="true"></i></p>
+                <% } else { %>
+                    <p class="pull-right"><i class="fa fa-times close" aria-hidden="true"></i></p>
+                    <ul>
+                        <% error.forEach(function(err) { %>
+                            <li> <strong> <%= err %> </strong></li>
+                        <% }) %>
+                    </ul>
+                <% } %> 
+            </div>
+        <% } 
+        if(success && success.length > 0) { %>
+            <div class="flashSuccess">
+                  <strong> <%= success %> </strong>
+                  <p class="pull-right"><i class="fa fa-times close" aria-hidden="true"></i></p>
+            </div>
+        <% } %>
+    </div>
+<% } %>
+
+
+<script>
+    // Dismiss flash
+   $('.close').on('click', function()  {
+        $('.flash').addClass('hidden');
+    });
+</script>

@@ -6,6 +6,7 @@
         <Title>Yelp Camp</Title>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,900" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
         <link rel="stylesheet" type="text/css" href="/stylesheets/navbar.css">
         <link rel="stylesheet" type="text/css" href="/stylesheets/button.css">
@@ -23,20 +24,6 @@
     </head>
     
     <% include ./navbar %>
-
-    <div class="container">
-        <% if(error && error.length > 0) { %> <!-- because error is not undefined -->
-                <div class="alert alert-danger" role="alert"> 
-                    <%= error %>
-                </div>
-        <% } %>
-        
-        <% if(success && success.length > 0) { %>
-                <div class="alert alert-success" role="alert"> 
-                    <%= success %>
-                </div>
-        <% } %>
-    </div>
     
     
     <body>

@@ -1,43 +1,44 @@
 
 <% include ../partials/header %>
 
-
-<div class="container">
-    
-    <header class = "jumbotron">
+ <header class = "jumbotron">
         <div class="container">
             <h1>Welcome to YelpCamp</h1>
-            <p>View our handpicked campgrounds from all over the world</p>
-            <p>
-                <a class="btn btn-primary btn-lg" href="/campgrounds/new"> Add New Campground</a>
-            </p>
+            <h4>View our handpicked campgrounds from all over the world</h4>
+            <a class="btn btn-tomato btn-md" href="/campgrounds/new"> Add New Campground</a>
         </div>
     </header>
+    
+<div class="page container">
 
     
     
+   
+    <% include ../partials/flash %>
+    <h3>Our Most Popular Campgrounds!</h3>
+    <hr>
+    
     <div class="row">
-        <div class="col-lg-12">
-            <h3>Our Most Popular Campgrounds!</h3>
-        </div>
-    </div>
-    
-    
-    <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+        
         <% campgrounds.forEach(function(ground) { %>
+            
             <div class="col-md-3 col-sm-6">
-                <div class="thumbnail">
-                    <img src= <%= ground.image %> />
-                     <div class="caption">
-                        <h4> <%= ground.name %> </h4>
-                    </div> <!-- caption end -->
-                    <p>
-                        <a href="/campgrounds/<%= ground._id %>" class="btn btn-primary">More Info</a>
-                    </p>
+                
+                <div class="imagepins thumbnail">
+                    <div class="imgAndCap">
+                        <div class="imgbackground" style="background-image: url('<%=ground.image%>');"></div>
+                         <div class="caption">
+                             <% var groundname = ground.name;
+                                if(ground.name.length > 40) {
+                                   groundname = groundname.substring(0,40) + "...";
+                                } %>
+                            <p> <strong><%= groundname %></strong></p>
+                        </div> <!-- caption end -->
+                    </div>
+                    <a href="/campgrounds/<%= ground._id %>" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>
                 </div> <!-- thumbnail end -->
   
             </div>
-        
             
         <% }) %>
         

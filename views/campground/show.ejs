@@ -2,76 +2,83 @@
 
 <% include ../partials/header %>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
 
-
-<div class="container">
-    
-    <div class="row">
-        
-        <!-- SIDEBAR -->
-        <div class="col-md-3">
-            <p class="lead">YelpCamp</p>
-            <div class="list-group">
-                <li class="list-group-item">Info 1</li>
-                <li class="list-group-item">Info 1</li>
-                <li class="list-group-item">Info 1</li>
-            </div>
+    <div class="page container">
+        <% include ../partials/flash %>
+        <div class="pageTitle">
+            <h2><%= campground.name %></h2>
         </div>
-        
-        <!-- CONTENT -->
-        <div class="col-md-9">
+
+        <div class="thumbnail">
             
-            <div class="thumbnail">
-                
-                <img class="img-responsive" src="<%=campground.image %>">
-                
-                <div class="caption-full">
-                    <h4 class="pull-right">$9.00</h4>
-                    <h4><a><%= campground.name %></a></h4>
-                    <h5><Strong>Submitted by: </Strong><%= campground.author.username %> </h5>
-                    <p><%- campground.description %></p>
-                    <!--If the current user doesn't own this campground don't let him see buttons-->
-                    <% if(currentUser) { 
-                         if (currentUser.id == campground.author.id) { %>
-                            <a href="/campgrounds/<%=campground._id %>/edit" class="btn btn-warning"> Edit </a>
-                            <form class="inline" action="<%=campground._id%>?_method=DELETE" method="POST">
-                                <button class="btn btn-danger"> Delete </button>
-                            </form>
-                        <% }
-                    } %>
-                </div>
-                
-            </div> <!-- End of thumbnail -->
+            <img class="img-responsive campgroundImage" src="<%=campground.image %>">
             
-            <div class="well">
-                <div class="text-right">
-                    <a class="btn btn-success" href="/campgrounds/<%=campground._id%>/comments/new">Leave Review</a>
-                </div>
-                <hr>
-                    <% campground.comments.forEach(function(comment) { %>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <strong><%=comment.author.username%></strong>
-                                <span class="pull-right"> 10 Days ago</span>
-                                <p><%=comment.text%> </p>
-                            </div>
-                        </div> <!--End of row -->
-                        <% if(currentUser && currentUser.id == comment.author.id) { %>
-                            <a class="btn btn-warning btn-xs" href="<%=campground._id%>/comments/<%=comment._id%>/edit">Edit</a>
-                            <form class="inline" action="<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST"> 
-                                <button class="btn btn-danger btn-xs"> Delete </button>
-                            </form>
-                        <% } %>
-                    <% }); %>
-                </div>
-            </div> <!--End of well-->
-           
-        </div> <!-- End of Column 9-->
+            <div class="caption-full">
+                <h6>Submitted by: <%= campground.author.username %> </h6>
+                <p class="breakword"><%- campground.description %></p>
+                <p><strong>Location: </strong><%- campground.location %></p>
+                <% if(campground.latlng) { %>
+                    <div id="map" class="map">
+                        <script>
+                            var latlngObj = new google.maps.LatLng(<%=campground.latlng%>);
+                            var map = new google.maps.Map(document.getElementById('map'));
+                            map.setCenter(latlngObj);
+                            map.setZoom(15);
+                            var marker = new google.maps.Marker({
+                                position: latlngObj,
+                                map: map
+                            });
+                        </script>
+                    </div>
+                <% } %>
+                <!--If the current user doesn't own this campground don't let him see buttons-->
+                <% if(currentUser) { 
+                     if (currentUser.id == campground.author.id) { %>
+                        <a href="/campgrounds/<%=campground._id %>/edit" class="btn btn-warning btn-sm"> Edit </a>
+                        <form class="inline" action="<%=campground._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-tomato btn-sm"> Delete </button>
+                        </form>
+                    <% }
+                } %>
+            </div>
+            
+        </div> <!-- End of thumbnail -->
         
-    </div> <!--End of main row-->
-    
-</div> <!-- End of Container -->
+        <div class="well">
+            <div class="text-right">
+                <a class="btn btn-sky bottomed" href="/campgrounds/<%=campground._id%>/comments/new">Leave Review</a>
+            </div>
+                <% var i = 1; %>
+                <% campground.comments.forEach(function(comment) { %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr class="bold">
+                            <strong><%=comment.author.username%></strong>
+                            <% var commdateid = "comment_" + i + "_date"; 
+                               i++; %>
+                            <span id="<%=commdateid%>" class="pull-right"></span>
+                            <script>
+                                var commID = "<%=comment._id%>"; 
+                                var mom = moment(parseInt(commID.slice(0,8), 16)*1000).format('YYYY-MM-DD');
+                                $('#<%=commdateid%>').text(mom);
+                            </script>
+                            <p class="commenttext"><%=comment.text%> </p>
+                        </div>
+                    </div> <!--End of row -->
+                    <% if(currentUser && currentUser.id == comment.author.id) { %>
+                        <a class="btn btn-warning btn-xs" href="<%=campground._id%>/comments/<%=comment._id%>/edit">Edit</a>
+                        <form class="inline" action="<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST"> 
+                            <button class="btn btn-tomato btn-xs"> Delete </button>
+                        </form>
+                    <% } %>
+                <% }); %>
+            </div>
+        </div> <!--End of well-->
+
+    </div> <!-- End of Container -->
                             
 
 <% include ../partials/footer %>
+
