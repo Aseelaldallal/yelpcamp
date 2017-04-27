@@ -1,17 +1,17 @@
 
-<% include partials/header %>
+<% include ../partials/header %>
 
 
 
 
 <div class="page container">
 
-    <% include partials/flash %>
+    <% include ../partials/flash %>
     <div class="pageTitle">
         <h2>Register</h2>
     </div>
     
-    <form action="/register" method="POST">
+    <form action="/users" method="POST">
        <div class="form-group">
             <label for="username">Username</label>
             <input id="username" class="form-control" type="text" name="username" placeholder="username">
@@ -27,4 +27,4 @@
 
 </div>
 
-<% include partials/footer %>
+<% include ../partials/footer %>
