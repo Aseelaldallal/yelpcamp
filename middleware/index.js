@@ -96,25 +96,21 @@ middlewareObj.validateForm = function(req,res,next) {
           'campName.required': 'Campground Name: required.',
           'location.required': 'Location: required',
           'desc.required': 'Description: required',
-          'imgURL.required': 'Image URL : required',
           'campName.max': 'Campground Name: Maximum number of characters exceeded',
           'location.max': 'Location: Maximum number of characters exceeded',
           'desc.max': 'Description: Maximum number of characters exceeded',
-          'imgURL.max': 'Image URL: Maximum number of characters exceeded',
           'desc.min': 'Description: Minimum number of characters not met',
         };
         
         const rules = {
             campName: basicRule,
             location: basicRule,
-            imgURL: basicRule,
             desc: descriptionRule
         };
        
         const data = {
             campName: req.body.campName,
             location: req.body.location,
-            imgURL: req.body.imgURL,
             desc: req.body.desc
         };
         
@@ -140,5 +136,7 @@ function getValidationErrors(errors) {
     });
     return messages;
 }
+
+
 
 module.exports = middlewareObj;

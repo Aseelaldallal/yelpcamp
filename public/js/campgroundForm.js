@@ -4,6 +4,7 @@
 const MAX_INPUT_LENGTH = 120;
 const MAX_DESC_LENGTH = 800;
 const MIN_DESC_LENGTH = 200; 
+const MAX_FILE_SIZE = 1000000; //bytes
 
 // This array keeps track of user input errors. It stores the element id associated with the error
 // as a string
@@ -15,7 +16,8 @@ $(document).ready(function() {
     setup($('#campName'), null, MAX_INPUT_LENGTH, true);
     setup($('#location'), null, MAX_INPUT_LENGTH, false);
     setup($('#desc'), MIN_DESC_LENGTH, MAX_DESC_LENGTH, true);
-    setup($('#imgURL'), null, MAX_INPUT_LENGTH, false);
+    
+    addImageListeners();
     
     var autocomplete = new google.maps.places.Autocomplete($('#location')[0]);
     addLocationChangeListener(autocomplete);
@@ -26,6 +28,8 @@ $(document).ready(function() {
     
 });
 
+
+// When user changes location, update map coordinates
 function addLocationChangeListener(autocomplete) {
     autocomplete.addListener('place_changed', function() {
         var place = autocomplete.getPlace();
@@ -48,15 +52,23 @@ function doValidations(e) {
         $(window).scrollTop($('#'+errors[0]).offset().top);
         e.preventDefault(); 
     }
-    console.log("DONE VAL");
 }
 
 // Loops through all required fields. If empty, adds error to errors array and displays error.
 function checkRequiredFieldsFilled() {
     $('.required').each(function() {
-       if($(this).next().val() === '') {
-           displayError($(this).next(), "This field is required");
-       } 
+        if($(this).next().attr('id') !== "image") {
+            if($(this).next().val() === '') {
+               displayError($(this).next(), "This field is required");
+            } 
+        } else { // it is an image
+            if($('#image')[0].files.length === 0 && $('#imageRemoved').val() === undefined) {
+                displayError($('#image'), "You must upload an image", $('#imageInput'));
+            } else if($('#imageRemoved').val() === "true" && $('#image')[0].files.length === 0) {
+                console.log("This is the edit page. You removed previousImage and didn't replace it.");
+                displayError($('#image'), "You must upload an image", $('#imageInput'));
+            }
+        }
     });  
 }
 
@@ -130,11 +142,15 @@ function onKeyupSetup(inputField, maxLength) {
 
 
 // Display Error 
-function displayError(field, errorMsg) {
+function displayError(field, errorMsg, imageField) {
     var errorDivID = "#" + field.attr("id") + "Error";
     $(errorDivID).empty();
     $(errorDivID).removeClass('hidden');
-    field.addClass('errorBackground');
+    if(imageField) {
+        imageField.addClass('errorBackground');
+    } else {
+        field.addClass('errorBackground');
+    }
     $(errorDivID).text(errorMsg);
     if(errors.indexOf(field.parent().attr("id")) === -1) {
         errors.push(field.parent().attr("id"));
@@ -142,16 +158,21 @@ function displayError(field, errorMsg) {
 }
 
 // Remove Error
-function removeError(field) {
+function removeError(field, imageField) {
     var errorDivID = "#" + field.attr("id") + "Error";
     $(errorDivID).empty();
     $(errorDivID).addClass('hidden');
-    field.removeClass('errorBackground');
+    if(imageField) {
+        imageField.removeClass('errorBackground');
+    } else {
+        field.removeClass('errorBackground');
+    }
     var index = errors.indexOf(field.parent().attr("id"));
     if(index !== -1) {
         errors.splice(index,1);
     }
 }
+
 
 //This function will update the event name tooltip with the number of
 //characters remaining. Make sure the error message is hidden when user starts typing
@@ -163,4 +184,73 @@ function showRemainingChars(spanElem, inputField, maxLength) {
     spanElem.text(remaining);
 }
 
-    
+
+// Listeners for image upload, remove buttons
+function addImageListeners() {
+    var fileElem = document.getElementById("image"),
+        fileSelect = document.getElementById("fileSelect"),
+        fileRemove = document.getElementById("fileRemove");
+    addUploadButtonListener(fileSelect,fileElem);
+    addRemoveButtonListener(fileRemove);
+}
+
+// When user clicks fileSelect, trigger a click of fileElem
+function addUploadButtonListener(fileSelect, fileElem) {
+    fileSelect.addEventListener("click", function(e) {
+        if (fileElem) {
+          fileElem.click();
+          e.preventDefault(); // to prevent submit
+        }
+    }, false);
+};
+
+// When user clicks fileRemove, remove files
+function addRemoveButtonListener(fileRemove) {
+    fileRemove.addEventListener("click", function(e) {
+        e.preventDefault(); // prevent submit
+        $('#fileName').empty();
+        resetFileInputField();
+        $('#fileSelect').text('Upload Image');
+        removeError($('#image'), $('#imageInput'));
+        if($('#imageRemoved')) {
+            $('#imageRemoved').val("true");
+        }
+    });
+}
+
+// handle image upload
+function handleFiles(files) { 
+ var file = files[0];
+  var imageType = /^image\//;
+  if (!imageType.test(file.type)) {
+    var msg = "The file you tried to upload is not an image. It will not be uploaded. Upload another image, or click 'remove image' to clear this error."
+    handleInvalidFileError(msg);
+    return;
+  } else if (file.size > MAX_FILE_SIZE) {
+      handleInvalidFileError("Maximum file Size is " + MAX_FILE_SIZE/1000000 + "MB. Your File is " + (file.size/1000000).toFixed(2) + " MB");
+      return; 
+  } else {
+      $('#fileSelect').text('Replace Image');
+      removeError($('#image'), $('#imageInput'));
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function(event) {
+          $('#fileName').empty();
+          $('#fileName').text(files[0].name);
+      }
+  }
+}
+
+// display error, remove file
+function handleInvalidFileError(msg) {
+    $('#fileRemove').trigger('click');
+    displayError($('#image'), msg, $('#imageInput')); 
+    resetFileInputField();
+}
+
+// reset image 
+function resetFileInputField() {
+    $('#image').wrap('<form>').closest('form').get(0).reset();
+    $('#image').unwrap();
+}
+

@@ -126,6 +126,19 @@ label {
     margin-right: 1rem;
 }
 
+#imageInput {
+    width:100%;
+    overflow: auto;
+    padding: 6px 12px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#imageInput button:last-child {
+  margin-right:0.6rem;
+}
+
 /*-------------------------------------------------------*/
 /*---------------------- SHOW PAGE ----------------------*/
 /*-------------------------------------------------------*/
@@ -201,6 +214,51 @@ hr.bold {
   }
 }
 
+/*-------------------------------------------------------*/
+/*--------------------- USER PROFILE --------------------*/
+/*-------------------------------------------------------*/
+
+
+.nav-tabs {
+  background-color: transparent;
+  margin-bottom: 2rem;
+}
+
+.nav-tabs>li {
+  width: 50%;
+  text-align: center;
+}
+
+.nav-tabs>li>a {
+  background-color:#F2383B ;
+  color:#efefef;
+  border: 1px solid #f1282b;
+  margin: 0;
+}
+
+.nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+   color: #F2383B;
+   background-color: #efefef;
+   border: 1px solid #e7e7e7;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #F2383B;
+    background-color: #efefef;
+    cursor: default;
+    border: 1px solid #e7e7e7;
+}
+
+#userProfileContent {
+   height: 100%;
+   overflow: auto;
+   background-color: white;
+}
+
+.tab-content {
+  overflow: auto;
+  padding: 1rem;
+}
 
 /*-------------------------------------------------------*/
 /*------------------------ FOOTER -----------------------*/

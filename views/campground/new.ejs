@@ -11,7 +11,8 @@
             </div>
             
             <form action="/campgrounds" 
-                  method="POST"          
+                  method="POST"  
+                  enctype="multipart/form-data" 
                   novalidate >
         
                 <!------------------ NAME ----------------->
@@ -38,11 +39,16 @@
                     <p id="descTip" class="tip hidden"> Remaining: <span id="descCharsLeft"></span></p>
                 </div>
                 
-                <!--------------- IMAGE URL --------------->
+                <!----------------- IMAGE ----------------->
                 <div class="form-group">
-                    <label for="imgURL" class="required">Image Url</label>
-                    <input id="imgURL" class="form-control" type="text" name="imgURL" placeholder="image url ...">
-                    <div id="imgURLError" class="error hidden"></div>
+                    <label for="image" class="required">Image</label>
+                    <input name="image" type="file" id="image" accept="image/*" style="display:none" onchange="handleFiles(this.files)">
+                    <div id="imageInput">
+                        <span id="fileName"></span>
+                        <button id="fileRemove" class="btn btn-sky btn-xs pull-right">Remove Image</button>
+                        <button id="fileSelect" class="btn btn-sky btn-xs pull-right">Upload Image</button>
+                    </div>
+                    <div id="imageError" class="error hidden"></div>
                 </div>
                 
                 

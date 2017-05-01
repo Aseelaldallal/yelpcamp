@@ -35,10 +35,10 @@ router.post("/", function(req,res, next) {
     User.register(newUser, req.body.password, function(err, user) {
         if(err) {
             req.flash("error", err.message)
-            res.redirect("/register");
+            res.redirect("back");
         } else {
             passport.authenticate('local')(req,res, function() {
-                req.flash("success", "Welcome to YelpCamp " + user.username);
+                req.flash("success", "Welcome to YelpCamp " + user.username + "!");
                 res.redirect("/campgrounds");
             });
         }
@@ -48,41 +48,31 @@ router.post("/", function(req,res, next) {
 
 /* ---------------------------- SHOW ROUTE --------------------------- */
 
-router.get("/:id", function(req,res,next) {
-        User.findById(req.params.id, function(err, foundUser) {
+router.get("/:id", function(req,res,next) { 
+    User.findById(req.params.id).exec(function(err, foundUser) {
         if(err) {
-           next(err);
+            req.flash("error", err.message);
+            res.redirect("back");
         } else {
-            if(req.query.futureEvents) {
-                findAllFutureEvents(foundUser, res, req.query.futureEvents, next);
-            } else {
-                findAllUserEvents(foundUser, res, next);
-            }
+            Campground.find( { 'author.id' : req.params.id } ).exec(function(err, foundGrounds) {
+               if(err) {
+                   req.flash("error", err.message);
+                   res.redirect("back");
+               } else {
+                   Comment.find({ 'author.id' : req.params.id }).exec(function(err, foundComments) {
+                        if(err) {
+                            req.flash("error", err.message);
+                            res.redirect("back");
+                        } else {
+                            res.render("user/show", {user:foundUser, campgrounds : foundGrounds, comments: foundComments});
+                        }
+                    }); // End of comment.find
+                }
+            }); // End of campgrounds.find
         }
-    });
+    }); // End of user.find
 });
 
-// find all events that belong to user
-function findAllUserEvents(foundUser, res, next) {
-    Event.find( { 'author.id' : foundUser._id } ).sort({date: 1}).exec(function(err, foundEvents) {
-       if(err) {
-           next(err);
-       } else {
-           res.render("user/show", {user: foundUser, events : foundEvents, checked: "false"});
-       }
-    });
-}
-
-// find all events after todayDate that belong to user
-function findAllFutureEvents(foundUser, res, todayDate, next) {
-    Event.find( { 'author.id' : foundUser._id, 'date' : {$gt:todayDate} } ).sort({date: 1}).exec(function(err, foundEvents) {
-        if(err) {
-           next(err);
-       } else {
-           res.render("user/show", {user: foundUser, events : foundEvents, checked: "true"});
-       }
-    });
-}
 
 
 /* ---------------------------- EDIT ROUTE --------------------------- */

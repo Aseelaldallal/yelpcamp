@@ -11,7 +11,7 @@
             </div>
         
 
-            <form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST">
+            <form action="/campgrounds/<%=campground._id%>?_method=PUT" enctype="multipart/form-data"  method="POST">
         
         
                 <!------------------ NAME ----------------->
@@ -38,11 +38,18 @@
                     <p id="descTip" class="tip hidden"> Remaining: <span id="descCharsLeft"></span></p>
                 </div>
                 
-                <!--------------- IMAGE URL --------------->
+                <!----------------- IMAGE ----------------->
+                <input name="previousImage" id="previousImage" type="hidden" value="<%=campground.image%>" />
+                <input name="imageRemoved" id="imageRemoved" type="hidden" value="false" />
                 <div class="form-group">
-                    <label for="imgURL" class="required">Image Url</label>
-                    <input id="imgURL" class="form-control" type="text" name="imgURL" value="<%=campground.image%>">
-                    <div id="imgURLError" class="error hidden"></div>
+                    <label for="image" class="required">Image</label>
+                    <input name="image" type="file" id="image" accept="image/*" style="display:none" onchange="handleFiles(this.files)">
+                    <div id="imageInput">
+                        <span id="fileName"><%=campground.image%></span>
+                        <button id="fileRemove" class="btn btn-sky btn-xs pull-right">Remove Image</button>
+                        <button id="fileSelect" class="btn btn-sky btn-xs pull-right">Upload Image</button>
+                    </div>
+                    <div id="imageError" class="error hidden"></div>
                 </div>
                 
                
@@ -56,3 +63,4 @@
     </div><!-- Container End -->
 
 <% include ../partials/footer %>
+

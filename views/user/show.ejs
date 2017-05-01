@@ -1,1 +1,61 @@
-SHOW PAGE
+
+<% include ../partials/header %>
+
+<div class="page container">
+    
+    <% include ../partials/flash %>
+    
+    <div class="pageTitle">
+        <h2><%=user.username%>'s Profile</h2>
+    </div>
+    
+    <div>
+
+   <div id="userProfileContent">
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li id="myTabs" role="presentation" class="active"><a href="#posts" aria-controls="posts" role="tab" data-toggle="tab">Posts</a></li>
+        <li id="myTabs2" role="presentation"><a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a></li>
+      </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="posts">
+                    <%  for(var i=0; i<campgrounds.length; i++) { 
+                        var ground = campgrounds[i]; %>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="imagepins thumbnail">
+                                <div class="imgAndCap">
+                                    <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/<%=ground.image%>');"></div>
+                                     <div class="caption">
+                                         <% var groundname = ground.name;
+                                            if(ground.name.length > 40) {
+                                               groundname = groundname.substring(0,40) + "...";
+                                            } %>
+                                        <p> <strong><%= groundname %></strong></p>
+                                    </div> <!-- caption end -->
+                                </div>
+                                <a href="/campgrounds/<%= ground._id %>" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>
+                            </div> <!-- thumbnail end -->
+                        </div>
+                    <%  } %>
+            </div> <!-- End of posts tab -->
+            
+            <div role="tabpanel" class="tab-pane" id="comments"><%=comments%></div>
+
+
+        </div> <!-- End of tab content -->
+    </div> <!-- End of user profile content -->
+    
+    
+
+</div>
+   
+    
+
+
+
+<% include ../partials/footer %>
+
+

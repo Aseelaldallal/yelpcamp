@@ -7,19 +7,18 @@
 /* -----------------SETUP--------------- */
 /* ------------------------------------- */
 
-var express = require("express");
-var router = express.Router({mergeParams: true}); // Preserve the req.params values from the parent router.
-var Campground = require("../models/campground");
-var Comment = require("../models/comment"); 
-var middleware = require("../middleware")
+var express = require("express"),
+    router = express.Router({mergeParams: true}), // Preserve the req.params values from the parent router.
+    Campground = require("../models/campground"),
+    Comment = require("../models/comment"), 
+    middleware = require("../middleware");
+
+
 
 
 /* ------------------------------------- */
-/* -----------------ROUTES-------------- */
+/* ---------------NEW ROUTE------------- */
 /* ------------------------------------- */
-
-
-// NEW ROUTE - show form to create new comment
 
 router.get("/new", middleware.isLoggedIn, function(req,res) {
     Campground.findById(req.params.id, function(err, foundC) {
@@ -32,7 +31,10 @@ router.get("/new", middleware.isLoggedIn, function(req,res) {
 });
 
 
-// CREATE ROUTE
+
+/* ------------------------------------- */
+/* -------------CREATE ROUTE------------ */
+/* ------------------------------------- */
 
 router.post("/", middleware.isLoggedIn, middleware.sanitizeUserInput, function(req,res) {
     if(!req.body.comment) {
@@ -56,7 +58,7 @@ router.post("/", middleware.isLoggedIn, middleware.sanitizeUserInput, function(r
                     // save comment
                     foundGround.comments.push(createdComment);
                     foundGround.save();
-                    req.flash("success", "successfully added comment")
+                    req.flash("success", "Successfully added comment")
                     res.redirect("/campgrounds/" + req.params.id);
                 }
             }); // End of Comment.create
@@ -64,8 +66,10 @@ router.post("/", middleware.isLoggedIn, middleware.sanitizeUserInput, function(r
     }); // End of Campground.findById()
 });
 
+/* ------------------------------------- */
+/* --------------EDIT ROUTE------------- */
+/* ------------------------------------- */
 
-// EDIT ROUTE
 router.get("/:comment_id/edit", middleware.checkCommentOwnership,  function(req, res) {
     Comment.findById(req.params.comment_id, function(err, foundComment) {
         if(err) {
@@ -76,7 +80,10 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership,  function(req,
     });
 });
 
-// UPDATE ROUTE
+/* ------------------------------------- */
+/* -------------UPDATE ROUTE------------ */
+/* ------------------------------------- */
+
 router.put("/:comment_id", middleware.checkCommentOwnership, middleware.sanitizeUserInput, function(req, res) {
     if(!req.body.comment) {
         req.flash("error", "You can't submit an empty edit");
@@ -91,7 +98,10 @@ router.put("/:comment_id", middleware.checkCommentOwnership, middleware.sanitize
     });
 });
 
-// DESTROY ROUTE
+/* ------------------------------------- */
+/* ------------DESTROY ROUTE------------ */
+/* ------------------------------------- */
+
 router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res) {
     Comment.findByIdAndRemove(req.params.comment_id, function(err, removedComment) {
         if(err) {
