@@ -20,30 +20,37 @@
     
     <div class="row">
         
-        <% campgrounds.forEach(function(ground) { %>
-            
+        <% for(var i=0; i<16; i++) { %>
             <div class="col-md-3 col-sm-6">
-                
+                <% var ground = campgrounds[i]  %>
                 <div class="imagepins thumbnail">
                     <div class="imgAndCap">
-                        <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/<%=ground.image%>');"></div>
-                         <div class="caption">
-                             <% var groundname = ground.name;
+                        <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/uploads/<%=ground.image%>');"></div>
+                        <div class="caption">
+                            <% var groundname = ground.name 
                                 if(ground.name.length > 40) {
-                                   groundname = groundname.substring(0,40) + "...";
-                                } %>
-                            <p> <strong><%= groundname %></strong></p>
-                        </div> <!-- caption end -->
+                                    groundname = groundname.substring(0,40) + "...";
+                                }
+                            %>
+                            <p><%= groundname%></p>
+                        </div> <!-- caption end-->
                     </div>
                     <a href="/campgrounds/<%= ground._id %>" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>
-                </div> <!-- thumbnail end -->
-  
-            </div>
-            
-        <% }) %>
+                </div> <!-- imagepins thumbnail end-->
+            </div> <!-- Col end -->    
+
+        <% } %>
+        
+        
         
     </div> <!-- row end -->
-
+    <button id="loadMore" class="btn btn-tomato btn-sm btn-block bottomaligned">Load More</button>
+    <script>
+        $("#loadMore").on('click', function() {
+            alert("fuck"); 
+        });
+    </script>
+    
 </div> <!-- Container End -->
 
 <% include ../partials/footer %>

@@ -90,8 +90,6 @@ app.use("/campgrounds/:id/comments", commentRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/users", userRoutes);
 
-
-
 /* --------------------------- */
 /* ---------- LISTEN --------- */
 /* --------------------------- */
