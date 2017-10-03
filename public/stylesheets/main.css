@@ -44,7 +44,7 @@ h6 { font-size: 1.9rem; font-weight: 700; }
 .breakword { word-wrap: break-word; }
 .thumbnail .caption { color: dimgray; }
 .bottomed { margin-bottom: 1.5rem; }
-
+.centeredText { text-align: center; } 
 
 
 /*-------------------------------------------------------*/

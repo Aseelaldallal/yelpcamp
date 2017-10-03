@@ -1,10 +1,6 @@
 
 <% include ../partials/header %>
 
-<script>
-    var numGroundsToLoad = 20;
-    var numGroundsLoaded = 0;
-</script>
 
 <header class = "jumbotron">
     <div class="container">
@@ -20,31 +16,49 @@
     <hr>
     <div id="campgroundsRow" class="row">
     </div> <!-- row end -->
+    <p class= "centeredText"> Showing <span id="numLoaded">0</span> out of <%= campgrounds.length %> Campgrounds </p>
     <button id="loadMore" class="btn btn-tomato btn-sm btn-block bottomaligned">Load More</button>
 </div> <!-- Container End -->
 
 <% include ../partials/footer %>
 
+
 <script>
-      loadCampgrounds();
-      function loadCampgrounds() {
-          var grounds = <%-JSON.stringify(campgrounds) %>
-          for(var i=0; i<20; i++) {
-              var campgroundContainerSelector = grounds[i]._id + "Container";
-              var htmlToAppend = '<div id="' + campgroundContainerSelector +'" class="col-md-3 col-sm-6"></div>';
-              $("#campgroundsRow").append(htmlToAppend);
-              var imgPinsThumbnailSelector = grounds[i]._id + "imgPinsThumbnails";
-              htmlToAppend = '<div id="' + imgPinsThumbnailSelector + '" class="imagepins thumbnail"></div>';
-              $("#" + campgroundContainerSelector).append(htmlToAppend);
-              var imgAndCapSelector = grounds[i]._id + "imgAndCap";
-              htmlToAppend = '<div id="' + imgAndCapSelector + '" class="imgAndCap"></div>';
-              $("#" + imgPinsThumbnailSelector).append(htmlToAppend);
-              htmlToAppend = '<div class="imgbackground" style="background-image: url(\'https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/uploads/' + grounds[i].image + '\');"></div>';
-              $("#" + imgAndCapSelector).append(htmlToAppend);
-              htmlToAppend = '<div id="campgroundCaption" class="caption"><p>' + grounds[i].name + '</p></div>';
-              $("#" + imgAndCapSelector).append(htmlToAppend);
-              htmlToAppend = '<a href="/campgrounds/' + grounds[i]._id + '" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>';
-              $("#" + imgPinsThumbnailSelector).append(htmlToAppend);
-          }
+
+    var numGroundsToLoad = 1;
+    var numGroundsLoaded = 0;
+    
+    loadCampgrounds(numGroundsLoaded, numGroundsToLoad);
+    
+    function updateNumLoadedText() {
+        $("#numLoaded").empty();
+        $("#numLoaded").text(numGroundsLoaded);
+    }   
+    
+    function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
+      var grounds = <%-JSON.stringify(campgrounds) %>
+      for(var i=numGroundsLoaded ; i<numGroundsLoaded + numGroundsToLoad; i++) {
+          var campgroundContainerSelector = grounds[i]._id + "Container";
+          var htmlToAppend = '<div id="' + campgroundContainerSelector +'" class="col-md-3 col-sm-6"></div>';
+          $("#campgroundsRow").append(htmlToAppend);
+          var imgPinsThumbnailSelector = grounds[i]._id + "imgPinsThumbnails";
+          htmlToAppend = '<div id="' + imgPinsThumbnailSelector + '" class="imagepins thumbnail"></div>';
+          $("#" + campgroundContainerSelector).append(htmlToAppend);
+          var imgAndCapSelector = grounds[i]._id + "imgAndCap";
+          htmlToAppend = '<div id="' + imgAndCapSelector + '" class="imgAndCap"></div>';
+          $("#" + imgPinsThumbnailSelector).append(htmlToAppend);
+          htmlToAppend = '<div class="imgbackground" style="background-image: url(\'https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/uploads/' + grounds[i].image + '\');"></div>';
+          $("#" + imgAndCapSelector).append(htmlToAppend);
+          htmlToAppend = '<div id="campgroundCaption" class="caption"><p>' + grounds[i].name + '</p></div>';
+          $("#" + imgAndCapSelector).append(htmlToAppend);
+          htmlToAppend = '<a href="/campgrounds/' + grounds[i]._id + '" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>';
+          $("#" + imgPinsThumbnailSelector).append(htmlToAppend);
       }
+      window.numGroundsLoaded += numGroundsToLoad;
+      updateNumLoadedText();
+    }
+  
+    $("#loadMore").on("click", function() {
+          loadCampgrounds(numGroundsLoaded, numGroundsToLoad);   
+    });
 </script>
