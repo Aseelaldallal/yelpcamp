@@ -1,56 +1,50 @@
 
 <% include ../partials/header %>
 
- <header class = "jumbotron">
-        <div class="container">
-            <h1>Welcome to YelpCamp</h1>
-            <h4>View our handpicked campgrounds from all over the world</h4>
-            <a class="btn btn-tomato btn-md" href="/campgrounds/new"> Add New Campground</a>
-        </div>
-    </header>
+<script>
+    var numGroundsToLoad = 20;
+    var numGroundsLoaded = 0;
+</script>
+
+<header class = "jumbotron">
+    <div class="container">
+        <h1>Welcome to YelpCamp</h1>
+        <h4>View our handpicked campgrounds from all over the world</h4>
+        <a class="btn btn-tomato btn-md" href="/campgrounds/new"> Add New Campground</a>
+    </div>
+</header>
     
 <div class="page container">
-
-    
-    
-   
     <% include ../partials/flash %>
     <h3>Our Most Popular Campgrounds!</h3>
     <hr>
-    
-    <div class="row">
-        
-        <% for(var i=0; i<16; i++) { %>
-            <div class="col-md-3 col-sm-6">
-                <% var ground = campgrounds[i]  %>
-                <div class="imagepins thumbnail">
-                    <div class="imgAndCap">
-                        <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/uploads/<%=ground.image%>');"></div>
-                        <div class="caption">
-                            <% var groundname = ground.name 
-                                if(ground.name.length > 40) {
-                                    groundname = groundname.substring(0,40) + "...";
-                                }
-                            %>
-                            <p><%= groundname%></p>
-                        </div> <!-- caption end-->
-                    </div>
-                    <a href="/campgrounds/<%= ground._id %>" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>
-                </div> <!-- imagepins thumbnail end-->
-            </div> <!-- Col end -->    
-
-        <% } %>
-        
-        
-        
+    <div id="campgroundsRow" class="row">
     </div> <!-- row end -->
     <button id="loadMore" class="btn btn-tomato btn-sm btn-block bottomaligned">Load More</button>
-    <script>
-        $("#loadMore").on('click', function() {
-            alert("fuck"); 
-        });
-    </script>
-    
 </div> <!-- Container End -->
 
 <% include ../partials/footer %>
+
+<script>
+      loadCampgrounds();
+      function loadCampgrounds() {
+          var grounds = <%-JSON.stringify(campgrounds) %>
+          for(var i=0; i<20; i++) {
+              var campgroundContainerSelector = grounds[i]._id + "Container";
+              var htmlToAppend = '<div id="' + campgroundContainerSelector +'" class="col-md-3 col-sm-6"></div>';
+              $("#campgroundsRow").append(htmlToAppend);
+              var imgPinsThumbnailSelector = grounds[i]._id + "imgPinsThumbnails";
+              htmlToAppend = '<div id="' + imgPinsThumbnailSelector + '" class="imagepins thumbnail"></div>';
+              $("#" + campgroundContainerSelector).append(htmlToAppend);
+              var imgAndCapSelector = grounds[i]._id + "imgAndCap";
+              htmlToAppend = '<div id="' + imgAndCapSelector + '" class="imgAndCap"></div>';
+              $("#" + imgPinsThumbnailSelector).append(htmlToAppend);
+              htmlToAppend = '<div class="imgbackground" style="background-image: url(\'https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/uploads/' + grounds[i].image + '\');"></div>';
+              $("#" + imgAndCapSelector).append(htmlToAppend);
+              htmlToAppend = '<div id="campgroundCaption" class="caption"><p>' + grounds[i].name + '</p></div>';
+              $("#" + imgAndCapSelector).append(htmlToAppend);
+              htmlToAppend = '<a href="/campgrounds/' + grounds[i]._id + '" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>';
+              $("#" + imgPinsThumbnailSelector).append(htmlToAppend);
+          }
+      }
+</script>
