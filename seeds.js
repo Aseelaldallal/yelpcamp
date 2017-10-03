@@ -130,7 +130,7 @@ function createCampgrounds() {
                 latlng: campground.latlng,
                 country: campground.country,
                 description: campground.description,
-                image: campground.googlePlaceID + ".jpg",
+                image: "uploads/" + campground.googlePlaceID + ".jpg",
                 author: author
             };
             Campground.create(ground, function(err, newGround) {
@@ -230,11 +230,11 @@ function uploadImagesToS3() {
 /* ------------------------------------------------- */ 
 
 function seedDB() {
-/*    uploadImagesToS3();
-    generateUsers(); 
-    generateComments();
-    generateCampgrounds();
-    linkCampgroundsToComments();*/
+    //uploadImagesToS3();
+    //generateUsers(); 
+    //generateComments();
+    //generateCampgrounds();
+    //linkCampgroundsToComments();
 }
 
 
