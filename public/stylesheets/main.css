@@ -152,6 +152,10 @@ label {
     margin-bottom: 2rem;
 }
 
+.profileImagePins  {
+  height: 390px;
+}
+
 .thumbnail h6 {
   margin-bottom: 1rem;
 }

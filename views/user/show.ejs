@@ -25,7 +25,7 @@
                     <%  for(var i=0; i<campgrounds.length; i++) { 
                         var ground = campgrounds[i]; %>
                         <div class="col-md-3 col-sm-6">
-                            <div class="imagepins thumbnail">
+                            <div class="profileImagePins thumbnail">
                                 <div class="imgAndCap">
                                     <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/<%=ground.image%>');"></div>
                                      <div class="caption">
@@ -36,13 +36,23 @@
                                         <p> <strong><%= groundname %></strong></p>
                                     </div> <!-- caption end -->
                                 </div>
+                                <a href="/campgrounds/<%= ground._id %>/edit" class="btn btn-warning btn-sm btn-block bottomaligned">Edit</a>
                                 <a href="/campgrounds/<%= ground._id %>" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>
                             </div> <!-- thumbnail end -->
                         </div>
                     <%  } %>
             </div> <!-- End of posts tab -->
             
-            <div role="tabpanel" class="tab-pane" id="comments"><%=comments%></div>
+            <div role="tabpanel" class="tab-pane" id="comments">
+                <% for(var i=0; i< comments.length; i++) { %>
+                     <div class="well">
+                         <p><%=comments[i].text%></p>
+                         
+                     </div>
+                <% } %>
+            
+            
+            </div>
 
 
         </div> <!-- End of tab content -->
