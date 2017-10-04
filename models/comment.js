@@ -14,7 +14,7 @@ var commentSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "campground"
         }, 
-        campgroundName: String
+        name: String
     },
     date: Date
 });

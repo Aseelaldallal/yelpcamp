@@ -11,8 +11,10 @@ var express = require("express"),
     router = express.Router({mergeParams: true}), // Preserve the req.params values from the parent router.
     Campground = require("../models/campground"),
     Comment = require("../models/comment"), 
-    middleware = require("../middleware");
-
+    middleware = require("../middleware"),
+    moment          = require("moment"),
+    momentTZ        = require("moment-timezone"),
+    ipLocation      = require("iplocation");
 
 
 
@@ -51,9 +53,18 @@ router.post("/", middleware.isLoggedIn, middleware.sanitizeUserInput, function(r
                     req.flash("error", err);
                     res.redirect("back");
                 } else {
-                    // Add username and id to comment
+                    // Add user, campground, date to comment
                     createdComment.author.id = req.user._id;
                     createdComment.author.username = req.user.username;
+                    createdComment.campground.id = foundGround._id;
+                    createdComment.campground.name = foundGround.name;
+                    var dateCommentSubmitted = moment().format("YYYY-MM-DD"); // server today
+                    ipLocation(getUserIPAddress(req), function (error, ipres) {
+                        if(!error) { 
+                            dateCommentSubmitted = momentTZ().tz(ipres.time_zone).format("YYYY-MM-DD"); // user today
+                        }
+                    });
+                    createdComment.date = dateCommentSubmitted;
                     createdComment.save(); 
                     // save comment
                     foundGround.comments.push(createdComment);
@@ -114,7 +125,20 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
 });
 
 
+/* ------------------------------------- */
+/* ----------------HELPER--------------- */
+/* ------------------------------------- */
 
+// Returns user's IP Address
+function getUserIPAddress(req) {
+    var ip = req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
+    ip = ip.split(',')[0];
+    ip = ip.split(':').slice(-1); //in case the ip returned in a format: "::ffff:146.xxx.xxx.xxx"
+    return ip;
+}
 
 
 
