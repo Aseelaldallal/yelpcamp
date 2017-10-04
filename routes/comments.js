@@ -58,13 +58,6 @@ router.post("/", middleware.isLoggedIn, middleware.sanitizeUserInput, function(r
                     createdComment.author.username = req.user.username;
                     createdComment.campground.id = foundGround._id;
                     createdComment.campground.name = foundGround.name;
-                    var dateCommentSubmitted = moment().format("YYYY-MM-DD"); // server today
-                    ipLocation(getUserIPAddress(req), function (error, ipres) {
-                        if(!error) { 
-                            dateCommentSubmitted = momentTZ().tz(ipres.time_zone).format("YYYY-MM-DD"); // user today
-                        }
-                    });
-                    createdComment.date = dateCommentSubmitted;
                     createdComment.save(); 
                     // save comment
                     foundGround.comments.push(createdComment);

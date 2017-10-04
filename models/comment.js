@@ -15,8 +15,7 @@ var commentSchema = new mongoose.Schema({
             ref: "campground"
         }, 
         name: String
-    },
-    date: Date
+    }
 });
 
 module.exports = mongoose.model("Comment", commentSchema);
