@@ -51,7 +51,6 @@
                 <a class="btn btn-sky bottomed" href="/campgrounds/<%=campground._id%>/comments/new">Leave Review</a>
             </div>
                 <% var i = 1; %>
-                <% console.log(campground.comments.length); %>
                 <% campground.comments.forEach(function(comment) { %>
                     <div class="row">
                         <div class="col-md-12">
@@ -73,6 +72,7 @@
                         <form class="inline" action="<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST"> 
                             <button class="btn btn-tomato btn-xs"> Delete </button>
                         </form>
+
                     <% } %>
                 <% }); %>
             </div>

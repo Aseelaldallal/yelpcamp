@@ -1,6 +1,8 @@
 
 <% include ../partials/header %>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
 <div class="page container">
     
     <% include ../partials/flash %>
@@ -44,13 +46,30 @@
             </div> <!-- End of posts tab -->
             
             <div role="tabpanel" class="tab-pane" id="comments">
-                <% for(var i=0; i< comments.length; i++) { %>
-                     <div class="well">
-                         <p><%=comments[i].text%></p>
-                         
-                     </div>
-                <% } %>
-            
+                <div class="col-md-12">
+                    <% for(var i=0; i< comments.length; i++) { %>
+                         <div class="well">
+                             <% var commdateid = "comment_" + i + "_date"; %>
+                             <span id="<%=commdateid%>" class="pull-right"></span>
+                             <script>
+                                var commID = "<%=comments[i]._id%>"; 
+                                var mom = moment(parseInt(commID.slice(0,8), 16)*1000).format('YYYY-MM-DD');
+                                $('#<%=commdateid%>').text(mom);
+                             </script>
+                             <p><strong>Campground: </strong><a href="../campgrounds/<%=comments[i].campground.id%>/"><%=comments[i].campground.name%></a></p>
+                             <hr class="bold">
+                             <p><%=comments[i].text%></p>
+                             <% if(currentUser && currentUser.id == comments[i].author.id) { %>
+                                <hr class="bold">
+                                <a class="btn btn-sky btn-xs" href="../campgrounds/<%=comments[i].campground.id%>/">View</a>
+                                <a class="btn btn-warning btn-xs" href="../campgrounds/<%=comments[i].campground.id%>/comments/<%=comments[i]._id%>/edit">Edit</a>
+                                <form class="inline" action="../campgrounds/<%=comments[i].campground.id%>/comments/<%=comments[i]._id%>?_method=DELETE" method="POST"> 
+                                    <button class="btn btn-tomato btn-xs"> Delete </button>
+                                </form>
+                            <% } %>
+                         </div>
+                    <% } %>
+                </div>    
             
             </div>
 
