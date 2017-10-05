@@ -15,12 +15,12 @@ var mongoose        = require("mongoose"),
 
 
 // API KEY
-const places = new GooglePlaces('AIzaSyAvsl7KOmIyQalzMse5idBGElZa8GOdPG0');
+const places = new GooglePlaces(process.env.GOOGLE_API_KEY);
 
 var numUsers = 220;
 var campgroundCatalog = new Array();
 //var urlStart = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
-//var urlEnd = "&key=AIzaSyAvsl7KOmIyQalzMse5idBGElZa8GOdPG0";
+//var urlEnd = "&key=" + process.env.GOOGLE_API_KEY;
    
 
 aws.config.update({
@@ -79,21 +79,23 @@ function createComments() {
     campgroundCatalog.forEach(function(campground) {
        if(campground.comments) {
            campground.comments.forEach(function(comment) {
-                var rand = Math.floor(Math.random() * numUsers); 
-                User.findOne().skip(rand).exec(function (err, commentAuthor) {
-                    if(err) { console.log(err); }
-                    var author = {
-                         id: commentAuthor._id,
-                         username: commentAuthor.username
-                    }
-                    var newComment = {
-                        author: author,
-                        text: comment
-                    };
-                    Comment.create(newComment, function(err,createdComment) {
-                        if(err) { console.log(err) }; 
-                    })
-                });
+                if(comment.text !== "") {
+                    var rand = Math.floor(Math.random() * numUsers); 
+                    User.findOne().skip(rand).exec(function (err, commentAuthor) {
+                        if(err) { console.log(err); }
+                        var author = {
+                             id: commentAuthor._id,
+                             username: commentAuthor.username
+                        }
+                        var newComment = {
+                            author: author,
+                            text: comment
+                        };
+                        Comment.create(newComment, function(err,createdComment) {
+                            if(err) { console.log(err) }; 
+                        })
+                    });
+                } // end if   
            });
        } 
     });
@@ -161,14 +163,22 @@ function link() {
     campgroundCatalog.forEach(function(campground) {
         if(campground.comments) {
             campground.comments.forEach(function(comment) {
-                if(comment !== "") {
-                    Comment.findOne({'text': comment}, function(err, foundComment) { // Find it in DB
-                        if(err) { console.log(err); }
-                        Campground.update({'googlePlaceID': campground.googlePlaceID}, { $addToSet: {comments: foundComment }}, function(err, updatedGround) {
-                           if(err) {console.log(err)};  
-                        });
-                    }); // End comment.findOne
-                }
+                Comment.findOne({'text': comment}, function(err, foundComment) { // Find it in DB
+                    if(err) { console.log(err); }
+                    Campground.update({'googlePlaceID': campground.googlePlaceID}, { $addToSet: {comments: foundComment }}, function(err, numUpdated) {
+                       if(err) {console.log(err)};
+                       Campground.findOne({'googlePlaceID': campground.googlePlaceID}, function(err, updatedGround) {
+                           if(err) {console.log(err)}
+                           var commentCampground = {
+                               id: updatedGround._id,
+                               name: updatedGround.name
+                           }
+                           console.log("Comment Campground: ", commentCampground);
+                           foundComment.campground = commentCampground;
+                           foundComment.save();
+                       }); // End of campground.find
+                    }); // End of campground.update
+                }); // End comment.findOne
             }); // End campground.comments.forEach
         } // End if
     }); // End forEach
@@ -187,6 +197,7 @@ function link() {
 /* ------------------------------------------------- */ 
 
 function uploadImagesToS3() {
+    var x = 0;
     console.log("In upload to S3");
     fs.readFile("./seedData/places.json", 'utf8', function (err, data) {
         if (err) { console.log("ERROR: " + err); }
@@ -215,7 +226,8 @@ function uploadImagesToS3() {
                         if (error) {
                             console.log("error downloading image to s3");
                         } else {
-                            console.log("success uploading to s3");
+                            console.log("success uploading to s3: " + x);
+                            x++;
                         }
                     }); 
                 }   
@@ -232,9 +244,9 @@ function uploadImagesToS3() {
 function seedDB() {
     //uploadImagesToS3();
     //generateUsers(); 
-    //generateComments();
-    //generateCampgrounds();
-    //linkCampgroundsToComments();
+    generateComments();
+    generateCampgrounds();
+    setTimeout(function() { linkCampgroundsToComments(); }, 5000); 
 }
 
 
