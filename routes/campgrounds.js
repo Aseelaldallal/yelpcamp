@@ -12,7 +12,8 @@ var express         = require("express"),
     middleware      = require("../middleware"),
     aws             = require('aws-sdk'),
     multer          = require('multer'),
-    multerS3        = require('multer-s3');
+    multerS3        = require('multer-s3'),
+    ipapi           = require('ipapi.co');
 
 /* ------------------------------------- */
 /* ---------IMAGE UPLOAD SETUP---------- */
@@ -45,16 +46,30 @@ var upload = multer({
 /* --------------INDEX ROUTE------------ */
 /* ------------------------------------- */
 
+
 router.get("/", function(req,res) {
    // Get all campgrounds from db
-   Campground.find({}, function(err, allcampgrounds) {
-       if (err) {
-           flashUnexpectedError(req, res, err);
-       } else {
-             res.render("campground/index", {campgrounds: allcampgrounds}); 
-       }
-   })
+   if(Object.keys(req.query).length === 0) {
+       var ip = getUserIPAddress(req);
+       ipapi.location(function(ipapiRes) {
+           findCampgrounds(ipapiRes.country_name, ipapiRes.country, req,res);
+       }, ip);
+   } else {
+       var rawCountry = req.query.country;
+       var modifiedCountry = rawCountry.substring(0, rawCountry.indexOf("(")).trim();
+       findCampgrounds(modifiedCountry, req.query.country_code, req,res);
+   }
 });
+
+function findCampgrounds(countryName, countryCode, req, res) {
+    Campground.find({country: countryName}, function(err, allcampgrounds) {
+       if (err) {
+            flashUnexpectedError(req, res, err);
+       } else {
+            res.render("campground/index", {campgrounds: allcampgrounds, selectedCountry: countryCode}); 
+       }
+    })
+};
 
 
 /* ------------------------------------- */
@@ -81,7 +96,8 @@ router.post("/", upload.array('image',1), middleware.isLoggedIn, middleware.sani
         author: author
     };
     Campground.create(newCampground, function(err, newlyCreated) {
-        if(err) { flashUnexpectedError(req, res, err);
+        if(err) { 
+            flashUnexpectedError(req, res, err);
         } else  {
             req.flash("success", "Successfully created campground");
             res.redirect("/campgrounds/" + newlyCreated._id);
@@ -228,6 +244,18 @@ function flashUnexpectedError(req, res, err) {
     req.flash("error", "Unexpected Error: " + err.message + ". Try again later");
     res.redirect("back");
 }
+
+// Returns user's IP Address
+function getUserIPAddress(req) {
+    var ip = req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
+    ip = ip.split(',')[0];
+    ip = ip.split(':').slice(-1); //in case the ip returned in a format: "::ffff:146.xxx.xxx.xxx"
+    return ip;
+}
+
 
 /* ------------------------------------- */
 /* ---------------- EXPORT ------------- */

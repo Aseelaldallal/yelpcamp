@@ -79,6 +79,13 @@ h6 { font-size: 1.9rem; font-weight: 700; }
 .caption {
   word-wrap: break-word;
 }
+
+.filterByCountry {
+  background-color:#caebf2 ;
+  padding: 2rem;
+  text-align: center;
+  
+}
 /*-------------------------------------------------------*/
 /*--------------------- FORM STYLES ---------------------*/
 /*-------------------------------------------------------*/

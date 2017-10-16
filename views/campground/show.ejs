@@ -16,7 +16,7 @@
             <img class="img-responsive campgroundImage" src="https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/<%=campground.image%>">
             
             <div class="caption-full">
-                <h6>Submitted by: <a href="../users/<%= campground.author.id%>"><%= campground.author.username %></a></h6>
+                <h6>Submitted by: <a href="/users/<%= campground.author.id%>"><%= campground.author.username %></a></h6>
                 <p class="breakword"><%- campground.description %></p>
                 <p><strong>Location: </strong><%- campground.location %></p>
                 <% if(campground.latlng) { %>

@@ -166,3 +166,8 @@ fieldset[disabled] .btn-warning.active {
   color: #9EE37D; 
   background-color: #545454; 
 }
+
+.btn-lng {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}

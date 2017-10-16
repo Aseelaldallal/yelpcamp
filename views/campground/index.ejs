@@ -1,6 +1,8 @@
 
 <% include ../partials/header %>
 
+<link rel="stylesheet" href="/external/countryList/css/countrySelect.css">
+<script src="/external/countryList/js/countrySelect.min.js"></script>
 
 <header class = "jumbotron">
     <div class="container">
@@ -12,10 +14,30 @@
     
 <div class="page container">
     <% include ../partials/flash %>
+    <hr>
+    <form id="filterByCountryForm" action="/campgrounds" method="GET" class="form-inline filterByCountry">
+        <div class="form-group">
+            <label class="sr-only">Filter by Country</label>
+            <p class="form-control-static"><strong>Filter by Country: </strong></p>
+        </div>
+        <div class="form-group">
+            <label for="country" class="sr-only">Country Selector</label>
+            <input type="text" name="country" id="country" class="form-control">
+            <input type="hidden" name="country_code" id="country_code" />
+            <script>
+                $("#country").countrySelect({
+    				defaultCountry: '<%=selectedCountry%>',
+    				preferredCountries: ['ca', 'gb', 'us']
+    			});
+            </script>
+        </div>
+        <button id="filterButton" type="submit" class="btn btn-tomato btn-lng">Filter</button>
+    </form>
+    
+    <hr>
     <h3>Our Most Popular Campgrounds!</h3>
     <hr>
-    <div id="campgroundsRow" class="row">
-    </div> <!-- row end -->
+    <div id="campgroundsRow" class="row"></div> <!-- row end -->
     <p class= "centeredText"> Showing <span id="numLoaded">0</span> out of <%= campgrounds.length %> Campgrounds </p>
     <button id="loadMore" class="btn btn-tomato btn-sm btn-block bottomaligned">Load More</button>
 </div> <!-- Container End -->

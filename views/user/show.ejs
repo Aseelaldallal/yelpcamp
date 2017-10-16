@@ -38,7 +38,9 @@
                                         <p> <strong><%= groundname %></strong></p>
                                     </div> <!-- caption end -->
                                 </div>
-                                <a href="/campgrounds/<%= ground._id %>/edit" class="btn btn-warning btn-sm btn-block bottomaligned">Edit</a>
+                                <% if(currentUser && currentUser.id == campgrounds[i].author.id) { %>
+                                    <a href="/campgrounds/<%= ground._id %>/edit" class="btn btn-warning btn-sm btn-block bottomaligned">Edit</a>
+                                <% } %>
                                 <a href="/campgrounds/<%= ground._id %>" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>
                             </div> <!-- thumbnail end -->
                         </div>
@@ -56,7 +58,6 @@
                                 var mom = moment(parseInt(commID.slice(0,8), 16)*1000).format('YYYY-MM-DD');
                                 $('#<%=commdateid%>').text(mom);
                              </script>
-                             <% console.log(JSON.stringify(comments[i])); %>
                              <p><strong>Campground: </strong><a href="../campgrounds/<%=comments[i].campground.id%>/"><%=comments[i].campground.name%></a></p>
                              <hr class="bold">
                              <p><%=comments[i].text%></p>

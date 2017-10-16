@@ -17,12 +17,12 @@
     <div class="collapse navbar-collapse" id="yelp-collapse">
       <ul class="nav navbar-nav navbar-right">
         <% if(!currentUser)  { %>
-            <li><a href="../login">Login</a></li>
-            <li><a href="../users/new">Sign up</a></li>
+            <li><a id="loginButton" href="/login">Login</a></li>
+            <li><a id="signupButton" href="/users/new">Sign up</a></li>
         <% } else { %>
-            <li><a href="../../users/<%= currentUser._id%>">Profile</a></li>
-            <li> <a href="../../campgrounds/new">Post Campground</a></li>
-            <li><a href="../logout">Logout</a></li>
+            <li><a href="/users/<%= currentUser._id%>">Profile</a></li>
+            <li> <a href="/campgrounds/new">Post Campground</a></li>
+            <li><a href="/logout">Logout</a></li>
         <% } %>
       </ul>
     </div><!-- /.navbar-collapse -->

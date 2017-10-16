@@ -51,7 +51,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/yelp_camp"); 
 
 // Seed the database
-seedDB();
+//seedDB();
 
 // Express Session - Run express session with these parameters
 app.use(expressSession({
