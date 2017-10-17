@@ -41,6 +41,20 @@ function addLocationChangeListener(autocomplete) {
         } else {
             $('#mapCoord').val(null);
         }
+        var address = place.address_components;
+        var country = null;
+        address.forEach(function(component) {
+            var types = component.types;
+            if (types.indexOf('country') > -1) {
+                country = component.long_name;
+            }
+        });
+        console.log("Country: ", country);
+        if(country === null) {
+            console.log("Error: Country is Null");
+        } else {
+            $("#campgroundCountry").val(country);
+        }
     });
 }
 

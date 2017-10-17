@@ -93,6 +93,7 @@ router.post("/", upload.array('image',1), middleware.isLoggedIn, middleware.sani
         name: req.body.campName, 
         location: req.body.location,
         latlng: req.body.mapCoord,
+        country: req.body.campgroundCountry,
         description: req.body.desc, 
         image: filepath,
         author: author
@@ -170,6 +171,7 @@ router.put("/:id", upload.array('image',1), middleware.checkCampgroundOwnership,
         name: req.body.campName, 
         location: req.body.location,
         latlng: req.body.mapCoord,
+        country: req.body.campgroundCountry,
         description: req.body.desc, 
         image: req.body.image
     }
