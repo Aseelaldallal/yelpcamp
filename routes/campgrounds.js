@@ -55,9 +55,11 @@ router.get("/", function(req,res) {
            findCampgrounds(ipapiRes.country_name, ipapiRes.country, req,res);
        }, ip);
    } else {
-       var rawCountry = req.query.country;
-       var modifiedCountry = rawCountry.substring(0, rawCountry.indexOf("(")).trim();
-       findCampgrounds(modifiedCountry, req.query.country_code, req,res);
+       var country = req.query.country.trim();
+       if(country.indexOf("(") !== -1) {
+           country = country.substring(0, country.indexOf("(")).trim();
+       }
+       findCampgrounds(country, req.query.country_code, req,res);
    }
 });
 
