@@ -22,8 +22,21 @@ $(document).ready(function() {
     var autocomplete = new google.maps.places.Autocomplete($('#location')[0]);
     addLocationChangeListener(autocomplete);
     
+    $("#location").on("blur", function() {
+        setTimeout(function() {
+            var locationFieldVal = $("#location").val();
+            var place = autocomplete.getPlace();
+            var invalidLocErrMsg = locationFieldVal + " is not a valid location. Please select location from list.";
+            if($("#location").val().trim() === '') {
+                displayError($("#location"), "This field is required");
+            } else if(!place || place.formatted_address !== locationFieldVal) {
+                displayError($("#location"), invalidLocErrMsg);
+            } // Endif
+        }, 300);
+    });
+   
    $("form").submit(function(e){
-        doValidations(e);
+        doValidations(e, autocomplete);
     });
     
 });
@@ -33,33 +46,49 @@ $(document).ready(function() {
 function addLocationChangeListener(autocomplete) {
     autocomplete.addListener('place_changed', function() {
         var place = autocomplete.getPlace();
-        if(place && place.geometry) {
-            var lat = place.geometry.location.lat();
-            var lng = place.geometry.location.lng();
-            var coord = lat + "," + lng; 
-            $('#mapCoord').val(coord);
-        } else {
-            $('#mapCoord').val(null);
-        }
+        saveCoordinates(place); 
+        checkIfCountrySpecified(place); //only allow address if country is specified
+    }); // End Add Listener
+}
+
+
+// Extract lat and Lng from place and save them into #mapCoord
+function saveCoordinates(place) {
+    if(place && place.geometry) {
+        $("#location").val(place.formatted_address);
+        var lat = place.geometry.location.lat();
+        var lng = place.geometry.location.lng();
+        var coord = lat + "," + lng; 
+        $('#mapCoord').val(coord);
+    } else {
+        $('#mapCoord').val(null); // DEAL HERE
+    }   
+}
+
+// Check that place is associated with a particular country (not just continent). If not, ask user to specify more
+// detailed address
+function checkIfCountrySpecified(place) {
+    if(place && place.geometry) {
         var address = place.address_components;
-        var country = null;
+        var country;
         address.forEach(function(component) {
             var types = component.types;
             if (types.indexOf('country') > -1) {
                 country = component.long_name;
             }
         });
-        console.log("Country: ", country);
-        if(country === null) {
-            console.log("Error: Country is Null");
+        if(country === undefined) {
+            var errMsg = "Your selected address does not specifiy a country. Please select a more specific address";
+            displayError($("#location"), errMsg);
         } else {
             $("#campgroundCountry").val(country);
         }
-    });
-}
+    }
+};
+
 
 // This function is called when user attempts to submit form
-function doValidations(e) {
+function doValidations(e, autocomplete) {
     checkRequiredFieldsFilled();
     if(errors.length > 0) {
         errors.sort();
