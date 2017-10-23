@@ -1,14 +1,19 @@
 Fix Adding Country
 
 -- Check New Route -- DONE
--- Check Edit Route
----- Create campground and edit
----- edit previous campground (From google)
+-- Check Edit Route -- DONE
+-- Disable Addresses not from google -- DONE
+-- make sure user can't enter continent only -- DONE
+-- Add Delete Campground -- DONE
 
-
-
-Disable Addresses not from google
-Add Delete Campground
 Add no campgrouds found
 Add More Campgrounds
 Add Description
+change load more button to disabled when no more campgrounds to load
+change front end ui
+add 404
+update destroy route in campgrounds
+update destroy route in comments
+
+settimeout
+if loc doesn't change

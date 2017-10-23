@@ -86,7 +86,6 @@ function checkIfCountrySpecified(place) {
     }
 };
 
-
 // This function is called when user attempts to submit form
 function doValidations(e, autocomplete) {
     checkRequiredFieldsFilled();
@@ -114,7 +113,6 @@ function checkRequiredFieldsFilled() {
         }
     });  
 }
-
 
 
 // Attach a numbered id to each form-group id dynamically, for error checking purposes

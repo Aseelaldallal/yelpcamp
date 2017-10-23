@@ -51,13 +51,30 @@ h6 { font-size: 1.9rem; font-weight: 700; }
 /*---------------------- FRONT PAGE ---------------------*/
 /*-------------------------------------------------------*/
 
+
 .jumbotron {
+  background-image: url("/images/3.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   margin-top: -22px;
-  background-color: #caebf2;
-  color: #a9a9a9;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom:0;
+}
+
+
+.jumbotron_box {
+  
+  color: white;
+  width: 100%;
+  text-align: center;
 }
 
 .jumbotron h1, h4 {
+  text-shadow: 2px 3px 3px rgba(0, 0, 0, 1);
   margin-bottom:2rem;
 }
 
@@ -84,8 +101,8 @@ h6 { font-size: 1.9rem; font-weight: 700; }
   background-color:#caebf2 ;
   padding: 2rem;
   text-align: center;
-  
 }
+
 /*-------------------------------------------------------*/
 /*--------------------- FORM STYLES ---------------------*/
 /*-------------------------------------------------------*/
@@ -160,7 +177,7 @@ label {
 }
 
 .profileImagePins  {
-  height: 390px;
+  height: 430px;
 }
 
 .thumbnail h6 {

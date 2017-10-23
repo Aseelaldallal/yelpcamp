@@ -27,7 +27,7 @@
                     <%  for(var i=0; i<campgrounds.length; i++) { 
                         var ground = campgrounds[i]; %>
                         <div class="col-md-3 col-sm-6">
-                            <div class="profileImagePins thumbnail">
+                            <div id="profileCampgroundContainer" class="thumbnail">
                                 <div class="imgAndCap">
                                     <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/<%=ground.image%>');"></div>
                                      <div class="caption">
@@ -39,9 +39,12 @@
                                     </div> <!-- caption end -->
                                 </div>
                                 <% if(currentUser && currentUser.id == campgrounds[i].author.id) { %>
-                                    <a href="/campgrounds/<%= ground._id %>/edit" class="btn btn-warning btn-sm btn-block bottomaligned">Edit</a>
+                                    <a href="/campgrounds/<%= ground._id %>/edit" class="btn btn-warning btn-sm btn-block btn-btm-margined">Edit</a>
+                                    <form action="/campgrounds/<%=campgrounds[i]._id%>?_method=DELETE" method="POST">
+                                        <button class="btn btn-sky btn-sm btn-block"> Delete </button>
+                                    </form>
                                 <% } %>
-                                <a href="/campgrounds/<%= ground._id %>" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>
+                                <a href="/campgrounds/<%= ground._id %>" class="btn btn-tomato btn-sm btn-block btn-top-margined">More Info</a>
                             </div> <!-- thumbnail end -->
                         </div>
                     <%  } %>

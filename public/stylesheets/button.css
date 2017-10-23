@@ -1,3 +1,11 @@
+.btn-btm-margined {
+  margin-bottom: 1rem;
+}
+
+.btn-top-margined {
+  margin-top: 1rem;
+}
+
 .btn-custom {
   background-color: #db0404;
   border-color: #db0404;
