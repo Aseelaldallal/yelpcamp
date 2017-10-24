@@ -20,7 +20,7 @@ body {
   color: dimgray;
 }
 
-h1, h2, h3, h4, h5, h6 { font-family: 'Roboto', sans-serif; margin:0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Lato', sans-serif; margin:0; padding: 0; }
 
 h1 { font-size: 4.0rem; font-weight: 700; }
 h2 { font-size: 3.5rem; font-weight: 700; }
@@ -38,17 +38,28 @@ h6 { font-size: 1.9rem; font-weight: 700; }
   h6 { font-size: 1.7rem; font-weight: 700; }
 }
 
-.page      { margin-top: 4rem;    }
-.pageTitle { margin-bottom: 3rem; word-wrap: break-word; }
-.inline    { display: inline;     }
-.breakword { word-wrap: break-word; }
+.page               { margin-top: 4rem;    }
+.pageTitle          { margin-bottom: 3rem; word-wrap: break-word; }
+.inline             { display: inline;     }
+.breakword          { word-wrap: break-word; }
 .thumbnail .caption { color: dimgray; }
-.bottomed { margin-bottom: 1.5rem; }
-.centeredText { text-align: center; } 
+.centeredText       { text-align: center; } 
 
-hr.dark {
-  	border-top: 1px solid #bdbdbd;
-  	margin-top: -0.5rem;
+hr { border-top: 1px solid #bdbdbd; }
+
+
+a, a:visited, a:active  {
+  text-decoration:  none;
+  color: #4c9b4c;
+} 
+
+a:hover   {
+  text-decoration: none;
+  color: #428bca;
+} 
+
+.btn-warning {
+  color: white!important;
 }
 
 /*-------------------------------------------------------*/
@@ -94,6 +105,10 @@ hr.dark {
   margin: 0 auto 3rem auto;
 }
 
+.campgroundResultsHeading hr{
+  margin-top: -0.5rem;
+}
+
 /*-------------------------*/
 
 #country {
@@ -131,7 +146,7 @@ hr.dark {
 
 .imagePins {
    border: 1px solid #bdbdbd;
-   border-radius: 0.5rem;
+   
    display: block;
    margin: 1rem;
    padding: 2rem;
@@ -239,46 +254,30 @@ label {
 /*---------------------- SHOW PAGE ----------------------*/
 /*-------------------------------------------------------*/
 
-
-.thumbnail {
-    padding: 2rem;
+.campgroundInfo img {
+    margin: 2rem auto 3.5rem auto;
 }
 
-.campgroundImage {
-    margin-bottom: 2rem;
-}
-
-.profileImagePins  {
-  height: 430px;
-}
-
-.thumbnail h6 {
+.campgroundInfo p{
+  margin-top:1rem;
   margin-bottom: 1rem;
 }
 
-.thumbnail img {
-    width: 100%;
-}
-
-.thumbnail .caption-full {
-    padding-top: 10px;
-    padding-bottom: 0px;
+.campgroundInfo i {
+   margin-right: 2rem;
 }
 
 .map {
-  height: 200px;
+  height: 300px;
   width: 100%;
-  margin: 1.5rem auto;
+  margin: 2rem auto 3.5rem auto;
 }
 
 .well {
+  margin-top:3rem;
   background-color: #efefef;
 }
 
-hr.bold {
-    border-bottom: 1px solid rgba(169,169,169,0.5);
-    margin: 1rem 0 1rem 0;
-}
 
 .commenttext {
   margin-top: 0.7rem;
@@ -318,6 +317,9 @@ hr.bold {
 /*--------------------- USER PROFILE --------------------*/
 /*-------------------------------------------------------*/
 
+.profileImagePins  {
+  height: 430px;
+}
 
 .nav-tabs {
   background-color: transparent;
@@ -383,25 +385,24 @@ hr.bold {
     border-top: 1px solid gray;
 }
 
+#footer i {
+  margin-right: 1rem;
+}
+
 #myInfo {
     display: flex;
     justify-content: space-evenly;
     padding: 0 30%;
 }
 
-#footer i {
-  margin-right: 1rem;
+#footer a, #footer a:visited, #footer a:active  {
+  text-decoration:  none;
+  color: #489348;
+} 
+
+#footer a:hover {
+  text-decoration: none;
+  color: #428bca;
 }
-
-#footer a, a:visited, a:active  {
-  text-decoration:  none;
-  color: dimgray;
-} 
-
-#footer a:hover   {
-  text-decoration:  none;
-  font-weight: 700;
-  color: #428442;
-} 
 
 
