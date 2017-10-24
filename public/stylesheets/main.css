@@ -67,6 +67,8 @@ hr.dark {
   flex-direction: column;
   justify-content: center;
   margin-bottom:0;
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
 }
 
 
@@ -356,32 +358,44 @@ hr.bold {
 /*------------------------ FOOTER -----------------------*/
 /*-------------------------------------------------------*/
 
+#footermargin {
+  height: 15rem;
+}
+
 #footer {
-    background-color:  #caebf2;
-    height: 40px;
+    background-color:  #bdbdbd;
+    height: 150px;
     line-height: 40px;
     width: 100%;
     text-align: center;
     font-weight: bold;
-    padding: 3rem auto;
+    padding: 3rem 0;
     position: absolute;
     left: 0;
     bottom: 0;
     overflow: hidden;
+    border-top: 1px solid gray;
 }
 
-#footermargin {
-  height: 3rem;
+#myInfo {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0 30%;
 }
 
-#footer p {
-  margin:  0;
+#footer i {
+  margin-right: 1rem;
 }
 
+#footer a, a:visited, a:active  {
+  text-decoration:  none;
+  color: dimgray;
+} 
+
+#footer a:hover   {
+  text-decoration:  none;
+  font-weight: 700;
+  color: #428442;
+} 
 
 
-
-.butt {
-  background-color: pink;
-  border: 2px solid green;
-}

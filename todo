@@ -5,10 +5,10 @@ Fix Adding Country
 -- Disable Addresses not from google -- DONE
 -- make sure user can't enter continent only -- DONE
 -- Add Delete Campground -- DONE
-
+-- Add no campgrounds found -- DONE
 
 change front end ui
-Add no campgrouds found
+
 Add More Campgrounds
 Add Description
 change load more button to disabled when no more campgrounds to load
