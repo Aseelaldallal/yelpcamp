@@ -96,9 +96,15 @@ hr.dark {
 
 /*-------------------------*/
 
+#country {
+  width:430px;
+  font-size: 1.76rem;
+  height: 4rem;
+  text-align: center;
+}
+
 .filterByCountry {
   padding: 2rem;
-  text-align: center;
 }
 
 /*-------------------------*/
@@ -365,7 +371,7 @@ hr.bold {
 #footer {
     background-color:  #bdbdbd;
     height: 150px;
-    line-height: 40px;
+    line-height: 3.5rem;
     width: 100%;
     text-align: center;
     font-weight: bold;

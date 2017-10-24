@@ -4,7 +4,7 @@
 	border-radius: 3px;
 	margin-left:2rem;
 	margin-right:2rem;
-	text-align: left;
+	text-align: center;
 }
 .country-select *{
 	-webkit-box-sizing:border-box;
@@ -85,7 +85,7 @@
 	border:1px solid #ccc;
 	width:430px;
 	max-height:200px;
-	overflow-y:scroll
+	overflow-y:scroll;
 }
 .country-select .country-list .flag{
 	display:inline-block;
