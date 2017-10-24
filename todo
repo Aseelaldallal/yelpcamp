@@ -6,11 +6,12 @@ Fix Adding Country
 -- make sure user can't enter continent only -- DONE
 -- Add Delete Campground -- DONE
 
+
+change front end ui
 Add no campgrouds found
 Add More Campgrounds
 Add Description
 change load more button to disabled when no more campgrounds to load
-change front end ui
 add 404
 update destroy route in campgrounds
 update destroy route in comments

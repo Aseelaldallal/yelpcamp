@@ -28,7 +28,7 @@
 /*    color: rgba(251, 253, 253, 1);
     background-color: rgba(240, 66, 66, 1);*/
     color: white;
-    background-color: gray;
+    background-color: #5cb85c;
 }
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:hover,

@@ -10,35 +10,44 @@
     <div class="jumbotron_box">
         <h1>WELCOME TO YELPCAMP</h1>
         <h4>View our handpicked campgrounds from all over the world</h4>
+        <form id="filterByCountryForm" action="/campgrounds" method="GET" class="form-inline filterByCountry">
+            <div class="form-group">
+                <label for="country" class="sr-only">Country Selector</label>
+                <input type="text" name="country" id="country" class="form-control">
+                <input type="hidden" name="country_code" id="country_code" />
+                <script>
+                    $("#country").countrySelect({
+            			defaultCountry: '<%=countryCode%>',
+            			preferredCountries: ['ca', 'us']
+            		});
+                </script>
+            </div>
+            <button id="filterButton" type="submit" class="btn btn-success btn-lng">Filter</button>
+        </form>
     </div>
 </header>
 
     
 <div class="page container">
     <% include ../partials/flash %>
-    <hr>
-    <form id="filterByCountryForm" action="/campgrounds" method="GET" class="form-inline filterByCountry">
-
-        <div class="form-group">
-            <label for="country" class="sr-only">Country Selector</label>
-            <input type="text" name="country" id="country" class="form-control">
-            <input type="hidden" name="country_code" id="country_code" />
-            <script>
-                $("#country").countrySelect({
-    				defaultCountry: '<%=selectedCountry%>',
-    				preferredCountries: ['ca', 'gb', 'us']
-    			});
-            </script>
-        </div>
-        <button id="filterButton" type="submit" class="btn btn-tomato btn-lng">Filter</button>
-    </form>
     
-    <hr>
-    <h3>Our Most Popular Campgrounds!</h3>
-    <hr>
-    <div id="campgroundsRow" class="row"></div> <!-- row end -->
-    <p class= "centeredText"> Showing <span id="numLoaded">0</span> out of <%= campgrounds.length %> Campgrounds </p>
-    <button id="loadMore" class="btn btn-tomato btn-sm btn-block bottomaligned">Load More</button>
+    <div class="campgroundResultsHeading">
+        
+        <% if(campgrounds.length === 0) { %>
+            <h3>There are no campgrounds listed in <%=country%>. Why don't you add one? </h3>
+            <a href="/campgrounds/new" class= "btn btn-success btn-md btn-block">Add Campground</a>
+        <% } else { %>
+            <h3>Campgrounds in <%=country%> </h3>
+            <div class="hrContainer"><hr class="dark"></div>
+            <div id="campgroundsRow" class="row"></div> <!-- row end -->
+            <div class="loadMoreSection">
+                <p class= "centeredText"> Showing <span id="numLoaded">0</span> out of <%= campgrounds.length %> Campgrounds </p>
+                <button id="loadMore" class="btn btn-success btn-md btn-block">Load More</button>
+            </div>
+        <% } %>
+    </div>
+    
+   
 </div> <!-- Container End -->
 
 <% include ../partials/footer %>
@@ -64,7 +73,7 @@
               var htmlToAppend = '<div id="' + campgroundContainerSelector +'" class="col-md-3 col-sm-6"></div>';
               $("#campgroundsRow").append(htmlToAppend);
               var imgPinsThumbnailSelector = grounds[i]._id + "imgPinsThumbnails";
-              htmlToAppend = '<div id="' + imgPinsThumbnailSelector + '" class="imagepins thumbnail"></div>';
+              htmlToAppend = '<a href="/campgrounds/' + grounds[i]._id + '" class="imagePins"><div id="' + imgPinsThumbnailSelector + '" ></div></a>';
               $("#" + campgroundContainerSelector).append(htmlToAppend);
               var imgAndCapSelector = grounds[i]._id + "imgAndCap";
               htmlToAppend = '<div id="' + imgAndCapSelector + '" class="imgAndCap"></div>';
@@ -73,12 +82,15 @@
               $("#" + imgAndCapSelector).append(htmlToAppend);
               htmlToAppend = '<div id="campgroundCaption" class="caption"><p>' + grounds[i].name + '</p></div>';
               $("#" + imgAndCapSelector).append(htmlToAppend);
-              htmlToAppend = '<a href="/campgrounds/' + grounds[i]._id + '" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>';
-              $("#" + imgPinsThumbnailSelector).append(htmlToAppend);
+              /*htmlToAppend = '<a href="/campgrounds/' + grounds[i]._id + '" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>';*/
+              /*$("#" + imgPinsThumbnailSelector).append(htmlToAppend);*/
               window.numGroundsLoaded++;
           }
       }
       updateNumLoadedText();
+      if(window.numGroundsLoaded === <%=campgrounds.length%>) {
+          $("#loadMore").addClass("disabled");
+      }
     }
   
     $("#loadMore").on("click", function() {

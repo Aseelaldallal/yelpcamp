@@ -20,7 +20,7 @@ body {
   color: dimgray;
 }
 
-h1, h2, h3, h4, h5, h6 { margin:0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Roboto', sans-serif; margin:0; padding: 0; }
 
 h1 { font-size: 4.0rem; font-weight: 700; }
 h2 { font-size: 3.5rem; font-weight: 700; }
@@ -46,6 +46,10 @@ h6 { font-size: 1.9rem; font-weight: 700; }
 .bottomed { margin-bottom: 1.5rem; }
 .centeredText { text-align: center; } 
 
+hr.dark {
+  	border-top: 1px solid #bdbdbd;
+  	margin-top: -0.5rem;
+}
 
 /*-------------------------------------------------------*/
 /*---------------------- FRONT PAGE ---------------------*/
@@ -67,20 +71,84 @@ h6 { font-size: 1.9rem; font-weight: 700; }
 
 
 .jumbotron_box {
-  
-  color: white;
   width: 100%;
   text-align: center;
 }
 
 .jumbotron h1, h4 {
+  color: white;
   text-shadow: 2px 3px 3px rgba(0, 0, 0, 1);
   margin-bottom:2rem;
 }
 
-.imagepins  {
-  height: 350px;
+/*-------------------------*/
+
+.campgroundResultsHeading {
+  text-align: center;
+  margin: 2rem auto;
 }
+
+.campgroundResultsHeading h3 {
+  margin: 0 auto 3rem auto;
+}
+
+/*-------------------------*/
+
+.filterByCountry {
+  padding: 2rem;
+  text-align: center;
+}
+
+/*-------------------------*/
+
+.loadMoreSection {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.loadMoreSection p {
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+}
+
+/*-------------------------*/
+
+.hrContainer {
+  padding: 1rem;
+  margin-top: 0rem;
+}
+/*-------------------------------------------------------*/
+/*------------------- CAMPGROUND PINS -------------------*/
+/*-------------------------------------------------------*/
+
+.imagePins {
+   border: 1px solid #bdbdbd;
+   border-radius: 0.5rem;
+   display: block;
+   margin: 1rem;
+   padding: 2rem;
+   text-decoration:  none;
+   color: dimgray;
+}
+
+.imagePins:visited {
+  text-decoration:  none;
+  color: dimgray;
+} 
+
+.imagePins:hover   {
+  text-decoration:  none;
+  font-weight: 700;
+  color: dimgray;
+  -webkit-box-shadow: inset 0px 0px 0px 3px #5cb85c;
+  -moz-box-shadow: inset 0px 0px 0px 3px #5cb85c;
+  box-shadow: inset 0px 0px 0px 3px #5cb85c;
+} 
+
+.imagePins:active  {
+  text-decoration:  none;
+  color: dimgray;
+} 
 
 .imgbackground {
    height: 200px;
@@ -90,20 +158,16 @@ h6 { font-size: 1.9rem; font-weight: 700; }
 }
 
 .imgAndCap {
-  height: 275px;
+  height: 260px;
 }
 
 .caption {
+  margin-top: 1rem;
   word-wrap: break-word;
 }
 
-.filterByCountry {
-  background-color:#caebf2 ;
-  padding: 2rem;
-  text-align: center;
-}
 
-/*-------------------------------------------------------*/
+/*-------------------------------------------------------
 /*--------------------- FORM STYLES ---------------------*/
 /*-------------------------------------------------------*/
 

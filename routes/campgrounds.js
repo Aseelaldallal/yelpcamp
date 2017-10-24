@@ -68,7 +68,7 @@ function findCampgrounds(countryName, countryCode, req, res) {
        if (err) {
             flashUnexpectedError(req, res, err);
        } else {
-            res.render("campground/index", {campgrounds: allcampgrounds, selectedCountry: countryCode}); 
+            res.render("campground/index", {campgrounds: allcampgrounds, countryCode: countryCode, country: countryName}); 
        }
     })
 };
