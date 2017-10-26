@@ -145,16 +145,74 @@ a:hover   {
 /*-------------------------------------------------------*/
 
 .imagePins {
-   border: 1px solid #bdbdbd;
-   
+  /* border: 1px solid black;*/
    display: block;
-   margin: 1rem;
-   padding: 2rem;
+   margin: 0.2rem;
+   margin-bottom: 1rem;
+   padding: 0.5rem;
    text-decoration:  none;
    color: dimgray;
+   position: relative;
 }
 
-.imagePins:visited {
+.imagePinsLink {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+}
+
+.imagePins:visited, .imagePins:active {
+  color:dimgray;
+}
+
+.overlay {     
+   display: none;
+}
+
+.overlay i {
+  font-size: 2rem;
+  margin-top: 1rem;
+  position: absolute;
+  z-index: 100;
+}
+
+.groundDelete {
+  color: #d9534f;
+  top: 0;
+  right: 1rem;
+}
+
+.groundEdit {
+  color: #5bc0de ;
+  margin-right: 0.7rem;
+  top:0;
+  right:3rem;
+}
+
+.groundDelete:hover, .groundEdit:hover {
+   transform: scale(1.3);
+}
+
+
+.imagePins:hover {
+  color: dimgray;
+}
+
+.imagePins:hover .overlay { 
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    top: 0;
+    left:0;
+}
+
+
+/*.imagePins:visited {
   text-decoration:  none;
   color: dimgray;
 } 
@@ -171,7 +229,7 @@ a:hover   {
 .imagePins:active  {
   text-decoration:  none;
   color: dimgray;
-} 
+} */
 
 .imgbackground {
    height: 200px;
@@ -187,6 +245,7 @@ a:hover   {
 .caption {
   margin-top: 1rem;
   word-wrap: break-word;
+  text-align: center;
 }
 
 
@@ -251,7 +310,7 @@ label {
 }
 
 /*-------------------------------------------------------*/
-/*---------------------- SHOW PAGE ----------------------*/
+/*---------------- CAMPGROUND SHOW PAGE -----------------*/
 /*-------------------------------------------------------*/
 
 .campgroundInfo img {
@@ -317,8 +376,13 @@ label {
 /*--------------------- USER PROFILE --------------------*/
 /*-------------------------------------------------------*/
 
-.profileImagePins  {
-  height: 430px;
+#userProfileContent {
+   height: 100%;
+   /*overflow: auto;*/
+}
+
+#userProfileContent ul {
+  margin-bottom: 3rem;
 }
 
 .nav-tabs {
@@ -332,35 +396,39 @@ label {
 }
 
 .nav-tabs>li>a {
-  background-color:#F2383B ;
-  color:#efefef;
-  border: 1px solid #f1282b;
+  background-color:lightgray ;
+  color: gray;
+  border: 1px solid #cccccc;
+  opacity: 0.65;
   margin: 0;
+  border-radius: 0;
 }
 
 .nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
-   color: #F2383B;
-   background-color: #efefef;
-   border: 1px solid #e7e7e7;
+   opacity: 1;
+   background-color: #5cb85c;
+   border: 1px solid #4cae4c;
 }
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-    color: #F2383B;
-    background-color: #efefef;
+    color: white;
+    opacity: 1;
+    background-color: #5cb85c;
     cursor: default;
-    border: 1px solid #e7e7e7;
+    border: 1px solid #4cae4c;
 }
 
-#userProfileContent {
-   height: 100%;
-   overflow: auto;
-   background-color: white;
-}
+
 
 .tab-content {
   overflow: auto;
   padding: 1rem;
 }
+
+.profileImagePins  {
+  height: 430px;
+}
+
 
 /*-------------------------------------------------------*/
 /*------------------------ FOOTER -----------------------*/

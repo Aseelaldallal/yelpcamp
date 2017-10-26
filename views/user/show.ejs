@@ -17,8 +17,8 @@
 
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
-        <li id="myTabs" role="presentation" class="active"><a href="#posts" aria-controls="posts" role="tab" data-toggle="tab">Posts</a></li>
-        <li id="myTabs2" role="presentation"><a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a></li>
+        <li id="postTab" role="presentation" class="active"><a href="#posts" aria-controls="posts" role="tab" data-toggle="tab">Posts</a></li>
+        <li id="commentTab" role="presentation"><a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">Comments</a></li>
       </ul>
 
         <!-- Tab panes -->
@@ -27,7 +27,10 @@
                     <%  for(var i=0; i<campgrounds.length; i++) { 
                         var ground = campgrounds[i]; %>
                         <div class="col-md-3 col-sm-6">
-                            <div id="profileCampgroundContainer" class="thumbnail">
+                            
+                            
+                            <div class="imagePins">
+                                <a href="/campgrounds/<%=ground._id%>" class="imagePinsLink"></a>
                                 <div class="imgAndCap">
                                     <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/<%=ground.image%>');"></div>
                                      <div class="caption">
@@ -35,17 +38,34 @@
                                             if(ground.name.length > 40) {
                                                groundname = groundname.substring(0,40) + "...";
                                             } %>
-                                        <p> <strong><%= groundname %></strong></p>
+                                        <p> <%= groundname %></p>
                                     </div> <!-- caption end -->
                                 </div>
-                                <% if(currentUser && currentUser.id == campgrounds[i].author.id) { %>
-                                    <a href="/campgrounds/<%= ground._id %>/edit" class="btn btn-warning btn-sm btn-block btn-btm-margined">Edit</a>
-                                    <form action="/campgrounds/<%=campgrounds[i]._id%>?_method=DELETE" method="POST">
-                                        <button class="btn btn-sky btn-sm btn-block"> Delete </button>
-                                    </form>
-                                <% } %>
-                                <a href="/campgrounds/<%= ground._id %>" class="btn btn-tomato btn-sm btn-block btn-top-margined">More Info</a>
-                            </div> <!-- thumbnail end -->
+                                
+                                <div class="overlay">
+                                    <% if(currentUser && currentUser.id == ground.author.id) { %>
+                                        <!-- Delete -->
+                                        <% var groundDelID = ground.id + "groundDelete"; %>
+                                        <% var groundDelFormID = ground.id + "groundDeleteForm"; %>
+                                        <form id="<%=groundDelFormID%>" class="inline" action="/campgrounds/<%=ground.id%>?_method=DELETE" method="POST"> 
+                                            <i id="<%=groundDelID%>" class="fa fa-times groundDelete" aria-hidden="true"></i>
+                                        </form>
+                                        <script>
+                                            $("#<%=groundDelID%>").on("click", function() {
+                                                $("#<%=groundDelFormID%>").submit(); 
+                                            })
+                                        </script>
+                                        <!-- Edit-->
+                                        <% var groundEditID = ground.id + "groundEdit"; %>
+                                        <a href="/campgrounds/<%=ground.id%>/edit">
+                                            <i id="<%=groundEditID%>" class="fa fa-pencil-square-o groundEdit" aria-hidden="true"></i>
+                                        </a>
+                                    <% } %>
+                                </div>
+                                
+                            </div> <!-- imagepins end -->
+                            
+
                         </div>
                     <%  } %>
             </div> <!-- End of posts tab -->
@@ -86,9 +106,6 @@
 
 </div>
    
-    
-
-
 
 <% include ../partials/footer %>
 
