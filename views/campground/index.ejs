@@ -43,7 +43,7 @@
         <% } else { %>
             <h3>Campgrounds in <%=country%> </h3>
             <div class="hrContainer"><hr></div>
-            <div id="campgroundsRow" class="row"></div> <!-- row end -->
+            <div id="campgroundsRow" class="row"></div> 
             <div class="loadMoreSection">
                 <p class= "centeredText"> Showing <span id="numLoaded">0</span> out of <%= campgrounds.length %> Campgrounds </p>
                 <button id="loadMore" class="btn btn-success btn-md btn-block">Load More</button>
@@ -59,45 +59,68 @@
 
 <script>
 
-    var numGroundsToLoad = 16;
-    var numGroundsLoaded = 0;
-    
-    loadCampgrounds(numGroundsLoaded, numGroundsToLoad);
-    
-    function updateNumLoadedText() {
-        $("#numLoaded").empty();
-        $("#numLoaded").text(numGroundsLoaded);
-    }   
-    
-    function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
-      var grounds = <%-JSON.stringify(campgrounds) %>
-      for(var i=numGroundsLoaded ; i<numGroundsLoaded + numGroundsToLoad; i++) {
-          if(window.numGroundsLoaded < grounds.length ) {
-              var campgroundContainerSelector = grounds[i]._id + "Container";
-              var htmlToAppend = '<div id="' + campgroundContainerSelector +'" class="col-md-3 col-sm-6"></div>';
-              $("#campgroundsRow").append(htmlToAppend);
-              var imgPinsThumbnailSelector = grounds[i]._id + "imgPinsThumbnails";
-              htmlToAppend = '<a href="/campgrounds/' + grounds[i]._id + '" class="imagePins"><div id="' + imgPinsThumbnailSelector + '" ></div></a>';
-              $("#" + campgroundContainerSelector).append(htmlToAppend);
-              var imgAndCapSelector = grounds[i]._id + "imgAndCap";
-              htmlToAppend = '<div id="' + imgAndCapSelector + '" class="imgAndCap"></div>';
-              $("#" + imgPinsThumbnailSelector).append(htmlToAppend);
-              htmlToAppend = '<div class="imgbackground" style="background-image: url(\'https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/' + grounds[i].image + '\');"></div>';
-              $("#" + imgAndCapSelector).append(htmlToAppend);
-              htmlToAppend = '<div id="campgroundCaption" class="caption"><p>' + grounds[i].name + '</p></div>';
-              $("#" + imgAndCapSelector).append(htmlToAppend);
-              /*htmlToAppend = '<a href="/campgrounds/' + grounds[i]._id + '" class="btn btn-tomato btn-sm btn-block bottomaligned">More Info</a>';*/
-              /*$("#" + imgPinsThumbnailSelector).append(htmlToAppend);*/
-              window.numGroundsLoaded++;
-          }
-      }
-      updateNumLoadedText();
-      if(window.numGroundsLoaded === <%=campgrounds.length%>) {
-          $("#loadMore").addClass("disabled");
-      }
+var numGroundsToLoad = 16;
+var numGroundsLoaded = 0;
+
+loadCampgrounds(numGroundsLoaded, numGroundsToLoad);
+
+function updateNumLoadedText() {
+    $("#numLoaded").empty();
+    $("#numLoaded").text(numGroundsLoaded);
+}   
+
+function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
+    var grounds = <%-JSON.stringify(campgrounds) %>;
+    for(var i=numGroundsLoaded ; i<numGroundsLoaded + numGroundsToLoad; i++) {
+        if(window.numGroundsLoaded < grounds.length ) {
+            var id = grounds[i]._id;
+            var authorID = grounds[i].author.id;
+            var imageName = grounds[i].image;
+            var imgUrl = `https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/${imageName}`;
+            var campgroundName = grounds[i].name;
+            if(campgroundName.length > 40) {
+                campgroundName = campgroundName.substring(0,40) + "...";
+            }
+            $("#campgroundsRow").append(`<div id="${id}Container" class="col-md-3 col-sm-6"></div>`);
+            $(`#${id}Container`).append(`<div id="${id}ImagePins" class="imagePins"></div>`);
+            $(`#${id}ImagePins`).append(`<a href="/campgrounds/${id}" class="imagePinsLink"></a>`);
+            $(`#${id}ImagePins`).append(`<div id="${id}ImgAndCap"class="imgAndCap"></div>`);
+            $(`#${id}ImgAndCap`).append(`<div class="imgbackground" style="background-image:url('${imgUrl}');"</div>`);
+            $(`#${id}ImgAndCap`).append(`<div id="${id}Caption" class="caption"></div>`);
+            $(`#${id}Caption`).append(`<p>${campgroundName}</p>`);
+            $(`#${id}ImagePins`).append(`<div id="${id}Overlay" class="overlay"></div>`);
+            if(checkIfCampgroundBelongsToUser(authorID)) {
+                $(`#${id}Overlay`).append(`<form id="${id}GroundDeleteForm" class="inline" action="/campgrounds/${id}?_method=DELETE" method="POST"></form>`);
+                $(`#${id}GroundDeleteForm`).append(`<i id="${id}GroundDelete" class="fa fa-times groundDelete" aria-hidden="true"></i>`);
+                $(`#${id}GroundDelete`).on("click", function() {
+                    $(`#${id}GroundDeleteForm`).submit();
+                });
+                $(`#${id}Overlay`).append(`<a id="${id}EditLink" href="/campgrounds/${id}/edit"></a>`);
+                $(`#${id}EditLink`).append(`<i class="fa fa-pencil-square-o groundEdit" aria-hidden="true"></i>`)
+            }
+            window.numGroundsLoaded++;
+        }
+    }// End for
+    updateNumLoadedText();
+    if(window.numGroundsLoaded === <%=campgrounds.length%>) {
+        $("#loadMore").addClass("disabled");
     }
-  
-    $("#loadMore").on("click", function() {
-          loadCampgrounds(numGroundsLoaded, numGroundsToLoad);   
-    });
+}
+
+
+// Returns true if campground has been posted by currently logged on user
+// If no user logged on, returns false
+function checkIfCampgroundBelongsToUser(campgroundAuthorID) {
+    var currentUser = <%-JSON.stringify(currentUser) %>
+    if(currentUser && currentUser._id === campgroundAuthorID) { 
+        return true;
+    }
+    return false;
+}
+
+
+$("#loadMore").on("click", function() {
+      loadCampgrounds(numGroundsLoaded, numGroundsToLoad);   
+});
+
 </script>

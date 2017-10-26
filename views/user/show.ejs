@@ -24,50 +24,45 @@
         <!-- Tab panes -->
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="posts">
-                    <%  for(var i=0; i<campgrounds.length; i++) { 
-                        var ground = campgrounds[i]; %>
-                        <div class="col-md-3 col-sm-6">
+                <%  for(var i=0; i<campgrounds.length; i++) { 
+                    var ground = campgrounds[i]; %>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="imagePins">
+                            <a href="/campgrounds/<%=ground._id%>" class="imagePinsLink"></a>
+                            <div class="imgAndCap">
+                                <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/<%=ground.image%>');"></div>
+                                 <div class="caption">
+                                     <% var groundname = ground.name;
+                                        if(ground.name.length > 40) {
+                                           groundname = groundname.substring(0,40) + "...";
+                                        } %>
+                                    <p> <%= groundname %></p>
+                                </div> <!-- caption end -->
+                            </div>
+                            <div class="overlay">
+                                <% if(currentUser && currentUser.id == ground.author.id) { %>
+                                    <!-- Delete -->
+                                    <% var groundDelID = ground.id + "groundDelete"; %>
+                                    <% var groundDelFormID = ground.id + "groundDeleteForm"; %>
+                                    <form id="<%=groundDelFormID%>" class="inline" action="/campgrounds/<%=ground.id%>?_method=DELETE" method="POST"> 
+                                        <i id="<%=groundDelID%>" class="fa fa-times groundDelete" aria-hidden="true"></i>
+                                    </form>
+                                    <script>
+                                        $("#<%=groundDelID%>").on("click", function() {
+                                            $("#<%=groundDelFormID%>").submit(); 
+                                        })
+                                    </script>
+                                    <!-- Edit-->
+                                    <% var groundEditID = ground.id + "groundEdit"; %>
+                                    <a href="/campgrounds/<%=ground.id%>/edit">
+                                        <i id="<%=groundEditID%>" class="fa fa-pencil-square-o groundEdit" aria-hidden="true"></i>
+                                    </a>
+                                <% } %>
+                            </div>
                             
-                            
-                            <div class="imagePins">
-                                <a href="/campgrounds/<%=ground._id%>" class="imagePinsLink"></a>
-                                <div class="imgAndCap">
-                                    <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/<%=ground.image%>');"></div>
-                                     <div class="caption">
-                                         <% var groundname = ground.name;
-                                            if(ground.name.length > 40) {
-                                               groundname = groundname.substring(0,40) + "...";
-                                            } %>
-                                        <p> <%= groundname %></p>
-                                    </div> <!-- caption end -->
-                                </div>
-                                
-                                <div class="overlay">
-                                    <% if(currentUser && currentUser.id == ground.author.id) { %>
-                                        <!-- Delete -->
-                                        <% var groundDelID = ground.id + "groundDelete"; %>
-                                        <% var groundDelFormID = ground.id + "groundDeleteForm"; %>
-                                        <form id="<%=groundDelFormID%>" class="inline" action="/campgrounds/<%=ground.id%>?_method=DELETE" method="POST"> 
-                                            <i id="<%=groundDelID%>" class="fa fa-times groundDelete" aria-hidden="true"></i>
-                                        </form>
-                                        <script>
-                                            $("#<%=groundDelID%>").on("click", function() {
-                                                $("#<%=groundDelFormID%>").submit(); 
-                                            })
-                                        </script>
-                                        <!-- Edit-->
-                                        <% var groundEditID = ground.id + "groundEdit"; %>
-                                        <a href="/campgrounds/<%=ground.id%>/edit">
-                                            <i id="<%=groundEditID%>" class="fa fa-pencil-square-o groundEdit" aria-hidden="true"></i>
-                                        </a>
-                                    <% } %>
-                                </div>
-                                
-                            </div> <!-- imagepins end -->
-                            
-
-                        </div>
-                    <%  } %>
+                        </div> <!-- imagepins end -->
+                    </div>
+                <%  } %> <!-- End for -->
             </div> <!-- End of posts tab -->
             
             <div role="tabpanel" class="tab-pane" id="comments">
