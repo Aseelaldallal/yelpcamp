@@ -7,10 +7,10 @@ Fix Adding Country
 -- Add Delete Campground -- DONE
 -- Add no campgrounds found -- DONE
 -- change load more button to disabled when no more campgrounds to load -- DONE
-
+-- make mouse pointer on delete hover : profile page -- DONE
 
 change front end ui
-make mouse pointer on delete hover : profile page
+
 Add More Campgrounds
 Add Description
 add 404
