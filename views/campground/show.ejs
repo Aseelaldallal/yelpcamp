@@ -83,8 +83,8 @@
                         </div>
                     </div> <!--End of row -->
                     <% if(currentUser && currentUser.id == comment.author.id) { %>
-                        <a class="btn btn-info btn-xs" href="<%=campground._id%>/comments/<%=comment._id%>/edit">Edit</a>
-                        <form class="inline" action="<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST"> 
+                        <a class="btn btn-info btn-xs" href="/comments/<%=comment._id%>/edit">Edit</a>
+                        <form class="inline" action="/comments/<%=comment._id%>?_method=DELETE" method="POST"> 
                             <button class="btn btn-danger btn-xs"> Delete </button>
                         </form>
 
