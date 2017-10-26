@@ -81,10 +81,9 @@
                              <p><%=comments[i].text%></p>
                              <% if(currentUser && currentUser.id == comments[i].author.id) { %>
                                 <hr class="bold">
-                                <a class="btn btn-sky btn-xs" href="../campgrounds/<%=comments[i].campground.id%>/">View</a>
-                                <a class="btn btn-warning btn-xs" href="../campgrounds/<%=comments[i].campground.id%>/comments/<%=comments[i]._id%>/edit">Edit</a>
+                                <a class="btn btn-info btn-xs" href="../campgrounds/<%=comments[i].campground.id%>/comments/<%=comments[i]._id%>/edit">Edit</a>
                                 <form class="inline" action="../campgrounds/<%=comments[i].campground.id%>/comments/<%=comments[i]._id%>?_method=DELETE" method="POST"> 
-                                    <button class="btn btn-tomato btn-xs"> Delete </button>
+                                    <button class="btn btn-danger btn-xs"> Delete </button>
                                 </form>
                             <% } %>
                          </div>
