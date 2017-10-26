@@ -111,8 +111,8 @@ function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
 // Returns true if campground has been posted by currently logged on user
 // If no user logged on, returns false
 function checkIfCampgroundBelongsToUser(campgroundAuthorID) {
-    var currentUser = <%-JSON.stringify(currentUser) %>
-    if(currentUser && currentUser._id === campgroundAuthorID) { 
+    var currentUser = <%-currentUser ? JSON.stringify(currentUser) : "null" %>;
+    if(currentUser && currentUser._id === campgroundAuthorID) {
         return true;
     }
     return false;
