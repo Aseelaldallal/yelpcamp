@@ -187,6 +187,7 @@ a:hover   {
   color: #d9534f;
   top: 0;
   right: 1rem;
+  cursor: pointer;
 }
 
 .groundEdit {
