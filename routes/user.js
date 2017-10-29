@@ -11,10 +11,10 @@ var express         = require("express"),
     User            = require("../models/user"),
     Campground      = require("../models/campground"),
     Comment         = require("../models/comment"), 
+    middleware      = require("../middleware"),
     router          = express.Router();    
 
-/*require('../config/passport')(passport); // pass passport for configuration
-*/
+
 /* --------------------------- INDEX ROUTE --------------------------- */
 
 // Get a list of all users, we don't want that -- 404
@@ -33,7 +33,7 @@ router.get("/new", function(req,res) {
 
 // LOCAL SIGNUP
 // process the signup form
-router.post('/', passport.authenticate('local-signup', {
+router.post('/',  middleware.sanitizeUserInput, middleware.validateRegisterationForm, passport.authenticate('local-signup', {
     failureRedirect : 'users/new', // redirect back to the signup page if there is an error
     failureFlash : true // allow flash messages
 }), function(req,res) {

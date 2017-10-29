@@ -5,10 +5,16 @@
 
 
 $(document).ready(function() {
+    
     if($('#username').length !== 0) { // login form doesn't have username
         setup($('#username'), "username cannot be blank");
     }
+    
     setup($('#email'), "Email cannot be blank");
+    $("#email").on('blur', function() {
+        validateEmailAddress(); 
+    })
+    
     setup($('#password'), "Password cannot be blank");
   
    $("form").submit(function(e){
@@ -16,9 +22,18 @@ $(document).ready(function() {
             checkIfEmpty($('#username'), "Username cannot be blank", e);
        }
        checkIfEmpty($('#email'), "Email cannot be blank", e);
+       validateEmailAddress(); 
        checkIfEmpty($('#password'), "Password cannot be blank", e);
     });
 });
+
+// Ensure that the user enters a valid email address
+function validateEmailAddress() {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!re.test($("#email").val())) {
+        displayError($("#email"), "Invalid Email Address");
+    }
+}
 
 
 // Make sure field not blank

@@ -12,6 +12,12 @@ const MAX_INPUT_LENGTH = 120;
 
 var middlewareObj = {};
 
+
+
+// ====================================================================
+// Check campground owned by user
+// ====================================================================
+
 middlewareObj.checkCampgroundOwnership = function(req,res,next) {
     if(req.isAuthenticated()) {
         Campground.findById(req.params.id, function(err,foundGround) {
@@ -34,6 +40,10 @@ middlewareObj.checkCampgroundOwnership = function(req,res,next) {
     }
 }
 
+// ====================================================================
+// Check comment owned by user
+// ====================================================================
+
 middlewareObj.checkCommentOwnership = function(req,res,next) {
     if(req.isAuthenticated()) {
         // Check if the user owns the comment
@@ -55,7 +65,9 @@ middlewareObj.checkCommentOwnership = function(req,res,next) {
     }
 }
 
-
+// ====================================================================
+// Check that a user is logged in
+// ====================================================================
 middlewareObj.isLoggedIn = function(req,res, next) {
     if(req.isAuthenticated()) {
         return next();
@@ -64,6 +76,9 @@ middlewareObj.isLoggedIn = function(req,res, next) {
     res.redirect("/login");
 };
 
+// ====================================================================
+// Sanitize HTML
+// ====================================================================
 
 // Sanitize html: https://www.npmjs.com/package/sanitize-html
 middlewareObj.sanitizeUserInput = function(req,res,next) {
@@ -75,14 +90,12 @@ middlewareObj.sanitizeUserInput = function(req,res,next) {
     return next(); 
 };
 
-// Validate input fields
+// ====================================================================
+// Validate Campground Post Form
+// ====================================================================
+
 middlewareObj.validateForm = function(req,res,next) {
-    for(var key in req.body) {
-        req.body[key] = req.body[key].trim(); 
-        if(req.body[key] == "") {
-            req.body[key] = null;
-        } 
-    }
+    trim(req);
     //Count the number of new line characters (see http://bit.ly/2mKBW4K)
     var maxDescLength = MAX_DESC_LENGTH;
     if(req.body.desc) {
@@ -101,20 +114,74 @@ middlewareObj.validateForm = function(req,res,next) {
           'desc.max': 'Description: Maximum number of characters exceeded',
           'desc.min': 'Description: Minimum number of characters not met',
         };
-        
         const rules = {
             campName: basicRule,
             location: basicRule,
             desc: descriptionRule
         };
-       
         const data = {
             campName: req.body.campName,
             location: req.body.location,
             desc: req.body.desc
         };
-        
-        indicative
+        validate(data, rules, messages, req, res, next);
+};
+
+// ====================================================================
+// Validate Registration Form
+// ====================================================================
+
+middlewareObj.validateRegisterationForm = function(req,res,next) { 
+    trim(req);
+    const rules = {
+        username: 'required',
+        email:    'required|email',
+        password: 'required'
+    }
+    const messages = {
+        'username.required': 'You must enter a username',
+        'email.required': 'You must enter an email address',
+        'email.email' : 'The email address you entered is invalid',
+        'password.required' : 'You must enter a password'
+    }
+    const data = {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+    };
+    validate(data, rules, messages, req, res, next);
+}
+
+// ====================================================================
+// Validate Registration Form
+// ====================================================================
+
+middlewareObj.validateLoginForm = function(req,res,next) { 
+    trim(req);
+    const rules = {
+        email:    'required|email',
+        password: 'required'
+    }
+    const messages = {
+        'email.required': 'You must enter an email address',
+        'email.email' : 'The email address you entered is invalid',
+        'password.required' : 'You must enter a password'
+    }
+    const data = {
+        email: req.body.email,
+        password: req.body.password
+    };
+    validate(data, rules, messages, req, res, next);
+}
+
+// ====================================================================
+// Helper Methods
+// ====================================================================
+
+
+// Validate
+function validate(data, rules, messages, req, res, next) {
+    indicative
         .validateAll(data, rules, messages)
         .then(function() { // validation success
             return next();
@@ -124,8 +191,19 @@ middlewareObj.validateForm = function(req,res,next) {
             req.flash("error", validationErrors);
             res.redirect("back"); 
         });
-
 }
+
+// Trim user input
+function trim(req) {
+    for(var key in req.body) {
+        req.body[key] = req.body[key].trim(); 
+        if(req.body[key] == "") {
+            req.body[key] = null;
+        } 
+    }
+}
+
+
 
 // Errors in an array of objects. Each object has a field, validation, and message. This function
 // extracts message from each object, and compiles them into one string. It then returns the string.

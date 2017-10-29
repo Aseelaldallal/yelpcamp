@@ -5,9 +5,7 @@
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
-
-
-
+var middleware      = require("../middleware");
 
 /* ------------------------------------- */
 /* -----------------ROUTES-------------- */
@@ -26,7 +24,7 @@ router.get("/login", function(req,res) {
 
 // LOGIN POST
 
-router.post("/login", passport.authenticate("local-login", 
+router.post("/login", middleware.sanitizeUserInput, middleware.validateLoginForm, passport.authenticate("local-login", 
     {   failureRedirect: "/login",
         failureFlash: true,
     }), function(req, res){
