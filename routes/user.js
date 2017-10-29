@@ -13,8 +13,8 @@ var express         = require("express"),
     Comment         = require("../models/comment"), 
     router          = express.Router();    
 
-require('../config/passport')(passport); // pass passport for configuration
-
+/*require('../config/passport')(passport); // pass passport for configuration
+*/
 /* --------------------------- INDEX ROUTE --------------------------- */
 
 // Get a list of all users, we don't want that -- 404

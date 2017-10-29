@@ -26,12 +26,12 @@ router.get("/login", function(req,res) {
 
 // LOGIN POST
 
-router.post("/login", passport.authenticate("local", 
+router.post("/login", passport.authenticate("local-login", 
     {   failureRedirect: "/login",
         failureFlash: true,
     }), function(req, res){
-        req.flash("success","Welcome " + req.user.username + "!");
-        res.redirect("/campgrounds");
+        req.flash("success","Welcome " + req.user.local.username + "!");
+        res.redirect(`/users/${req.user._id}`);
     }
 );
 

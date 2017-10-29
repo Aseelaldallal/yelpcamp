@@ -51,6 +51,7 @@ app.use(expressSession({
     saveUninitialized: false
 }));
 // Setting passport up to work in our application
+require('./config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 // Tell app to use flash

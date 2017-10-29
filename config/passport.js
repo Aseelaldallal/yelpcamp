@@ -61,5 +61,30 @@ module.exports = function(passport) {
 
     }));
 
+    // =========================================================================
+    // LOCAL LOGIN =============================================================
+    // =========================================================================
+    
+    passport.use('local-login', new LocalStrategy({
+        usernameField : 'email',
+        passwordField : 'password',
+        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+    },
+    function(req, email, password, done) {
+        if (email) { email = email.toLowerCase(); }
+        process.nextTick(function() {
+            User.findOne({ 'local.email' :  email }, function(err, user) {
+                if (err) { return done(err); }
+                if (!user) {
+                    return done(null, false, req.flash('error', 'No such email address exists.'));
+                } else if (!user.validPassword(password)) {
+                    return done(null, false, req.flash('error', 'Incorrect Password'));
+                } else {
+                    return done(null, user);
+                }
+            });
+        });
+    }));
+
     
 };
