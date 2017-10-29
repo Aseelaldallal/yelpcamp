@@ -66,6 +66,9 @@ a:hover   {
   color: white!important;
 }
 
+.well {
+  border-radius: 0;
+}
 /*-------------------------------------------------------*/
 /*---------------------- FRONT PAGE ---------------------*/
 /*-------------------------------------------------------*/
@@ -157,6 +160,10 @@ a:hover   {
    text-decoration:  none;
    color: dimgray;
    position: relative;
+}
+
+.imgbackground {
+  border-radius: 15%;
 }
 
 .imagePinsLink {
@@ -389,6 +396,7 @@ label {
 #userProfileContent ul {
   margin-bottom: 3rem;
 }
+
 
 .nav-tabs {
   background-color: transparent;

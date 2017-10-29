@@ -8,12 +8,24 @@ Fix Adding Country
 -- Add no campgrounds found -- DONE
 -- change load more button to disabled when no more campgrounds to load -- DONE
 -- make mouse pointer on delete hover : profile page -- DONE
+-- change front end ui
 
-change front end ui
+
+
 
 Add More Campgrounds
 Add Description
 add 404
-update destroy route in campgrounds
-update destroy route in comments
-Rating System
+Add Facebook Authorization
+Type check email -- backend and frontend validation
+
+When do you add a rating?
+-- When a user creates a new campground, they should have an option to rate it
+-- When a user views a campground, they should have an option to rate it
+-- The user should be able to change the rating dynamicallly
+
+
+
+
+
+

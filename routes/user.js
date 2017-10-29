@@ -13,6 +13,8 @@ var express         = require("express"),
     Comment         = require("../models/comment"), 
     router          = express.Router();    
 
+require('../config/passport')(passport); // pass passport for configuration
+
 /* --------------------------- INDEX ROUTE --------------------------- */
 
 // Get a list of all users, we don't want that -- 404
@@ -29,20 +31,15 @@ router.get("/new", function(req,res) {
 
 /* --------------------------- CREATE ROUTE -------------------------- */
 
-router.post("/", function(req,res, next) { 
-    // Add the username and password to database
-    var newUser = new User({username: req.body.username});
-    User.register(newUser, req.body.password, function(err, user) {
-        if(err) {
-            req.flash("error", err.message)
-            res.redirect("back");
-        } else {
-            passport.authenticate('local')(req,res, function() {
-                req.flash("success", "Welcome to YelpCamp " + user.username + "!");
-                res.redirect("/campgrounds");
-            });
-        }
-    });
+// LOCAL SIGNUP
+// process the signup form
+router.post('/', passport.authenticate('local-signup', {
+    failureRedirect : 'users/new', // redirect back to the signup page if there is an error
+    failureFlash : true // allow flash messages
+}), function(req,res) {
+    // Success
+    req.flash("success", "Welcome to YelpCamp " + req.user.local.username + "!");
+    res.redirect(`/users/${req.user._id}/`);
 });
 
 

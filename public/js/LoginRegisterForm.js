@@ -5,11 +5,13 @@
 
 
 $(document).ready(function() {
-    setup($('#username'), "Username cannot be blank");
+    setup($('#username'), "username cannot be blank");
+    setup($('#email'), "Email cannot be blank");
     setup($('#password'), "Password cannot be blank");
   
    $("form").submit(function(e){
        checkIfEmpty($('#username'), "Username cannot be blank", e);
+       checkIfEmpty($('#email'), "Email cannot be blank", e);
        checkIfEmpty($('#password'), "Password cannot be blank", e);
     });
 });

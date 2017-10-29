@@ -1,26 +1,16 @@
 
 
-/* --------------------------- */
-/* ---------- SETUP ---------- */
-/* --------------------------- */
-
 var express                 = require("express"),
-    request                 = require("request"),
     bodyParser              = require("body-parser"),
     mongoose                = require("mongoose"),
     flash                   = require("connect-flash"),
     methodOverride          = require("method-override"),
     expressSanitizer        = require("express-sanitizer"),
-    seedDB                  = require("./seeds"),
     passport                = require("passport"),
-    localStrategy           = require("passport-local"),
-    passportLocalMongoose   = require("passport-local-mongoose"),
+    cookieParser            = require('cookie-parser'),
     expressSession          = require("express-session"),
-    Campground              = require("./models/campground"),
-    Comment                 = require("./models/comment"),
-    User                    = require("./models/user");
-    
-    
+    morgan                  = require('morgan');
+
 // ROUTES
 var commentRoutes           = require("./routes/comments"),
     campgroundRoutes        = require("./routes/campgrounds"), 
@@ -28,17 +18,25 @@ var commentRoutes           = require("./routes/comments"),
     userRoutes              = require("./routes/user");
     
 // Setup Express
-var app = express();
+var app                     = express();
 
-// Setup Method Override 
-app.use(methodOverride("_method"));
+// Setup DB
+var configDB = require('./config/database.js');
+mongoose.Promise = global.Promise;
+mongoose.connect(configDB.url); // connect to our database
 
+// Log to console
+app.use(morgan('dev')); // log every request to the console
 
 // Setup body parser: Allows us to use req.body, which gives us all the data from the request body
 // Setup sanitizer -- must be after body parser
 // use with posts
+app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(expressSanitizer());
+    
+// Setup Method Override 
+app.use(methodOverride("_method"));
 
 // Configure app: use ejs by default
 app.set("view engine", "ejs");
@@ -46,32 +44,18 @@ app.set("view engine", "ejs");
 // Use Public to look for css
 app.use(express.static(__dirname + "/public")); //dirname is directory this script is running
 
-// Connect to database 
-mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/yelp_camp"); 
-
-// Seed the database
-//seedDB();
-
 // Express Session - Run express session with these parameters
 app.use(expressSession({
     secret: "I love fairooz", // Used to encode and decode session
     resave: false,
     saveUninitialized: false
 }));
-
 // Setting passport up to work in our application
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Responsible for reading session, taking data from session thats encoded and unencoding it
-// and then encoding it and putting it back in the session
-passport.use(new localStrategy(User.authenticate())); // Creating a new local strategy using the user.authenticate method that is coming from passportLocalMongoose -- we don't need to write authenticate method
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
 // Tell app to use flash
 app.use(flash());
+
 
 // Setting up our own middleware. app.use calls this function on every route
 // passport is what creates req.user, it puts id in it
@@ -81,7 +65,6 @@ app.use(function(req,res, next) {
     res.locals.success = req.flash("success");
     next(); // move on to next code
 })
-
 
 
 // Tells app to use the three routes
