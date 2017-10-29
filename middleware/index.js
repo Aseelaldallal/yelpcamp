@@ -136,13 +136,14 @@ middlewareObj.validateRegisterationForm = function(req,res,next) {
     const rules = {
         username: 'required',
         email:    'required|email',
-        password: 'required'
+        password: 'required|min:8'
     }
     const messages = {
         'username.required': 'You must enter a username',
         'email.required': 'You must enter an email address',
         'email.email' : 'The email address you entered is invalid',
-        'password.required' : 'You must enter a password'
+        'password.required' : 'You must enter a password',
+        'password.min' : 'Choose a password that is at least 8 characters long'
     }
     const data = {
         username: req.body.username,
@@ -153,7 +154,7 @@ middlewareObj.validateRegisterationForm = function(req,res,next) {
 }
 
 // ====================================================================
-// Validate Registration Form
+// Validate Login Form
 // ====================================================================
 
 middlewareObj.validateLoginForm = function(req,res,next) { 

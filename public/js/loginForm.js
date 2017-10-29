@@ -6,10 +6,6 @@
 
 $(document).ready(function() {
     
-    if($('#username').length !== 0) { // login form doesn't have username
-        setup($('#username'), "username cannot be blank");
-    }
-    
     setup($('#email'), "Email cannot be blank");
     $("#email").on('blur', function() {
         validateEmailAddress(); 
@@ -18,14 +14,13 @@ $(document).ready(function() {
     setup($('#password'), "Password cannot be blank");
   
    $("form").submit(function(e){
-       if($('#username').length !== 0) { // login form doesn't have username
-            checkIfEmpty($('#username'), "Username cannot be blank", e);
-       }
        checkIfEmpty($('#email'), "Email cannot be blank", e);
        validateEmailAddress(); 
        checkIfEmpty($('#password'), "Password cannot be blank", e);
     });
 });
+
+
 
 // Ensure that the user enters a valid email address
 function validateEmailAddress() {
