@@ -18,6 +18,9 @@ Add Description
 add 404
 Add Facebook Authorization
 Type check email -- backend and frontend validation
+confirm on delete campground
+Add Google+ Authorization
+
 
 When do you add a rating?
 -- When a user creates a new campground, they should have an option to rate it

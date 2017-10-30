@@ -75,7 +75,7 @@ a:hover   {
 
 
 .jumbotron {
-  background-image: url("/images/3.jpg");
+  background-image: url("/images/jumboBackground.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -147,6 +147,7 @@ a:hover   {
   padding: 1rem;
   margin-top: 0rem;
 }
+
 /*-------------------------------------------------------*/
 /*------------------- CAMPGROUND PINS -------------------*/
 /*-------------------------------------------------------*/
@@ -224,24 +225,6 @@ a:hover   {
 }
 
 
-/*.imagePins:visited {
-  text-decoration:  none;
-  color: dimgray;
-} 
-
-.imagePins:hover   {
-  text-decoration:  none;
-  font-weight: 700;
-  color: dimgray;
-  -webkit-box-shadow: inset 0px 0px 0px 3px #5cb85c;
-  -moz-box-shadow: inset 0px 0px 0px 3px #5cb85c;
-  box-shadow: inset 0px 0px 0px 3px #5cb85c;
-} 
-
-.imagePins:active  {
-  text-decoration:  none;
-  color: dimgray;
-} */
 
 .imgbackground {
    height: 200px;
@@ -486,4 +469,82 @@ label {
   color: #428bca;
 }
 
+/*-------------------------------------------------------*/
+/*-------------------- LOGIN/REGISTER -------------------*/
+/*-------------------------------------------------------*/
+
+
+
+.registerForm {
+  background-color: white;
+  border: 1px solid #e7e7e7;
+  padding: 3rem;
+  margin-top: 8%;
+}
+
+
+.registerForm h3 i {
+  margin-right: 2rem;
+}
+
+.registerForm .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.textSeperator {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.orSeperator {
+    display: block;
+    text-align: center;
+    border-bottom: 1px solid #e3e3e3;
+    height: 12px;
+    margin-top: 1em;
+    margin-bottom: 1.5em;
+    font-weight: 700;
+}
+
+.orSeperator span {
+    display: inline-block;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    background: #fff;
+}
+
+.btn-facebook {
+    border-bottom: 1px solid #37538d;
+    border-top: 1px solid #3f5fa3;
+    background: #3b5998;
+    color: white;
+    margin-bottom:1.5rem;
+}
+
+.btn-google {
+    border-bottom: 1px solid rgb(171, 7, 26);
+    border-top: 1px solid rgb(196, 8, 30);
+    background: rgb(189, 8, 28);
+    color: white;
+}
+
+.btn-google .icon, .btn-facebook .icon {
+    float: left;
+    font-size: 1.6rem;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    width: 8%;
+    text-align: left;
+    padding-left: 1rem;
+}
+
+.btn-google .btn-text, .btn-facebook .btn-text {
+  margin-left: -8%;
+}
+
+.registerFormBackground {
+  background-image: url("/images/registerFormBackground.jpg");
+  background-size: cover;
+  background-position: center;
+}
 

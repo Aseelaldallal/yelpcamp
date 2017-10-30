@@ -6,6 +6,8 @@
 
 $(document).ready(function() {
     
+    $("body").addClass("registerFormBackground");
+    
     // USERNAME
     setup($('#username'), "username cannot be blank");
 
