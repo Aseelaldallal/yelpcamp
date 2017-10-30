@@ -22,8 +22,9 @@ $(document).ready(function() {
     $("#password").on('blur', function() {
         validatePassword(); 
     });
-  
-  // SUBMIT
+    
+
+    // SUBMIT
    $("form").submit(function(e){
        checkIfEmpty($('#username'), "Username cannot be blank", e);
        checkIfEmpty($('#email'), "Email cannot be blank", e);
