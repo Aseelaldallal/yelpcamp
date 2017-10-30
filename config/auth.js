@@ -9,4 +9,4 @@ module.exports = {
         'profileFields'      : ['id', 'emails', 'name'] 
     }
     
-};
+}
