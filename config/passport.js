@@ -1,8 +1,12 @@
 // load all the things we need
 var LocalStrategy    = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 // load up the user model
 var User       = require('../models/user');
+
+// Get Credentials
+var configAuth = require('./auth.js');
 
 module.exports = function(passport) {
 
@@ -85,6 +89,62 @@ module.exports = function(passport) {
             });
         });
     }));
-
     
+    // =========================================================================
+    // FACEBOOK ================================================================
+    // =========================================================================
+    
+    passport.use(new FacebookStrategy({
+        clientID        : configAuth.facebookAuth.clientID,
+        clientSecret    : configAuth.facebookAuth.clientSecret,
+        callbackURL     : configAuth.facebookAuth.callbackURL,
+        profileFields   : configAuth.facebookAuth.profileFields
+    },
+    function(token, refreshToken, profile, done) {     // facebook will send back the token and profile
+        process.nextTick(function() {
+            User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+                if (err) { return done(err); }
+                if (user) { // if the user is found, then log them in
+                    return done(null, user); // user found, return that user
+                } else { // if there is no user found with that facebook id, create them
+                    var newUser = new User();
+                    // set all of the facebook information in our user model
+                    newUser.facebook.id = profile.id; // set the users facebook id                   
+                    newUser.facebook.token = token; // we will save the token that facebook provides to the user        
+                    newUser.facebook.username  = createUsername(profile);
+                    newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
+                    // save our user to the database
+                    newUser.save(function(err) {
+                        if (err) { throw err; }
+                        return done(null, newUser);
+                    });
+                }
+            });
+        });
+
+    }));
 };
+
+
+// =========================================================================
+// HELPER =================================================================
+// =========================================================================
+    
+
+function createUsername(profile) {
+    var username = undefined;
+    if(profile.username) {
+        username = profile.username;
+    } else if(profile.displayName) {
+        username = profile.displayName;
+    } else if(profile.name) {
+        if(profile.name.givenName && profile.name.middleName && profile.name.familyName) {
+            username = profile.name.givenName + " " + profile.name.middleName +  " " + profile.name.familyName;
+        } else if (profile.name.givenName && profile.name.familyName) {
+            username = profile.name.givenName + " " + profile.name.familyName;
+        } else {
+            username = profile.name.givenName;
+        }
+    } 
+    return username;
+}
