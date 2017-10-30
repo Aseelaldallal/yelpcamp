@@ -518,15 +518,23 @@ label {
     border-bottom: 1px solid #37538d;
     border-top: 1px solid #3f5fa3;
     background: #3b5998;
-    color: white;
     margin-bottom:1.5rem;
+}
+
+.btn-facebook:hover {
+   background-color: #324c81;
+   border: 1px solid #2b416e;
 }
 
 .btn-google {
     border-bottom: 1px solid rgb(171, 7, 26);
     border-top: 1px solid rgb(196, 8, 30);
     background: rgb(189, 8, 28);
-    color: white;
+}
+
+.btn-google:hover {
+  background-color:rgb(171, 7, 26);
+  border: 1px solid rgb(122, 5, 19);
 }
 
 .btn-google .icon, .btn-facebook .icon {
@@ -548,3 +556,13 @@ label {
   background-position: center;
 }
 
+.btn-google, 
+.btn-facebook,
+.btn-google:hover,
+.btn-facebook:hover,
+.btn-google:visited,
+.btn-facebook:visited,
+.btn-google:active,
+.btn-facebook:active {
+  color:white;
+}
