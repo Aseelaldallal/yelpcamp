@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" href="/external/countryList/css/countrySelect.css">
 <script src="/external/countryList/js/countrySelect.min.js"></script>
-
+<script type="text/javascript" src="/js/confirmDelete.js"></script>
 
 
 <header class="jumbotron">
@@ -93,7 +93,8 @@ function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
                 $(`#${id}Overlay`).append(`<form id="${id}GroundDeleteForm" class="inline" action="/campgrounds/${id}?_method=DELETE" method="POST"></form>`);
                 $(`#${id}GroundDeleteForm`).append(`<i id="${id}GroundDelete" class="fa fa-times groundDelete" aria-hidden="true"></i>`);
                 $(`#${id}GroundDelete`).on("click", function() {
-                    $(`#${id}GroundDeleteForm`).submit();
+                    confirmDelete($(`#${id}GroundDeleteForm`));
+                    //$(`#${id}GroundDeleteForm`).submit();
                 });
                 $(`#${id}Overlay`).append(`<a id="${id}EditLink" href="/campgrounds/${id}/edit"></a>`);
                 $(`#${id}EditLink`).append(`<i class="fa fa-pencil-square-o groundEdit" aria-hidden="true"></i>`)
