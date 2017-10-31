@@ -1,4 +1,5 @@
 
+
 function confirmDelete(formField) {
         swal({
             title: 'Are you sure?',
