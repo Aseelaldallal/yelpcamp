@@ -11,16 +11,13 @@ Fix Adding Country
 -- change front end ui -- DONE
 -- Type check email -- backend and frontend validation -- DONE
 -- Add Facebook Authorization -- DONE
-
+-- Add Google Authorization -- DONE
 
 Add More Campgrounds
 Add Description
 add 404
 confirm on delete campground
-Add Google Authorization
-Check that the user doens't have multiple accounts -- dont' create multiple users with same email
-Add code for linking accounts ??
-Update profile page with account info
+disable adding the same campground (by address? Name?)
 
 
 When do you add a rating?

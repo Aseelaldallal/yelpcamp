@@ -32,9 +32,9 @@ module.exports = function(passport) {
     // =========================================================================
     // LOCAL SIGNUP ============================================================
     // =========================================================================
-    passport.use('local-signup', new LocalStrategy({
-        // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
+    
+     passport.use('local-signup', new LocalStrategy({
+        usernameField : 'email', // by default, local strategy uses username and password, we will override with email
         passwordField : 'password',
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
@@ -42,7 +42,7 @@ module.exports = function(passport) {
         if (email) { email = email.toLowerCase(); } // Use lower-case e-mails to avoid case-sensitive e-mail matching
         process.nextTick(function() {
             if (!req.user) { // if the user is not already logged in:
-                User.findOne({ 'local.email' :  email }, function(err, user) {
+                User.findOne({'local.email': email}, function(err, user) {
                     if (err) { return done(err); }
                     if (user) {
                         return done(null, false, req.flash('error', 'That email is already taken.'));
@@ -61,7 +61,6 @@ module.exports = function(passport) {
             } else { //A user is already logged in. This actually will never run since signup button dissapears on login
                 return done(null, false, req.flash('error', 'You are already logged in.'));
             }
-
         });
 
     }));

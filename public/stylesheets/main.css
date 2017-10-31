@@ -163,9 +163,9 @@ a:hover   {
    position: relative;
 }
 
-.imgbackground {
+/*.imgbackground {
   border-radius: 15%;
-}
+}*/
 
 .imagePinsLink {
   position: absolute;
@@ -244,7 +244,34 @@ a:hover   {
 }
 
 
-/*-------------------------------------------------------
+/*-------------------------------------------------------*/
+/*--------------------- DIALOG BOXES --------------------*/
+/*-------------------------------------------------------*/
+
+/*.swal2-buttonswrapper .btn-success {
+  border: 10px solid green;
+}*/
+
+.modal_custom {
+  border-radius: 0 !important;
+}
+.modal_custom .btn-success {
+     margin-right: 0.8rem;
+     margin-bottom: 1.5rem;
+     
+}
+.modal_custom .btn-danger {
+     margin-left: 0.8rem;
+     margin-bottom: 1.5rem;
+}
+.modal_custom .swal2-warning {
+    font-family: 'Lato', sans-serif;
+    color: #d9534f;
+    border-color: #d9534f;
+    text-align: center;
+}
+
+/*-------------------------------------------------------*/
 /*--------------------- FORM STYLES ---------------------*/
 /*-------------------------------------------------------*/
 
@@ -561,8 +588,6 @@ label {
   background-size: cover;
   background-position: center;
 }
-
-
 
 .btn-google, 
 .btn-facebook,
