@@ -61,12 +61,29 @@ router.get(
         failureFlash : true // allow flash messages
     }), 
     function(req,res) {
-        console.log(req);
         req.flash("success", "Welcome to YelpCamp " + req.user.facebook.username + "!");
         res.redirect(`/users/${req.user._id}/`);
     }
 );
 
+
+/* -------------------- GOOGLE SIGNUP -------------------- */
+
+// send to google to do the authentication
+router.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+
+// the callback after google has authenticated the user
+router.get(
+    '/auth/google/callback',
+     passport.authenticate('google', {
+        failureRedirect : 'users/new', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }), 
+    function(req,res) {
+        req.flash("success", "Welcome to YelpCamp " + req.user.google.username + "!");
+        res.redirect(`/users/${req.user._id}/`);
+    }
+);
 
 
 /* ------------------------------------------------------------------- */

@@ -8,7 +8,7 @@
     <% include ../partials/flash %>
     
     <div class="pageTitle">
-        <% var username = user.local.username || user.facebook.username %>
+        <% var username = user.local.username || user.facebook.username || user.google.username %>
         <h2><%=username%>'s Profile</h2>
     </div>
     
