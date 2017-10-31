@@ -6,6 +6,8 @@
 
 $(document).ready(function() {
     
+    $("body").addClass("loginFormBackground");
+        
     setup($('#email'), "Email cannot be blank");
     $("#email").on('blur', function() {
         validateEmailAddress(); 

@@ -1,32 +1,48 @@
 
 <% include partials/header %>
 <script type="text/javascript" src="/js/loginForm.js"></script>
-<div class="page container">
 
-    <% include partials/flash %>
-    
-    <div class="pageTitle">
-        <h2>Login</h2>
-    </div>
-    
-    <form action="/login" method="POST">
+<div class="page container ">
+
+    <div class="row">
         
-       <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" class="form-control" type="text" name="email" placeholder="youremailaddress@kooo.com">
-            <div id="emailError" name="emailError" class="error hidden"></div>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label></label>
-            <input id="password" class="form-control" type="password" name="password" placeholder="password">
-            <div id="passwordError" name="passwordError" class="error hidden"></div>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block">Submit</button>
-        </div>
-    </form>
-
-    <a href="/users/auth/facebook" class="btn btn-lg btn-primary btn-block"><i class="fa fa-facebook"></i> Login with facebook </a>
+        <div class="col-xs-1 col-sm-3"></div>
+        
+        <div class="col-xs-10 col-sm-6 registerForm">
+            <% include partials/flash %>
+            <div class="pageTitle">
+                <h2>Login</h2>
+            </div>
+            <form action="/login" method="POST">
+               <div class="form-group">
+                    <input id="email" class="form-control" type="text" name="email" placeholder="Email Address">
+                    <div id="emailError" name="emailError" class="error hidden"></div>
+                </div>
+                <div class="form-group">
+                    <input id="password" class="form-control" type="password" name="password" placeholder="Password">
+                    <div id="passwordError" name="passwordError" class="error hidden"></div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-md btn-block">Submit</button>
+                </div>
+            </form>
+            
+            <div class="orSeperator"><span> OR </span></div>
+                        <a id="facebookButton" type="button" href="/users/auth/facebook" class="btn btn-facebook btn-md btn-block">
+                <span class="icon"><i class="fa fa-facebook"></i></span>
+                <span class="btn-text">Login with Facebook</span>
+            </a>
+        
+            <a id="googleButton" type="button" href="/users/auth/google" class="btn btn-google btn-md btn-block">
+                <span class="icon"><i class="fa fa-google" aria-hidden="true"></i></span>
+                <span class="btn-text">Login with Google</span>
+            </a>
+        </div> <!-- center col end -->
+        
+        <div class="col-xs-1 col-sm-3"></div>
+        
+    </div><!-- row end -->
     
-</div>
+</div> <!-- Container End -->
+
 <% include partials/footer %>

@@ -556,6 +556,14 @@ label {
   background-position: center;
 }
 
+.loginFormBackground {
+  background-image: url("/images/loginFormBackground.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+
+
 .btn-google, 
 .btn-facebook,
 .btn-google:hover,
