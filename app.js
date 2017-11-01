@@ -15,7 +15,8 @@ var express                 = require("express"),
 var commentRoutes           = require("./routes/comments"),
     campgroundRoutes        = require("./routes/campgrounds"), 
     indexRoutes             = require("./routes/index"),
-    userRoutes              = require("./routes/user");
+    userRoutes              = require("./routes/user"),
+    ratingRoutes            = require("./routes/ratings");
     
 // Setup Express
 var app                     = express();
@@ -71,6 +72,7 @@ app.use(function(req,res, next) {
 // Tells app to use the three routes
 app.use(indexRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
+app.use("/campgrounds/:id/ratings", ratingRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/users", userRoutes);
 
