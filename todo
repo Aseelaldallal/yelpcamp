@@ -43,3 +43,4 @@ When a campground is created, insert a single rating into its array
 Does author need to keep track of ratings? Nah...
 
 
+on submit create a new rating, andtt hen add it to campground
