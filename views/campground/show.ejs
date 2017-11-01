@@ -46,6 +46,21 @@
                 <h6><i class="fa fa-user" aria-hidden="true"></i>Submitted by: <a href="/users/<%= campground.author.id%>"><%= campground.author.username %></a></h6>
                 <p id="campgroundDesc" class="breakword"><%- campground.description %></p>
                 <hr>
+                <div id="campgroundRatingDiv">
+                    <div id="campgroundRating">
+                        <p><strong>Campground Rating:</strong></p>
+                        <div id="rateYoStatic"></div>
+                    </div>
+                    <div id="rateCampgroundDiv">
+                        <p><strong>Leave a Rating:</strong></p>
+                        <% if(currentUser) { %>
+                            <div id="rateYoDynamic"></div>
+                        <% } else { %>
+                            <p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> You must be <a href="/login">logged in</a> do to that </p>
+                        <% } %>
+                    </div>
+                </div>
+                <hr>
                 <p><strong>Location: </strong><%- campground.location %></p>
                 <% if(campground.latlng) { %>
                     <div id="map" class="map">
@@ -64,7 +79,7 @@
                 <% } %>
                
             </div>
-        
+            
         </div> <!-- end of campgroundInfo -->
 
         
@@ -110,3 +125,17 @@
 
 <% include ../partials/footer %>
 
+<script>
+
+$(function () {
+    $("#rateYoStatic").rateYo({
+        starWidth: "23px"
+    });
+});
+
+$(function () {
+    $("#rateYoDynamic").rateYo({
+        starWidth: "23px"
+    });
+});
+</script>

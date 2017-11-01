@@ -93,22 +93,27 @@ function doValidations(e, autocomplete) {
         errors.sort();
         $(window).scrollTop($('#'+errors[0]).offset().top);
         e.preventDefault(); 
-    }
+    } 
 }
 
 // Loops through all required fields. If empty, adds error to errors array and displays error.
 function checkRequiredFieldsFilled() {
     $('.required').each(function() {
-        if($(this).next().attr('id') !== "image") {
+        console.log("This: ", $(this));
+        if($(this).next().attr('id') !== "image" && $(this).next().attr('id') !== "rating") {
             if($(this).next().val() === '') {
                displayError($(this).next(), "This field is required");
             } 
-        } else { // it is an image
+        } else if($(this).next().attr('id') !== "image") { // it is an image
             if($('#image')[0].files.length === 0 && $('#imageRemoved').val() === undefined) {
                 displayError($('#image'), "You must upload an image", $('#imageInput'));
             } else if($('#imageRemoved').val() === "true" && $('#image')[0].files.length === 0) {
                 console.log("This is the edit page. You removed previousImage and didn't replace it.");
                 displayError($('#image'), "You must upload an image", $('#imageInput'));
+            }
+        } else { // It is a rating
+            if($("#rating").val() === "unrated") {
+                displayError($('#rating'), "You must rate the campground");
             }
         }
     });  

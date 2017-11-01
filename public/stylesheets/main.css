@@ -243,14 +243,17 @@ a:hover   {
   text-align: center;
 }
 
+#campgroundRatingDiv {
+  margin-bottom: 3rem;
+}
+
+#rateCampgroundDiv p i {
+  color: #4c9b4c;
+}
 
 /*-------------------------------------------------------*/
 /*--------------------- DIALOG BOXES --------------------*/
 /*-------------------------------------------------------*/
-
-/*.swal2-buttonswrapper .btn-success {
-  border: 10px solid green;
-}*/
 
 .modal_custom {
   border-radius: 0 !important;
@@ -331,6 +334,11 @@ label {
   margin-right:0.6rem;
 }
 
+.ratingNotifation {
+  margin-top: 1.5rem;
+  color: #398439;
+}
+
 /*-------------------------------------------------------*/
 /*---------------- CAMPGROUND SHOW PAGE -----------------*/
 /*-------------------------------------------------------*/
@@ -363,6 +371,8 @@ label {
 .commenttext {
   margin-top: 0.7rem;
 }
+
+
 
 /*-------------------------------------------------------*/
 /*------------------- FLASH MESSAGING -------------------*/

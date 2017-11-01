@@ -12,21 +12,34 @@ Fix Adding Country
 -- Type check email -- backend and frontend validation -- DONE
 -- Add Facebook Authorization -- DONE
 -- Add Google Authorization -- DONE
+-- Confirm on delete campground --- DONE
 
-Add More Campgrounds
-Add Description
-add 404
-confirm on delete campground
-disable adding the same campground (by address? Name?)
+
+
+
 
 
 When do you add a rating?
 -- When a user creates a new campground, they should have an option to rate it
+---- On the show page, show campground rating and user rating
 -- When a user views a campground, they should have an option to rate it
 -- The user should be able to change the rating dynamicallly
 
 
 
+-- When a campground is created: It has an initial rating (set by user who created it)
+-- Each campground should keep track of all its ratings. 
+-- When a user rates a campground, that rating should be added to the campgrounds rating array, and the actual avg rating updated
+-- Each user should keep track of how he/she rated campgrounda
 
+
+Sooo
+
+Campground has a ratings array
+A rating consist of a number and a author
+
+When a campground is created, insert a single rating into its array 
+
+Does author need to keep track of ratings? Nah...
 
 

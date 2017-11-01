@@ -40,6 +40,13 @@
                     <p id="descTip" class="tip hidden"> Remaining: <span id="descCharsLeft"></span></p>
                 </div>
                 
+                <!----------------- RATING ---------------->
+                <div class="form-group">
+                    <label for="rating" class="required">How would you rate it?</label>
+                    <div name="rating" id="rating"></div>
+                    <div id="ratingError" class="error hidden"></div>
+                </div>
+                
                 <!----------------- IMAGE ----------------->
                 <div class="form-group">
                     <label for="image" class="required">Image</label>
@@ -66,4 +73,30 @@
 <% include ../partials/footer %>
 
 
+<script>
 
+    // Init
+    $("#rating").on("rateyo.init", function (e, data) {
+        $(this).val("unrated");
+        console.log("RateYo initialized! with " + data.rating);
+    });
+ 
+    $("#rating").rateYo({
+        starWidth: "23px",
+        rating: "0",
+        onSet: function (rating, rateYoInstance) {
+            console.log("ON SET TRIGGERED");
+            removeError($("#rating"));
+            if($(this).val() === "unrated") {
+                $(this).after("<p class='ratingNotifation'>You rated this campground with a <span id='userRating'><span></p>")
+            }
+            $(this).val("rated");
+            var rating = $("#rating").rateYo("rating");
+            $("#userRating").text(rating);
+            
+        }
+    });
+    
+
+
+</script>
