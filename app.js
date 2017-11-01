@@ -26,7 +26,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url); // connect to our database
 
 // Log to console
-app.use(morgan('dev')); // log every request to the console
+//app.use(morgan('dev')); // log every request to the console
 
 // Setup body parser: Allows us to use req.body, which gives us all the data from the request body
 // Setup sanitizer -- must be after body parser

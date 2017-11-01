@@ -87,7 +87,7 @@ router.post("/", upload.array('image',1), middleware.isLoggedIn, middleware.sani
     var filepath = req.files[0].key; // 'uploads/xxxxx.extension'
     var author = {
         id: req.user._id,
-        username: req.user.username
+        username: req.user.local.username || req.user.facebook.username || req.user.google.username
     };
     var newCampground = { 
         name: req.body.campName, 
