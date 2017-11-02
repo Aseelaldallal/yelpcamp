@@ -111,10 +111,6 @@ function checkRequiredFieldsFilled() {
                 console.log("This is the edit page. You removed previousImage and didn't replace it.");
                 displayError($('#image'), "You must upload an image", $('#imageInput'));
             }
-        } else { // It is a rating
-            if($("#rating").val() === "unrated") {
-                displayError($('#rating'), "You must rate the campground");
-            }
         }
     });  
 }
