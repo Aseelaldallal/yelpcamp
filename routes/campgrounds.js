@@ -9,6 +9,7 @@ var express         = require("express"),
     router          = express.Router(),
     Campground      = require("../models/campground"),
     Comment         = require("../models/comment"),
+    Rating          = require("../models/rating"),
     middleware      = require("../middleware"),
     aws             = require('aws-sdk'),
     multer          = require('multer'),
@@ -96,7 +97,8 @@ router.post("/", upload.array('image',1), middleware.isLoggedIn, middleware.sani
         country: req.body.campgroundCountry,
         description: req.body.desc, 
         image: filepath,
-        author: author
+        author: author,
+        avgRating: null // first rating created so it'll be the avg rating
     };
     Campground.create(newCampground, function(err, newlyCreated) {
         if(err) { 
@@ -196,6 +198,7 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function(req,res) {
         } else {
             deleteFiles(deletedGround.image);
             Comment.remove({'_id': { $in: deletedGround.comments}}, function(err, docs){
+                if(err) { console.log(err); }
                 req.flash("success", "Successfully deleted campground: ", deletedGround.name);
                 res.redirect("/users/" + deletedGround.author.id);
             });
