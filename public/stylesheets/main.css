@@ -372,7 +372,19 @@ label {
   margin-top: 0.7rem;
 }
 
+/*#campgroundAverageRatingDiv {
+  display: flex;
+  flex-direction: row;
+}
 
+#numRatingsContainer {
+  margin:0;
+  margin-left: 1.5rem;
+  font-style:italic;
+  font-size:1.5rem; 
+  line-height: 23px;
+  padding-top: 0.2rem;
+}*/
 
 /*-------------------------------------------------------*/
 /*------------------- FLASH MESSAGING -------------------*/
