@@ -27,20 +27,9 @@ When do you add a rating?
 
 
 
--- When a campground is created: It has an initial rating (set by user who created it)
--- Each campground should keep track of all its ratings. 
--- When a user rates a campground, that rating should be added to the campgrounds rating array, and the actual avg rating updated
--- Each user should keep track of how he/she rated campgrounda
 
-
-Sooo
-
-Campground has a ratings array
-A rating consist of a number and a author
-
-When a campground is created, insert a single rating into its array 
-
-Does author need to keep track of ratings? Nah...
-
-
-on submit create a new rating, andtt hen add it to campground
+1. Create ratings post route
+2. Create ratings edit route
+3. In a campground's show page, if user left a rating for this campground, show the user's rating
+4. Investigate campground destroy route - do we need to delete ratings too?
+5. Move rating code to its own js file

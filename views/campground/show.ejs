@@ -46,15 +46,21 @@
                 <h6><i class="fa fa-user" aria-hidden="true"></i>Submitted by: <a href="/users/<%= campground.author.id%>"><%= campground.author.username %></a></h6>
                 <p id="campgroundDesc" class="breakword"><%- campground.description %></p>
                 <hr>
-                <div id="campgroundRatingDiv">
-                    <div id="campgroundRating">
-                        <p><strong>Campground Rating:</strong></p>
-                        <div id="rateYoStatic"></div>
-                    </div>
-                    <div id="rateCampgroundDiv">
+                <div>
+                    <p><strong>Campground Rating:</strong></p>
+                    <% if(campground.ratings.length === 0) { %>
+                        <p>No one has rated this campground yet!</p>
+                    <% } else { %>
+                        <div id="averageRating"></div>
+                        <p id="numRatingsContainer">(<span id="numRatings"><%=campground.ratings.length%></span> ratings)</p>
+                    <% } %>
+                    <div>
                         <p><strong>Leave a Rating:</strong></p>
                         <% if(currentUser) { %>
-                            <div id="rateYoDynamic"></div>
+                            <form id="ratingForm" method="POST">
+                                <div id="currentUserRating"></div>
+                                <input type="hidden" name="rating" id="rating">
+                            </form>
                         <% } else { %>
                             <p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> You must be <a href="/login">logged in</a> do to that </p>
                         <% } %>
@@ -88,7 +94,8 @@
                 <a class="btn btn-success" href="/campgrounds/<%=campground._id%>/comments/new">Leave Review</a>
             </div>
                 <% var i = 1; %>
-                <% campground.comments.forEach(function(comment) { %>
+                <% campground.comments.forEach(function(comment) { console.log("COMMENT: " , comment); %>
+                    
                     <div class="row">
                         <div class="col-md-12">
                             <hr>
@@ -127,15 +134,74 @@
 
 <script>
 
-$(function () {
-    $("#rateYoStatic").rateYo({
-        starWidth: "23px"
+$( document ).ready(function() {
+    
+    var averageRating = getAverageRating(); 
+    console.log("AVG RATING: ", averageRating);
+    if(averageRating !== null) {
+        $("#averageRating").rateYo({
+            starWidth: "23px",
+            readOnly: true,
+            rating: averageRating
+        });
+    }
+    
+    $("#currentUserRating").rateYo({
+        starWidth: "23px",
+        onSet: function (rating, rateYoInstance) {
+            $("#rating").val(rating);
+            submitRating(); 
+        }
     });
+    
+
+    
 });
 
-$(function () {
-    $("#rateYoDynamic").rateYo({
-        starWidth: "23px"
+
+// Compute campgrounds average rating. Return null if the campground
+// has no ratings
+function getAverageRating() {
+    var ratingsArray = <%- JSON.stringify(campground.ratings || null) %>;
+    if (ratingsArray === null) return null;
+    var total = 0;
+    ratingsArray.forEach(function(rating) {
+       total += rating.rating;
     });
-});
+    return total/ratingsArray.length;
+}
+
+
+// If the user already rated this campground, go to edit route
+// If the user didn't rate campground, go to post route
+function submitRating(rating) {
+   var path = null;
+    if(checkIfUserRatedThisCampground()) {
+        path = "/campgrounds/<%=campground._id%>/ratings?_method=PUT";
+    } else {
+        path = "/campgrounds/<%= campground._id %>/ratings";
+    }
+    $("#ratingForm").attr("action", path);
+    $("#ratingForm").submit(); 
+}
+
+// Returns true if user has previously rated this campground
+// Returns false otherwise
+// Pre: There is a user logged in
+function checkIfUserRatedThisCampground() {
+    var currentUser = <%- JSON.stringify(currentUser || null) %>;
+    var ratingsArray = <%- JSON.stringify(campground.ratings || null) %>;
+    if(currentUser) {
+        if(ratingsArray !== null) {
+            for(var i = 0; i < ratingsArray.length; i++ ) {
+              if(ratingsArray[i].author.id === currentUser._id) {
+                  return true;
+              }
+            }
+        }
+    }
+    return false;
+}
+
+
 </script>

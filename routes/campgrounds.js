@@ -97,8 +97,7 @@ router.post("/", upload.array('image',1), middleware.isLoggedIn, middleware.sani
         country: req.body.campgroundCountry,
         description: req.body.desc, 
         image: filepath,
-        author: author,
-        avgRating: null // first rating created so it'll be the avg rating
+        author: author
     };
     Campground.create(newCampground, function(err, newlyCreated) {
         if(err) { 
@@ -127,7 +126,7 @@ router.get("/new", middleware.isLoggedIn, function(req,res) {
 
 router.get("/:id", function(req,res) {
     var id = req.params.id;
-    Campground.findById(id).populate("comments").exec(function(err, foundCampground) {
+    Campground.findById(id).populate("comments").populate("ratings").exec(function(err, foundCampground) {
         if(err) { flashUnexpectedError(req, res, err);
         } else  {
             res.render("campground/show", {campground: foundCampground} );

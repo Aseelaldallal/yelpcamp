@@ -76,6 +76,8 @@ app.use("/campgrounds/:id/ratings", ratingRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/users", userRoutes);
 
+mongoose.set('debug',true);
+
 /* --------------------------- */
 /* ---------- LISTEN --------- */
 /* --------------------------- */
