@@ -43,26 +43,26 @@
             
             <div class="caption-full">
                 
+                <!-- SUBMITTED BY -->
                 <h6><i class="fa fa-user" aria-hidden="true"></i>Submitted by: <a href="/users/<%= campground.author.id%>"><%= campground.author.username %></a></h6>
                 <p id="campgroundDesc" class="breakword"><%- campground.description %></p>
                 <hr>
-                <div>
-                    <p>
-                        <strong>Campground Rating:</strong>
+                               
+                <!-- RATING -->
+                <div id="ratingContainer">
+                    <h6> <i aria-hidden="true"></i>Campground Rating</h6>
+                    
+                    <div id="averageRatingContainer" class="ratingSection">
+                        <p id="avgRatingTitleArea"><span class="ratingTitle">Average Rating:</span></p>
                         <% if(campground.ratings.length !== 0) { %>
-                            <span id="avgRatingValue"></span>
+                            <span id="averageRating"></span>
+                        <% } else { %>
+                            <p>No one has rated this campground yet!</p>
                         <% } %>
-                    </p>
-                    <% if(campground.ratings.length === 0) { %>
-                        <p>No one has rated this campground yet!</p>
-                    <% } else { %>
-                        <div id="averageRatingContainer">
-                            <div><div id="averageRating"></div></div>
-                            <p id="numRatingsContainer">(<span id="numRatings"><%=campground.ratings.length%></span> ratings)</p>
-                        </div>
-                    <% } %>
-                    <div>
-                        <p><strong>Leave a Rating:</strong></p>
+                    </div>
+                    
+                    <div id="userRatingContainer" class="ratingSection">
+                        <p id="userRatingTitleArea"><span class="ratingTitle">Your Rating:</span></p>
                         <% if(currentUser) { %>
                             <form id="ratingForm" method="POST">
                                 <div id="currentUserRating"></div>
@@ -72,7 +72,10 @@
                             <p><i class="fa fa-exclamation-circle" aria-hidden="true"></i> You must be <a href="/login">logged in</a> do to that </p>
                         <% } %>
                     </div>
-                </div>
+                    
+                </div> <!-- End of rating container -->
+                
+                
                 <hr>
                 <p><strong>Location: </strong><%- campground.location %></p>
                 <% if(campground.latlng) { %>
@@ -142,37 +145,57 @@
 <script>
 
 $( document ).ready(function() {
-    
+    setupAverageRating(); 
+    setupCurrentUserRating(); 
+});
+
+// Setup average rating
+function setupAverageRating() {
     var averageRating = getAverageRating(); 
-    if(averageRating !== null) {
+    if(averageRating) {
+        $("#avgRatingTitleArea").append('<span id="avgRatingValue"></span> based on <span id="numRatings"><%=campground.ratings.length%></span> rating(s)');
         $("#averageRating").rateYo({
             starWidth: "23px",
             readOnly: true,
             rating: averageRating
         });
+        $("#avgRatingValue").text(averageRating);
     }
-    $("#avgRatingValue").text(averageRating);
+    if(!averageRating || averageRating > 2.5) {
+        $("#ratingContainer>h6>i").attr("class", "fa fa-thumbs-up");        
+    } else {
+        $("#ratingContainer>h6>i").attr("class", "fa fa-thumbs-down");        
+    }
     
+}
+
+// Setup User Rating
+function setupCurrentUserRating() {
     $("#currentUserRating").rateYo({
         starWidth: "23px",
-        onSet: function (rating, rateYoInstance) {
-            $("#rating").val(rating);
-            submitRating(); 
-        }
     });
-    
-
-    
-});
-
+    var userCampgroundRating = getCurrentUserCampgroundRating();
+    if(userCampgroundRating !== null) {
+        $("#currentUserRating").rateYo("rating", userCampgroundRating);
+        $("#userRatingTitleArea").append(`You rated this campground as a ${userCampgroundRating}`);
+    } else {
+        $("#userRatingTitleArea").append(`You didn't rate this campground yet`);
+    }
+    $("#currentUserRating").rateYo().on("rateyo.set", function (e, data) {
+        $("#rating").val(data.rating);
+        submitRating();
+    });
+}
 
 // Compute campgrounds average rating. Return null if the campground
 // has no ratings
 function getAverageRating() {
     var ratingsArray = <%- JSON.stringify(campground.ratings || null) %>;
+    console.log("Ratings Array: ", ratingsArray);
     if (ratingsArray === null) return null;
     var total = 0;
     ratingsArray.forEach(function(rating) {
+        console.log("RATING: ", rating);
        total += rating.rating;
     });
     return total/ratingsArray.length;
@@ -182,8 +205,9 @@ function getAverageRating() {
 // If the user already rated this campground, go to edit route
 // If the user didn't rate campground, go to post route
 function submitRating(rating) {
+   console.log("WILL SUBMIT RATING");
    var path = null;
-    if(checkIfUserRatedThisCampground()) {
+    if(getCurrentUserCampgroundRating() !== null) {
         path = "/campgrounds/<%=campground._id%>/ratings?_method=PUT";
     } else {
         path = "/campgrounds/<%= campground._id %>/ratings";
@@ -210,5 +234,22 @@ function checkIfUserRatedThisCampground() {
     return false;
 }
 
+// If user rated this campground, returns the user's rating. Otherwis returns null
+// Pre: There is a user logged in
+function getCurrentUserCampgroundRating() {
+    var currentUser = <%- JSON.stringify(currentUser || null) %>;
+    var ratingsArray = <%- JSON.stringify(campground.ratings || null) %>;
+    if(currentUser) {
+        if(ratingsArray !== null) {
+            for(var i = 0; i < ratingsArray.length; i++ ) {
+              if(ratingsArray[i].author.id === currentUser._id) {
+                  console.log("USER RATED CAMPGROUND AS: ", ratingsArray[i].rating );
+                  return ratingsArray[i].rating;
+              }
+            }
+        }
+    }
+    return null;
+}
 
 </script>

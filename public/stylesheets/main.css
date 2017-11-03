@@ -372,7 +372,20 @@ label {
   margin-top: 0.7rem;
 }
 
-#avgRatingValue {
+.ratingSection {
+  margin-top: 2rem;
+}
+
+.ratingSection:first-of-type {
+  margin-top: 3rem;
+}
+
+.ratingTitle {
+  font-weight: 700;
+  margin-right: 1rem;
+}
+
+/*#avgRatingValue {
   margin-left: 1.5rem;
 }
 #averageRatingContainer {
@@ -391,7 +404,7 @@ label {
   padding-top: 0.2rem;
   font-size: 1.3rem;
   font-style: italic;
-}
+}*/
 
 /*-------------------------------------------------------*/
 /*------------------- FLASH MESSAGING -------------------*/
