@@ -47,12 +47,19 @@
                 <p id="campgroundDesc" class="breakword"><%- campground.description %></p>
                 <hr>
                 <div>
-                    <p><strong>Campground Rating:</strong></p>
+                    <p>
+                        <strong>Campground Rating:</strong>
+                        <% if(campground.ratings.length !== 0) { %>
+                            <span id="avgRatingValue"></span>
+                        <% } %>
+                    </p>
                     <% if(campground.ratings.length === 0) { %>
                         <p>No one has rated this campground yet!</p>
                     <% } else { %>
-                        <div id="averageRating"></div>
-                        <p id="numRatingsContainer">(<span id="numRatings"><%=campground.ratings.length%></span> ratings)</p>
+                        <div id="averageRatingContainer">
+                            <div><div id="averageRating"></div></div>
+                            <p id="numRatingsContainer">(<span id="numRatings"><%=campground.ratings.length%></span> ratings)</p>
+                        </div>
                     <% } %>
                     <div>
                         <p><strong>Leave a Rating:</strong></p>
@@ -137,7 +144,6 @@
 $( document ).ready(function() {
     
     var averageRating = getAverageRating(); 
-    console.log("AVG RATING: ", averageRating);
     if(averageRating !== null) {
         $("#averageRating").rateYo({
             starWidth: "23px",
@@ -145,6 +151,7 @@ $( document ).ready(function() {
             rating: averageRating
         });
     }
+    $("#avgRatingValue").text(averageRating);
     
     $("#currentUserRating").rateYo({
         starWidth: "23px",
