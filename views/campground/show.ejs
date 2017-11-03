@@ -176,8 +176,8 @@ function setupCurrentUserRating() {
     });
     var userCampgroundRating = getCurrentUserCampgroundRating();
     if(userCampgroundRating !== null) {
-        $("#currentUserRating").rateYo("rating", userCampgroundRating);
-        $("#userRatingTitleArea").append(`You rated this campground as a ${userCampgroundRating}`);
+        $("#currentUserRating").rateYo("rating", userCampgroundRating.rating);
+        $("#userRatingTitleArea").append(`You rated this campground as a ${userCampgroundRating.rating}`);
     } else {
         $("#userRatingTitleArea").append(`You didn't rate this campground yet`);
     }
@@ -207,8 +207,9 @@ function getAverageRating() {
 function submitRating(rating) {
    console.log("WILL SUBMIT RATING");
    var path = null;
-    if(getCurrentUserCampgroundRating() !== null) {
-        path = "/campgrounds/<%=campground._id%>/ratings?_method=PUT";
+   var currUserCampgroundRating = getCurrentUserCampgroundRating();
+    if(currUserCampgroundRating !== null) {
+        path = `/campgrounds/<%=campground._id%>/ratings/${currUserCampgroundRating._id}?_method=PUT`;
     } else {
         path = "/campgrounds/<%= campground._id %>/ratings";
     }
@@ -244,7 +245,7 @@ function getCurrentUserCampgroundRating() {
             for(var i = 0; i < ratingsArray.length; i++ ) {
               if(ratingsArray[i].author.id === currentUser._id) {
                   console.log("USER RATED CAMPGROUND AS: ", ratingsArray[i].rating );
-                  return ratingsArray[i].rating;
+                  return ratingsArray[i];
               }
             }
         }
