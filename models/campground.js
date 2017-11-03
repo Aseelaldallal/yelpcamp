@@ -7,7 +7,6 @@ var campgroundSchema = new mongoose.Schema({
     latlng:       {type: String, required: true},
     description:  {type: String, required: true},
     country:      {type: String, required: true},
-    avgRating:    {type: Number},
     googlePlaceID: String,
     comments: [
         {
