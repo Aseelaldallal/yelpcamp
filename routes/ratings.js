@@ -41,8 +41,19 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
 /* --------------UPDATE ROUTE----------- */
 /* ------------------------------------- */
 
-router.put("/:id", middleware.isLoggedIn, function(req,res) {
-   res.send("UPDATE ROUTE"); 
+router.put("/:rating_id", middleware.isLoggedIn, function(req,res) {
+    if(!req.body.rating) {
+        req.flash("error", "You can't submit an empty rating");
+        return res.redirect("/campgrounds/" + req.params.id);
+    }
+    Rating.findByIdAndUpdate(req.params.rating_id, {rating: req.body.rating}, function(err, foundComment) {
+        if(err) {
+            console.log(err);
+        } else {
+            req.flash("success", "Successfully edited your rating");
+            res.redirect("/campgrounds/" + req.params.id);
+        }
+    });
 });
 
 
