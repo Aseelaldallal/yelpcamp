@@ -81,9 +81,16 @@ a:hover   {
   background-position: center;
   margin-top: -22px;
   height: 60vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   margin-bottom:0;
   border-top: 2px solid gray;
   border-bottom: 2px solid gray;
@@ -153,19 +160,29 @@ a:hover   {
 /*-------------------------------------------------------*/
 
 .imagePins {
-  /* border: 1px solid black;*/
    display: block;
    margin: 0.2rem;
-   margin-bottom: 1rem;
+   margin-bottom: 2rem;
    padding: 0.5rem;
    text-decoration:  none;
    color: dimgray;
    position: relative;
 }
 
-/*.imgbackground {
-  border-radius: 15%;
-}*/
+.imagePins:hover {
+  color: dimgray;
+}
+
+.imagePins:hover .overlay { 
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    top: 0;
+    left:0;
+}
+
 
 .imagePinsLink {
   position: absolute;
@@ -206,25 +223,10 @@ a:hover   {
 }
 
 .groundDelete:hover, .groundEdit:hover {
-   transform: scale(1.3);
+   -webkit-transform: scale(1.3);
+       -ms-transform: scale(1.3);
+           transform: scale(1.3);
 }
-
-
-.imagePins:hover {
-  color: dimgray;
-}
-
-.imagePins:hover .overlay { 
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    top: 0;
-    left:0;
-}
-
-
 
 .imgbackground {
    height: 200px;
@@ -244,13 +246,6 @@ a:hover   {
   text-align: center;
 }
 
-/*#campgroundRatingDiv {
-  margin-bottom: 3rem;
-}
-
-#rateCampgroundDiv p i {
-  color: #4c9b4c;
-}*/
 
 .pinRating {
   margin: 0 auto;
@@ -391,27 +386,11 @@ label {
   margin-right: 1rem;
 }
 
-/*#avgRatingValue {
-  margin-left: 1.5rem;
+.dateContainer {
+  text-align: right;
+  display: block;
+  width: 100%;
 }
-#averageRatingContainer {
-  display: flex;
-  flex-direction: row;
-}
-
-#averageRating {
-  margin-right: 1.5rem;
-  
-}
-
-
-#numRatingsContainer {
-  margin: 0;
-  padding-top: 0.2rem;
-  font-size: 1.3rem;
-  font-style: italic;
-}*/
-
 /*-------------------------------------------------------*/
 /*------------------- FLASH MESSAGING -------------------*/
 /*-------------------------------------------------------*/
@@ -529,8 +508,12 @@ label {
 }
 
 #myInfo {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: space-evenly;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
     padding: 0 30%;
 }
 
