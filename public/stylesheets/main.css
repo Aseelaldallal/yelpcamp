@@ -228,6 +228,7 @@ a:hover   {
 
 .imgbackground {
    height: 200px;
+   border-radius: 22%;
    background-repeat: no-repeat;
    background-position: center;
    background-size: cover;
@@ -243,12 +244,17 @@ a:hover   {
   text-align: center;
 }
 
-#campgroundRatingDiv {
+/*#campgroundRatingDiv {
   margin-bottom: 3rem;
 }
 
 #rateCampgroundDiv p i {
   color: #4c9b4c;
+}*/
+
+.pinRating {
+  margin: 0 auto;
+  margin-top: -0.8rem;
 }
 
 /*-------------------------------------------------------*/

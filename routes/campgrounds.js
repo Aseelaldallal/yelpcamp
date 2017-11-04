@@ -65,14 +65,18 @@ router.get("/", function(req,res) {
 });
 
 function findCampgrounds(countryName, countryCode, req, res) {
-    Campground.find({country: countryName}, function(err, allcampgrounds) {
+    Campground.find({country: countryName}).populate("ratings").exec(function(err, allCampgrounds) {
        if (err) {
             flashUnexpectedError(req, res, err);
        } else {
-            res.render("campground/index", {campgrounds: allcampgrounds, countryCode: countryCode, country: countryName}); 
+            res.render("campground/index", {campgrounds: allCampgrounds, countryCode: countryCode, country: countryName}); 
        }
     })
 };
+
+
+    
+    
 
 
 /* ------------------------------------- */

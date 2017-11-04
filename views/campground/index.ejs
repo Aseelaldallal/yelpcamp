@@ -72,6 +72,8 @@ function updateNumLoadedText() {
 function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
     var grounds = <%-JSON.stringify(campgrounds) %>;
     for(var i=numGroundsLoaded ; i<numGroundsLoaded + numGroundsToLoad; i++) {
+        console.log("-------------------------------------");
+        console.log("CAMPGROUND: ", grounds[i].name);
         if(window.numGroundsLoaded < grounds.length ) {
             var id = grounds[i]._id;
             var authorID = grounds[i].author.id;
@@ -88,6 +90,12 @@ function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
             $(`#${id}ImgAndCap`).append(`<div class="imgbackground" style="background-image:url('${imgUrl}');"</div>`);
             $(`#${id}ImgAndCap`).append(`<div id="${id}Caption" class="caption"></div>`);
             $(`#${id}Caption`).append(`<p>${campgroundName}</p>`);
+            if(grounds[i].ratings && grounds[i].ratings.length !== 0) {
+                console.log("This campground has been rated");
+                console.log("Those are its ratings: ", grounds[i].ratings);
+                $(`#${id}Caption`).append(`<div id="${id}rating" class="pinRating"></div>`);
+                setAverageRating(grounds[i].ratings, $(`#${id}rating`));
+            }
             $(`#${id}ImagePins`).append(`<div id="${id}Overlay" class="overlay"></div>`);
             if(checkIfCampgroundBelongsToUser(authorID)) {
                 $(`#${id}Overlay`).append(`<form id="${id}GroundDeleteForm" class="inline" action="/campgrounds/${id}?_method=DELETE" method="POST"></form>`);
@@ -123,5 +131,28 @@ function checkIfCampgroundBelongsToUser(campgroundAuthorID) {
 $("#loadMore").on("click", function() {
       loadCampgrounds(numGroundsLoaded, numGroundsToLoad);   
 });
+
+
+// Initializes ratingField with the campground rating
+function setAverageRating(ratingsArray, ratingField) {
+    ratingField.rateYo({
+        rating: getAverageRating(ratingsArray, ratingField),
+        starWidth: "20px",
+        readOnly: true
+    });
+}
+
+
+// Given an array of ratings, returns average rating
+function getAverageRating(ratingsArray) {
+    console.log("RATINGS ARRAY: ", ratingsArray);
+    var total = 0;
+    ratingsArray.forEach(function(rating) {
+        total += rating.rating;
+    });
+    console.log("AVG RATING: ", total/ratingsArray);
+    return total/ratingsArray.length;
+}
+
 
 </script>
