@@ -55,7 +55,7 @@ router.post("/", middleware.isLoggedIn, middleware.sanitizeUserInput, function(r
                 } else {
                     // Add user, campground, date to comment
                     createdComment.author.id = req.user._id;
-                    createdComment.author.username = req.user.username;
+                    createdComment.author.username = req.user.local.username || req.user.facebook.username || req.user.google.username;
                     createdComment.campground.id = foundGround._id;
                     createdComment.campground.name = foundGround.name;
                     createdComment.save(); 
