@@ -96,7 +96,7 @@ router.get("/:id", function(req,res,next) {
             req.flash("error", err.message);
             res.redirect("back");
         } else {
-            Campground.find( { 'author.id' : req.params.id } ).exec(function(err, foundGrounds) {
+            Campground.find( { 'author.id' : req.params.id } ).populate("ratings").exec(function(err, foundGrounds) {
                if(err) {
                    req.flash("error", err.message);
                    res.redirect("back");

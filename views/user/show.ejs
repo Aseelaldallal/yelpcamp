@@ -38,6 +38,10 @@
                                            groundname = groundname.substring(0,40) + "...";
                                         } %>
                                     <p> <%= groundname %></p>
+                                    <% if(ground.ratings && ground.ratings.length !== 0) { %>
+                                        <% var groundID = ground.id + "Rating" %>
+                                        <div id="<%=groundID%>" class="pinRating"></div>
+                                    <% } %>
                                 </div> <!-- caption end -->
                             </div>
                             <div class="overlay">
@@ -110,3 +114,35 @@
 
 <% include ../partials/footer %>
 
+<script>
+
+$(document).ready(function() {
+   var grounds = <%-JSON.stringify(campgrounds) %>;
+   grounds.forEach(function(ground) {
+      var id = ground._id;
+      setAverageRating(ground.ratings, $(`#${id}Rating`));
+   });
+
+});
+
+// Initializes ratingField with the campground rating
+function setAverageRating(ratingsArray, ratingField) {
+    ratingField.rateYo({
+        rating: getAverageRating(ratingsArray, ratingField),
+        starWidth: "20px",
+        readOnly: true
+    });
+}
+
+// Given an array of ratings, returns average rating
+function getAverageRating(ratingsArray) {
+    var total = 0;
+    ratingsArray.forEach(function(rating) {
+        total += rating.rating;
+    });
+    return total/ratingsArray.length;
+}
+    
+    
+    
+</script>
