@@ -5,19 +5,19 @@ var mongoose        = require("mongoose"),
     Campground      = require("./models/campground"),
     Comment         = require("./models/comment"),
     User            = require("./models/user"),
+    Rating          = require("./models/rating"),    
     faker           = require("faker"),
     GooglePlaces    = require('node-googleplaces'),
     fs              = require('fs'),
     request         = require('request'),
-    aws             = require('aws-sdk');
+    aws             = require('aws-sdk'),
+    bcrypt          = require('bcrypt-nodejs');
     
 
 
-
-// API KEY
-const places = new GooglePlaces(process.env.GOOGLE_API_KEY);
-
-var numUsers = 220;
+var numCampgrounds = 316; //manual
+var numRatings = 5000;
+var numUsers = 400;
 var campgroundCatalog = new Array();
 //var urlStart = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
 //var urlEnd = "&key=" + process.env.GOOGLE_API_KEY;
@@ -52,9 +52,11 @@ function generateUsers() {
 // Creates a single random user, and adds it to User database
 function createUser() {
     var newUser = new User({
-        username: faker.internet.userName()
+        'local.username': faker.internet.userName(),
+        'local.email': faker.internet.email().toLowerCase(),
+        'local.password': bcrypt.hashSync("password", bcrypt.genSaltSync(8), null)
     });
-    User.register(newUser, "password", function(err, response) {
+    User.create(newUser, function(err, response) {
         if(err) {
             console.log(err);
         } 
@@ -85,7 +87,7 @@ function createComments() {
                         if(err) { console.log(err); }
                         var author = {
                              id: commentAuthor._id,
-                             username: commentAuthor.username
+                             username: commentAuthor.local.username
                         }
                         var newComment = {
                             author: author,
@@ -131,7 +133,7 @@ function createCampgrounds() {
                 googlePlaceID: campground.googlePlaceID,
                 latlng: campground.latlng,
                 country: campground.country,
-                description: campground.description,
+                description: faker.lorem.paragraphs(),
                 image: "uploads/" + campground.googlePlaceID + ".jpg",
                 author: author
             };
@@ -141,6 +143,47 @@ function createCampgrounds() {
         });
     });
 }
+
+
+/* ------------------------------------------------- */ 
+/* ----------------- CREATE RATINGS ---------------- */
+/* ------------------------------------------------- */ 
+
+function generateRatings() {
+    for(var i=0; i<numRatings; i++) {
+        var rand = Math.floor(Math.random() * numUsers); 
+        User.findOne().skip(rand).exec(function (err, ratingAuthor) {
+            if(err) { console.log(err); }
+            var author = {
+                id: ratingAuthor._id,
+                username: ratingAuthor.username
+            }
+            var rating = getRandomRating(); 
+            var ratingDoc = {
+                rating: rating,
+                author: author
+            }
+            Rating.create(ratingDoc, function(err, createdRating) {
+                if(err) { console.log(err); }
+                var crand = Math.floor(Math.random() * numCampgrounds);
+                Campground.findOne().skip(crand).exec(function (err, randomCampground) {
+                    if(err) {console.log(err); }
+                    randomCampground.ratings.push(createdRating);
+                    randomCampground.save();
+                });
+            });
+        });
+    }
+}
+
+function getRandomRating() {
+    var rating = Math.random() * 5;
+    rating = Math.round(rating * 10.0) / 10.0;
+    if(rating > 5) { rating = 5;  }
+    if(rating < 0.1) { rating = 0.1; }
+    return rating; 
+}
+
 
 
 
@@ -244,9 +287,10 @@ function uploadImagesToS3() {
 function seedDB() {
     //uploadImagesToS3();
     //generateUsers(); 
-    generateComments();
-    generateCampgrounds();
-    setTimeout(function() { linkCampgroundsToComments(); }, 5000); 
+   //generateComments();
+   //generateCampgrounds();
+    //generateRatings(); 
+    //linkCampgroundsToComments();
 }
 
 

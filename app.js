@@ -9,7 +9,8 @@ var express                 = require("express"),
     passport                = require("passport"),
     cookieParser            = require('cookie-parser'),
     expressSession          = require("express-session"),
-    morgan                  = require('morgan');
+    morgan                  = require('morgan'),
+    seedDB                  = require("./seeds");
 
 // ROUTES
 var commentRoutes           = require("./routes/comments"),
@@ -25,6 +26,9 @@ var app                     = express();
 var configDB = require('./config/database.js');
 mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url); // connect to our database
+
+// Seed the database
+//seedDB();
 
 // Log to console
 //app.use(morgan('dev')); // log every request to the console
@@ -76,7 +80,7 @@ app.use("/campgrounds/:id/ratings", ratingRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/users", userRoutes);
 
-mongoose.set('debug',true);
+//mongoose.set('debug',true);
 
 /* --------------------------- */
 /* ---------- LISTEN --------- */
