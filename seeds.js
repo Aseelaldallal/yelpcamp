@@ -17,7 +17,7 @@ var mongoose        = require("mongoose"),
 
 var numCampgrounds = 316; //manual
 var numRatings = 5000;
-var numUsers = 400;
+var numUsers = 350;
 var campgroundCatalog = new Array();
 //var urlStart = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
 //var urlEnd = "&key=" + process.env.GOOGLE_API_KEY;
@@ -125,7 +125,7 @@ function createCampgrounds() {
             if(err) { console.log(err); }
             var author = {
                  id: author._id,
-                 username: author.username
+                 username: author.local.username
             }
             var ground = { 
                 name: campground.name,
