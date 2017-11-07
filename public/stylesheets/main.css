@@ -101,33 +101,42 @@ a:hover   {
   background-size: cover;
   background-position: center;
   margin-top: -22px;
-  height: 60vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   margin-bottom:0;
   border-top: 2px solid gray;
   border-bottom: 2px solid gray;
-}
-
-
-.jumbotron_box {
-  width: 100%;
   text-align: center;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
+
+@media screen and (max-width:800px) and (orientation: landscape) {
+  .jumbotron {
+    height: 75vh;
+  }
+}
+
 
 .jumbotron h1, h4 {
   color: white;
   text-shadow: 2px 3px 3px rgba(0, 0, 0, 1);
   margin-bottom:2rem;
 }
+
+/*@media (max-width: 850px) {
+  .jumbotron h1 {
+    font-size: 5rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .jumbotron h1 {
+    font-size: 4rem;
+  }
+}*/
 
 /*-------------------------*/
 

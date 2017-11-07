@@ -7,10 +7,10 @@
 
 
 <header class="jumbotron">
-    <div class="jumbotron_box">
+   
         <h1>WELCOME TO YELPCAMP</h1>
         <h4>View our handpicked campgrounds from all over the world</h4>
-        <form id="filterByCountryForm" action="/campgrounds" method="GET" class="form-inline filterByCountry">
+<!--        <form id="filterByCountryForm" action="/campgrounds" method="GET" class="form-inline filterByCountry">
             <div class="form-group">
                 <label for="country" class="sr-only">Country Selector</label>
                 <input type="text" name="country" id="country" class="form-control" onchange="this.form.submit()">
@@ -22,10 +22,9 @@
             		});
                 </script>
                 
-            </div>
-            <!--<button id="filterButton" type="submit" class="btn btn-success btn-lng">Filter</button>-->
+            </div-->>
         </form>
-    </div>
+   
 </header>
 
 
@@ -111,9 +110,9 @@ $(document).ready(function() {
       var id = ground._id;
       setAverageRating(ground.ratings, $(`#${id}Rating`));
     });
-    $(".pinRating").height($(".pinUnrated").height())
+    $(".pinRating").height($(".pinUnrated").height());
     $(window).resize(function() {
-        $(".pinRating").height($(".pinUnrated").height())
+        $(".pinRating").height($(".pinUnrated").height());
     });
 });
 
