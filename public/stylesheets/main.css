@@ -620,6 +620,10 @@ label {
   #myInfo {
     flex-direction: column;
   }
+  #footermargin {
+    height: 20rem;
+  }
+
 } 
 
 #footer a, #footer a:visited, #footer a:active  {

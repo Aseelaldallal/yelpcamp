@@ -13,23 +13,10 @@ Fix Adding Country
 -- Add Facebook Authorization -- DONE
 -- Add Google Authorization -- DONE
 -- Confirm on delete campground --- DONE
+-- Add ratings -- DONE
 
 
 
 
-
-
-When do you add a rating?
--- When a user creates a new campground, they should have an option to rate it
----- On the show page, show campground rating and user rating
--- When a user views a campground, they should have an option to rate it
--- The user should be able to change the rating dynamicallly
-
-
-
-
-1. Create ratings post route
-2. Create ratings edit route
-3. In a campground's show page, if user left a rating for this campground, show the user's rating
-4. Investigate campground destroy route - do we need to delete ratings too?
-5. Move rating code to its own js file
+Front End
+// Fix Load Now Function to take into account screen width
