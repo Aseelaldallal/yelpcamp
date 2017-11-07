@@ -198,12 +198,19 @@ a:hover   {
   }
 }
 
-
 /* Extra Small Devices: < 501px */
 @media (max-width: 500px) {
   .imagePins {
     margin-left: 2.5rem;
     margin-right: 2.5rem;
+  }
+}
+
+/* Extra Small Devices: < 381px */
+@media (max-width: 380px) {
+  .imagePins {
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 }
 
@@ -284,7 +291,13 @@ a:hover   {
   text-align: center;
   padding-left: 1.7rem;
   padding-right: 1.7rem;
-  height: 50px;
+}
+
+/* Small - Large Devices */
+@media (min-width: 768px) {
+   .caption {
+     height: 50px;
+   }
 }
 
 /* Medium Devices: < 1200px */
@@ -308,7 +321,6 @@ a:hover   {
   .caption {
     padding-left: 1rem;
     padding-right: 1rem;
-    height: 25px;
   }
 }
 
