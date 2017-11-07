@@ -76,14 +76,6 @@ function updateNumLoadedText() {
     $("#numLoaded").text(numGroundsLoaded);
 }   
     
-// Center Rating
-function adjustLook() {
-/*   var imagePinsWidth = $(".imagePins").width();
-   var pinRatingWidth = $(".pinRating").width();
-   var left = (imagePinsWidth - pinRatingWidth)/2;
-   $('.pinRating').css('left', left);
-   $('.pinUnrated').css('width', imagePinsWidth);*/
-}
 
 function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
     var grounds = <%-JSON.stringify(campgrounds) %>;
@@ -94,10 +86,10 @@ function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
             var imageName = grounds[i].image;
             var imgUrl = `https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/${imageName}`;
             var campgroundName = grounds[i].name;
-            if(campgroundName.length > 40) {
+            if(campgroundName.length > 40 && $(window).width() > 400) {
                 campgroundName = campgroundName.substring(0,40) + "...";
             }
-            $("#campgroundsRow").append(`<div id="${id}Container" class="col-md-3 col-sm-6"></div>`);
+            $("#campgroundsRow").append(`<div id="${id}Container" class="col-lg-3 col-md-4 col-sm-4 col-xs-12"></div>`);
             $(`#${id}Container`).append(`<div id="${id}ImagePins" class="imagePins"></div>`);
             $(`#${id}ImagePins`).append(`<a href="/campgrounds/${id}" class="imagePinsLink"></a>`);
             $(`#${id}ImagePins`).append(`<div id="${id}ImgAndCap"class="imgAndCap"></div>`);
