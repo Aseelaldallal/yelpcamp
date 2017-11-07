@@ -602,11 +602,25 @@ label {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: space-evenly;
-        -ms-flex-pack: space-evenly;
-            justify-content: space-evenly;
-    padding: 0 30%;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
 }
+
+#myInfo > * {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
+@media (max-width:599px) {
+  #footer {
+    height: 200px;
+    padding: 1.5rem;
+  }
+  #myInfo {
+    flex-direction: column;
+  }
+} 
 
 #footer a, #footer a:visited, #footer a:active  {
   text-decoration:  none;
