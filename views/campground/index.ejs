@@ -62,12 +62,28 @@
 var numGroundsToLoad = 16;
 var numGroundsLoaded = 0;
 
-loadCampgrounds(numGroundsLoaded, numGroundsToLoad);
+$(document).ready(function() {
+    loadCampgrounds(numGroundsLoaded, numGroundsToLoad);
+        $(".pinRating").height($(".pinUnrated").height())
+    $(window).resize(function() {
+        $(".pinRating").height($(".pinUnrated").height())
+    });
+    
+});
 
 function updateNumLoadedText() {
     $("#numLoaded").empty();
     $("#numLoaded").text(numGroundsLoaded);
 }   
+    
+// Center Rating
+function adjustLook() {
+/*   var imagePinsWidth = $(".imagePins").width();
+   var pinRatingWidth = $(".pinRating").width();
+   var left = (imagePinsWidth - pinRatingWidth)/2;
+   $('.pinRating').css('left', left);
+   $('.pinUnrated').css('width', imagePinsWidth);*/
+}
 
 function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
     var grounds = <%-JSON.stringify(campgrounds) %>;
@@ -89,8 +105,10 @@ function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
             $(`#${id}ImgAndCap`).append(`<div id="${id}Caption" class="caption"></div>`);
             $(`#${id}Caption`).append(`<p>${campgroundName}</p>`);
             if(grounds[i].ratings && grounds[i].ratings.length !== 0) {
-                $(`#${id}Caption`).append(`<div id="${id}rating" class="pinRating"></div>`);
+                $(`#${id}ImgAndCap`).append(`<div class="pinRating"><div id="${id}rating"></div></div>`);
                 setAverageRating(grounds[i].ratings, $(`#${id}rating`));
+            } else {
+                $(`#${id}ImgAndCap`).append('<div class="pinUnrated"><em>Unrated</em></div>');
             }
             $(`#${id}ImagePins`).append(`<div id="${id}Overlay" class="overlay"></div>`);
             if(checkIfCampgroundBelongsToUser(authorID)) {

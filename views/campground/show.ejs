@@ -191,11 +191,9 @@ function setupCurrentUserRating() {
 // has no ratings
 function getAverageRating() {
     var ratingsArray = <%- JSON.stringify(campground.ratings || null) %>;
-    console.log("Ratings Array: ", ratingsArray);
     if (ratingsArray === null) return null;
     var total = 0;
     ratingsArray.forEach(function(rating) {
-        console.log("RATING: ", rating);
        total += rating.rating;
     });
     return total/ratingsArray.length;
@@ -205,7 +203,6 @@ function getAverageRating() {
 // If the user already rated this campground, go to edit route
 // If the user didn't rate campground, go to post route
 function submitRating(rating) {
-   console.log("WILL SUBMIT RATING");
    var path = null;
    var currUserCampgroundRating = getCurrentUserCampgroundRating();
     if(currUserCampgroundRating !== null) {
@@ -244,7 +241,6 @@ function getCurrentUserCampgroundRating() {
         if(ratingsArray !== null) {
             for(var i = 0; i < ratingsArray.length; i++ ) {
               if(ratingsArray[i].author.id === currentUser._id) {
-                  console.log("USER RATED CAMPGROUND AS: ", ratingsArray[i].rating );
                   return ratingsArray[i];
               }
             }

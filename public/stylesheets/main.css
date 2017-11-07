@@ -162,12 +162,13 @@ a:hover   {
 .imagePins {
    display: block;
    margin: 0.2rem;
-   margin-bottom: 2rem;
+   margin-bottom: 2.3rem;
    padding: 0.5rem;
    text-decoration:  none;
    color: dimgray;
    position: relative;
 }
+
 
 .imagePins:hover {
   color: dimgray;
@@ -237,19 +238,29 @@ a:hover   {
 }
 
 .imgAndCap {
-  height: 260px;
+  display: block;
 }
 
 .caption {
   margin-top: 1rem;
   word-wrap: break-word;
   text-align: center;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  height: 50px;
 }
 
+.jq-ry-container {
+  margin: 0 auto;
+}
 
 .pinRating {
-  margin: 0 auto;
-  margin-top: -0.8rem;
+   display:block;
+}
+
+.pinUnrated {
+  text-align: center;
+  color: #d9534f;
 }
 
 /*-------------------------------------------------------*/

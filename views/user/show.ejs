@@ -38,12 +38,15 @@
                                            groundname = groundname.substring(0,40) + "...";
                                         } %>
                                     <p> <%= groundname %></p>
-                                    <% if(ground.ratings && ground.ratings.length !== 0) { %>
-                                        <% var groundID = ground.id + "Rating" %>
-                                        <div id="<%=groundID%>" class="pinRating"></div>
-                                    <% } %>
+                                   
                                 </div> <!-- caption end -->
                             </div>
+                            <% if(ground.ratings && ground.ratings.length !== 0) { %>
+                                <% var groundID = ground.id + "Rating" %>
+                                <div class="pinRating"><div id="<%=groundID%>"></div></div>
+                            <% } else { %>
+                                <div class="pinUnrated"><em>Unrated</em></div>
+                            <% } %>
                             <div class="overlay">
                                 <% if(currentUser && currentUser.id == ground.author.id) { %>
                                     <!-- Delete -->
@@ -122,8 +125,12 @@ $(document).ready(function() {
       var id = ground._id;
       setAverageRating(ground.ratings, $(`#${id}Rating`));
    });
-
+   $(".pinRating").height($(".pinUnrated").height())
+   $(window).resize(function() {
+      $(".pinRating").height($(".pinUnrated").height())
+   });
 });
+
 
 // Initializes ratingField with the campground rating
 function setAverageRating(ratingsArray, ratingField) {
