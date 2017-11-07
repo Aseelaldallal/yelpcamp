@@ -43,11 +43,57 @@
         <% } else { %>
             <h3>Campgrounds in <%=country%> </h3>
             <div class="hrContainer"><hr></div>
-            <div id="campgroundsRow" class="row"></div> 
-            <div class="loadMoreSection">
-                <p class= "centeredText"> Showing <span id="numLoaded">0</span> out of <%= campgrounds.length %> Campgrounds </p>
-                <button id="loadMore" class="btn btn-success btn-md btn-block">Load More</button>
-            </div>
+            <div id="campgroundsRow" class="row">
+                                <%  for(var i=0; i<campgrounds.length; i++) { 
+                    var ground = campgrounds[i]; %>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <div class="imagePins">
+                            <a href="/campgrounds/<%=ground._id%>" class="imagePinsLink"></a>
+                            <div class="imgAndCap">
+                                <div class="imgbackground" style="background-image: url('https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/<%=ground.image%>');"></div>
+                                 <div class="caption">
+                                     <% var groundname = ground.name;
+                                        if(ground.name.length > 40) {
+                                           groundname = groundname.substring(0,40) + "...";
+                                        } %>
+                                    <p> <%= groundname %></p>
+                                   
+                                </div> <!-- caption end -->
+                            </div>
+                            <% if(ground.ratings && ground.ratings.length !== 0) { %>
+                                <% var groundID = ground.id + "Rating" %>
+                                <div class="pinRating"><div id="<%=groundID%>"></div></div>
+                            <% } else { %>
+                                <div class="pinUnrated"><em>Unrated</em></div>
+                            <% } %>
+                            <div class="overlay">
+                                <% if(currentUser && currentUser.id == ground.author.id) { %>
+                                    <!-- Delete -->
+                                    <% var groundDelID = ground.id + "groundDelete"; %>
+                                    <% var groundDelFormID = ground.id + "groundDeleteForm"; %>
+                                    <form id="<%=groundDelFormID%>" class="inline" action="/campgrounds/<%=ground.id%>?_method=DELETE" method="POST"> 
+                                        <i id="<%=groundDelID%>" class="fa fa-times groundDelete" aria-hidden="true"></i>
+                                    </form>
+                                    <script>
+                                        $("#<%=groundDelID%>").on("click", function() {
+                                           confirmDelete($("#<%=groundDelFormID%>")); 
+                                        });
+                                    </script>
+                                    <!-- Edit-->
+                                    <% var groundEditID = ground.id + "groundEdit"; %>
+                                    <a href="/campgrounds/<%=ground.id%>/edit">
+                                        <i id="<%=groundEditID%>" class="fa fa-pencil-square-o groundEdit" aria-hidden="true"></i>
+                                    </a>
+                                <% } %>
+                            </div>
+                            
+                        </div> <!-- imagepins end -->
+                    </div>
+                <%  } %> <!-- End for -->
+                
+                
+            </div> 
+            
         <% } %>
     </div>
     
@@ -59,68 +105,18 @@
 
 <script>
 
-var numGroundsToLoad = 16;
-var numGroundsLoaded = 0;
 
 $(document).ready(function() {
-    loadCampgrounds(numGroundsLoaded, numGroundsToLoad);
-        $(".pinRating").height($(".pinUnrated").height())
+    var grounds = <%-JSON.stringify(campgrounds) %>;
+    grounds.forEach(function(ground) {
+      var id = ground._id;
+      setAverageRating(ground.ratings, $(`#${id}Rating`));
+    });
+    $(".pinRating").height($(".pinUnrated").height())
     $(window).resize(function() {
         $(".pinRating").height($(".pinUnrated").height())
     });
-    
 });
-
-function updateNumLoadedText() {
-    $("#numLoaded").empty();
-    $("#numLoaded").text(numGroundsLoaded);
-}   
-    
-
-function loadCampgrounds(numGroundsLoaded, numGroundsToLoad) {
-    var grounds = <%-JSON.stringify(campgrounds) %>;
-    for(var i=numGroundsLoaded ; i<numGroundsLoaded + numGroundsToLoad; i++) {
-        if(window.numGroundsLoaded < grounds.length ) {
-            var id = grounds[i]._id;
-            var authorID = grounds[i].author.id;
-            var imageName = grounds[i].image;
-            var imgUrl = `https://s3.ca-central-1.amazonaws.com/aseelyelpcamp/${imageName}`;
-            var campgroundName = grounds[i].name;
-            if(campgroundName.length > 40 && $(window).width() > 400) {
-                campgroundName = campgroundName.substring(0,40) + "...";
-            }
-            $("#campgroundsRow").append(`<div id="${id}Container" class="col-lg-3 col-md-4 col-sm-4 col-xs-12"></div>`);
-            $(`#${id}Container`).append(`<div id="${id}ImagePins" class="imagePins"></div>`);
-            $(`#${id}ImagePins`).append(`<a href="/campgrounds/${id}" class="imagePinsLink"></a>`);
-            $(`#${id}ImagePins`).append(`<div id="${id}ImgAndCap"class="imgAndCap"></div>`);
-            $(`#${id}ImgAndCap`).append(`<div class="imgbackground" style="background-image:url('${imgUrl}');"</div>`);
-            $(`#${id}ImgAndCap`).append(`<div id="${id}Caption" class="caption"></div>`);
-            $(`#${id}Caption`).append(`<p>${campgroundName}</p>`);
-            if(grounds[i].ratings && grounds[i].ratings.length !== 0) {
-                $(`#${id}ImgAndCap`).append(`<div class="pinRating"><div id="${id}rating"></div></div>`);
-                setAverageRating(grounds[i].ratings, $(`#${id}rating`));
-            } else {
-                $(`#${id}ImgAndCap`).append('<div class="pinUnrated"><em>Unrated</em></div>');
-            }
-            $(`#${id}ImagePins`).append(`<div id="${id}Overlay" class="overlay"></div>`);
-            if(checkIfCampgroundBelongsToUser(authorID)) {
-                $(`#${id}Overlay`).append(`<form id="${id}GroundDeleteForm" class="inline" action="/campgrounds/${id}?_method=DELETE" method="POST"></form>`);
-                $(`#${id}GroundDeleteForm`).append(`<i id="${id}GroundDelete" class="fa fa-times groundDelete" aria-hidden="true"></i>`);
-                $(`#${id}GroundDelete`).on("click", function() {
-                    confirmDelete($(`#${id}GroundDeleteForm`));
-                    //$(`#${id}GroundDeleteForm`).submit();
-                });
-                $(`#${id}Overlay`).append(`<a id="${id}EditLink" href="/campgrounds/${id}/edit"></a>`);
-                $(`#${id}EditLink`).append(`<i class="fa fa-pencil-square-o groundEdit" aria-hidden="true"></i>`)
-            }
-            window.numGroundsLoaded++;
-        }
-    }// End for
-    updateNumLoadedText();
-    if(window.numGroundsLoaded === <%=campgrounds.length%>) {
-        $("#loadMore").addClass("disabled");
-    }
-}
 
 
 // Returns true if campground has been posted by currently logged on user
@@ -133,12 +129,6 @@ function checkIfCampgroundBelongsToUser(campgroundAuthorID) {
     return false;
 }
 
-
-$("#loadMore").on("click", function() {
-      loadCampgrounds(numGroundsLoaded, numGroundsToLoad);   
-});
-
-
 // Initializes ratingField with the campground rating
 function setAverageRating(ratingsArray, ratingField) {
     ratingField.rateYo({
@@ -147,7 +137,6 @@ function setAverageRating(ratingsArray, ratingField) {
         readOnly: true
     });
 }
-
 
 // Given an array of ratings, returns average rating
 function getAverageRating(ratingsArray) {
