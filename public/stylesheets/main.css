@@ -119,24 +119,12 @@ a:hover   {
   }
 }
 
-
 .jumbotron h1, h4 {
   color: white;
   text-shadow: 2px 3px 3px rgba(0, 0, 0, 1);
   margin-bottom:2rem;
 }
 
-/*@media (max-width: 850px) {
-  .jumbotron h1 {
-    font-size: 5rem;
-  }
-}
-
-@media (max-width: 420px) {
-  .jumbotron h1 {
-    font-size: 4rem;
-  }
-}*/
 
 /*-------------------------*/
 
@@ -156,29 +144,38 @@ a:hover   {
 /*-------------------------*/
 
 #country {
-  width:430px;
-  font-size: 1.76rem;
-  height: 4rem;
-  text-align: center;
+  width: 30vw;
+  height: 3.5rem;
+  border-radius: 3px;
+  padding-left: 46%;
 }
 
-.filterByCountry {
-  padding: 2rem;
+.country-select {
+  text-align: left;
 }
+
+
+@media (max-width: 1200px) {
+  #country {
+    width: 40vw;
+  }
+}
+
+@media (max-width: 800px) {
+    #country {
+      width: 50vw;
+    }
+}
+
+@media (max-width: 500px) {
+    #country {
+      width: 80vw;
+    }
+}
+
 
 /*-------------------------*/
 
-.loadMoreSection {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-
-.loadMoreSection p {
-  margin-bottom: 2.5rem;
-  font-weight: 700;
-}
-
-/*-------------------------*/
 
 .hrContainer {
   padding: 1rem;

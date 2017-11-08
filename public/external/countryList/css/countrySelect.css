@@ -1,10 +1,6 @@
 .country-select{
 	position:relative;
-	display:inline-block;
-	border-radius: 3px;
-	margin-left:2rem;
-	margin-right:2rem;
-	text-align: center;
+	display:inline-block
 }
 .country-select *{
 	-webkit-box-sizing:border-box;
@@ -13,7 +9,7 @@
 .country-select .flag{
 	width:16px;
 	height:11px;
-	background:url("../../countryList/img/flags.png")
+	background:url("../img/flags.png")
 }
 .country-select .hide{
 	display:none
@@ -85,7 +81,7 @@
 	border:1px solid #ccc;
 	width:430px;
 	max-height:200px;
-	overflow-y:scroll;
+	overflow-y:scroll
 }
 .country-select .country-list .flag{
 	display:inline-block;

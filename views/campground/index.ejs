@@ -10,19 +10,16 @@
    
         <h1>WELCOME TO YELPCAMP</h1>
         <h4>View our handpicked campgrounds from all over the world</h4>
-<!--        <form id="filterByCountryForm" action="/campgrounds" method="GET" class="form-inline filterByCountry">
-            <div class="form-group">
-                <label for="country" class="sr-only">Country Selector</label>
-                <input type="text" name="country" id="country" class="form-control" onchange="this.form.submit()">
-                <input type="hidden" name="country_code" id="country_code" />
-                <script>
-                    $("#country").countrySelect({
-            			defaultCountry: '<%=countryCode%>',
-            			preferredCountries: ['ca', 'us']
-            		});
-                </script>
-                
-            </div-->>
+        <form id="filterByCountryForm" action="/campgrounds" method="GET">
+            <label for="country" class="sr-only">Country Selector</label>
+            <input type="text" name="country" id="country" onchange="this.form.submit()">
+            <input type="hidden" name="country_code" id="country_code" />
+            <script>
+                $("#country").countrySelect({
+        			defaultCountry: '<%=countryCode%>',
+        			preferredCountries: ['ca', 'us']
+        		});
+            </script>
         </form>
    
 </header>
@@ -111,8 +108,10 @@ $(document).ready(function() {
       setAverageRating(ground.ratings, $(`#${id}Rating`));
     });
     $(".pinRating").height($(".pinUnrated").height());
+    $(".country-list").width($(".country-select").width()-2);
     $(window).resize(function() {
         $(".pinRating").height($(".pinUnrated").height());
+        $(".country-list").width($(".country-select").width());
     });
 });
 
@@ -142,7 +141,6 @@ function getAverageRating(ratingsArray) {
     ratingsArray.forEach(function(rating) {
         total += rating.rating;
     });
-    console.log("AVG RATING: ", total/ratingsArray);
     return total/ratingsArray.length;
 }
 
