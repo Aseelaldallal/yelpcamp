@@ -152,6 +152,7 @@ $( document ).ready(function() {
 // Setup average rating
 function setupAverageRating() {
     var averageRating = getAverageRating(); 
+    console.log(averageRating === null);
     if(averageRating) {
         $("#avgRatingTitleArea").append('<span id="avgRatingValue"></span> based on <span id="numRatings"><%=campground.ratings.length%></span> rating(s)');
         $("#averageRating").rateYo({
@@ -191,7 +192,9 @@ function setupCurrentUserRating() {
 // has no ratings
 function getAverageRating() {
     var ratingsArray = <%- JSON.stringify(campground.ratings || null) %>;
-    if (ratingsArray === null) return null;
+    if (ratingsArray.length === 0) {
+        return null;
+    }
     var total = 0;
     ratingsArray.forEach(function(rating) {
        total += rating.rating;
