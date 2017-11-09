@@ -1,0 +1,90 @@
+<% include partials/header %>
+
+
+<div class="page container devNotes">
+    
+    <h2 class="pageTitle">Developer Notes</h2>
+    
+    <p class="bg-danger">
+    The purpose of this website is to build a RESTful web app and demonstrate my developer skills. This website is not intended for public use. Please note that all campground ratings are 
+    randomly generated and some of the data is fake.      
+    </p>
+    
+    <p> This is my second web app. I thought I'd outline my thought process here, in case you have questions about decisions I made when coding. I'd appreciate your feedback, so feel free to email me at
+        <a href="mailto:aseelaldallal@gmail.com?Subject=EventAppFeedback">aseelaldallal@gmail.com</a> </p>
+    
+    <hr>
+    
+    <p> <strong>Stack:</strong> NodeJS, Express, MongoDB </p>
+
+    <hr>
+    
+    <h5> Where is the Campground data coming from? </h5>
+
+    <p> I wrote a script to extract around 300 campgrounds from around the world using <a href="https://developers.google.com/places/">Google Places API</a>. You can view the extracted data <a href="/seedData"> here</a>. (Use a JSON formatter extension)
+    The extracted data consists of the following:
+    <ul>
+        <li> Campground Name </li>
+        <li> Campground Location </li>
+        <li> Campground Image</li>
+        <li> Campground Google Place ID</li>
+        <li> Latitude and Longitude </li>
+        <li> Comments</li>
+    </ul>
+    </p>
+    
+    <p> You can view the script to extract campground data using google places API <a href="https://github.com/Aseelaldallal/extractCampgroundsFromGoogleScript/blob/master/app.js"> here</a>. </p>
+    
+    <p><strong>Note:</strong> It would have been better to use <a href="http://factual.com/"> Factual's API </a> rather than Google Places API, since the latter isn't really meant to be used the way I did. Factual wouldn't supply comments and images though.</p>
+    
+    <hr>
+    
+    <h5> How was the DB populated?</h5>
+    
+    <p> I wrote a script that:
+        <ul>
+            <li>Creates random users using <a href="https://www.npmjs.com/package/faker">Faker</a></li>
+            <li>Creates random ratings</li>
+            <li>Creates campgrounds using the <a href="/seedData">extracted campground data</a></li>
+            <li>Uploads each campground image to Amazon S3</li>
+            <li>Randomly associates a user with a campground, and ratings with a campground</li>
+        </ul>
+    </p>
+    
+    <p>You can view the script <a href="https://github.com/Aseelaldallal/yelpcamp/blob/master/seeds.js">here</a>.</p>
+    
+    <hr>
+    
+
+    
+    <h5> Where are images stored? </h5>
+    
+    <p> Amazon S3</p>
+    
+    <hr>
+    
+    <h5> Testing the App </h5>
+    
+    <p> Feel free to test the functionality of this website by signing up and creating/editing campgrounds, comments and ratings. I wrote a script to create 350 random users.
+        You can login as any of those users and test the functionality of the website. Here are a few test users:
+        <ul>
+        <li>Email: lilla.ondricka67@hotmail.com ; Password: password</li>
+        <li>Email: brennan_rodriguez@yahoo.com ; Password: password</li>
+        <li>Email: gudrun_torp84@gmail.com ; Password: password</li>
+        <li>Email: kyleigh.green@yahoo.com ; Password: password</li>
+        <li>Email: lempi82@gmail.com ; Password: password</li>
+        </ul>
+    </p>
+    
+    <p>You can also create your own account and add/edit campgrounds, ratings or comments</p>
+
+    <hr>
+
+    <h5> The Code </h5>
+
+    <p> It's right <a href="https://github.com/Aseelaldallal/yelpcamp">here</a>! =)</p>
+
+
+</div>
+
+<% include partials/footer %>

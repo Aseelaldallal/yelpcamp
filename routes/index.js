@@ -6,6 +6,7 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 var middleware      = require("../middleware");
+var seedData = require('../seedData/places.json');
 
 /* ------------------------------------- */
 /* -----------------ROUTES-------------- */
@@ -41,6 +42,17 @@ router.get("/logout", function(req, res) {
     req.flash("success", "Logged you out");
     res.redirect("/campgrounds");
 }); 
+
+
+// Dev Notes
+router.get("/devnotes", function(req,res) {
+    res.render("devNotes"); 
+});
+
+// Dev Notes
+router.get("/seedData", function(req,res) {
+    res.send(seedData); 
+});
 
 
 

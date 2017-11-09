@@ -770,3 +770,17 @@ label {
 .btn-facebook:active {
   color:white;
 }
+
+
+/*-------------------------------------------------------*/
+/*----------------------- DEVNOTES ----------------------*/
+/*-------------------------------------------------------*/
+
+.devNotes p {
+  margin-bottom: 2rem;
+}
+
+.devNotes h5 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
