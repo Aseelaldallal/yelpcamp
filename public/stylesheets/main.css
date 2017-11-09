@@ -723,6 +723,19 @@ label {
   margin-left: -8%;
 }
 
+@media only screen and (max-width: 380px) {
+  .btn-google .icon, .btn-facebook .icon {
+    font-size: 1.4rem;
+    width: 2%;
+    padding-left: 0.2rem;
+  }
+
+  .btn-google .btn-text, .btn-facebook .btn-text {
+    margin-left: 2%;
+  }
+
+}
+
 .registerFormBackground {
   background-image: url("/images/registerFormBackground.jpg");
   background-size: cover;
