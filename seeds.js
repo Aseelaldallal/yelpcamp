@@ -216,7 +216,6 @@ function link() {
                                id: updatedGround._id,
                                name: updatedGround.name
                            }
-                           console.log("Comment Campground: ", commentCampground);
                            foundComment.campground = commentCampground;
                            foundComment.save();
                        }); // End of campground.find

@@ -1,4 +1,3 @@
-Fix Adding Country
 
 -- Check New Route -- DONE
 -- Check Edit Route -- DONE
@@ -16,7 +15,4 @@ Fix Adding Country
 -- Add ratings -- DONE
 
 
-
-
-Front End
-// Fix Load Now Function to take into account screen width
+Create a db on mongo db
