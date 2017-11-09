@@ -196,7 +196,7 @@ function getAverageRating() {
     ratingsArray.forEach(function(rating) {
        total += rating.rating;
     });
-    return total/ratingsArray.length;
+    return (total/ratingsArray.length).toFixed(2);
 }
 
 

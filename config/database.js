@@ -2,6 +2,8 @@
 
 module.exports = {
 
-    'url' : process.env.DB_URL
+    'url' : 'mongodb://localhost/yelp_camp' || process.env.DB_URL
 
 };
+
+//process.env.DB_URL
