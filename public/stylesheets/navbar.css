@@ -5,9 +5,17 @@
     font-size: 2.5rem;
 }
 
+@media only screen and (max-width: 768px) {
+    .navbar-default .navbar-brand {
+        font-size: 2rem;
+    }
+}
+
 .navbar-default {
     background-color: white;
 }
+
+
 
 .navbar-default .navbar-nav>li>a {
     color: Gray;
@@ -15,38 +23,38 @@
     font-size: 2rem;
 }
 
-.navbar-brand,
-.navbar-nav li a {
-    line-height: 8vh;
-    height: 8vh;
-    padding-top: 0;
+@media only screen and (max-width: 768px) {
+    .navbar-default .navbar-nav>li>a {
+        font-size: 1.5rem;
+    }
 }
 
 
 .navbar-default .navbar-nav>li>a:hover,
 .navbar-default .navbar-nav>li>a:focus {
-/*    color: rgba(251, 253, 253, 1);
-    background-color: rgba(240, 66, 66, 1);*/
     color: white;
     background-color: #5cb85c;
 }
+
+
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:hover,
 .navbar-default .navbar-nav>.active>a:focus {
     color: rgba(240, 66, 66, 1);
     background-color: rgba(251, 253, 253, 1);
 }
+
+
+
 .navbar-default .navbar-toggle {
-    border-color: #fbfdfd;
+    border-color: white;
 }
+
+
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
     background-color: #fbfdfd;
 }
-.navbar-default .navbar-toggle .icon-bar {
-    background-color: #fbfdfd;
-}
-.navbar-default .navbar-toggle:hover .icon-bar,
-.navbar-default .navbar-toggle:focus .icon-bar {
-    background-color: #fbfdfd;
-}
+
+
+
