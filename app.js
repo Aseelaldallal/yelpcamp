@@ -28,7 +28,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(configDB.url); // connect to our database
 
 // Seed the database
-seedDB();
+//seedDB();
 
 // Log to console
 //app.use(morgan('dev')); // log every request to the console

@@ -133,6 +133,7 @@ function createCampgrounds() {
                 googlePlaceID: campground.googlePlaceID,
                 latlng: campground.latlng,
                 country: campground.country,
+                countryCode: campground.countryCode.toUpperCase(),
                 description: faker.lorem.paragraphs(),
                 image: "uploads/" + campground.googlePlaceID + ".jpg",
                 author: author

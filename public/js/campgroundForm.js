@@ -84,7 +84,7 @@ function checkIfCountrySpecified(place) {
             displayError($("#location"), errMsg);
         } else {
             $("#campgroundCountry").val(country);
-            $("#campgroundCountryCode").val(countryCode);
+            $("#campgroundCountryCode").val(countryCode.toUpperCase());
         }
     }
 };

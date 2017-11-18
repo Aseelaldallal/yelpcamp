@@ -64,7 +64,7 @@ router.get("/", function(req,res) {
 });
 
 function findCampgrounds(countryName, countryCode, req, res) {
-    Campground.find({countryCode: countryCode}).populate("ratings").exec(function(err, allCampgrounds) {
+    Campground.find({countryCode: countryCode.toUpperCase()}).populate("ratings").exec(function(err, allCampgrounds) {
        if (err) {
             flashUnexpectedError(req, res, err);
        } else {
@@ -98,6 +98,7 @@ router.post("/", upload.array('image',1), middleware.isLoggedIn, middleware.sani
         location: req.body.location,
         latlng: req.body.mapCoord,
         country: req.body.campgroundCountry,
+        countryCode: req.body.campgroundCountryCode.toUpperCase(),
         description: req.body.desc, 
         image: filepath,
         author: author
@@ -176,6 +177,7 @@ router.put("/:id", upload.array('image',1), middleware.checkCampgroundOwnership,
         location: req.body.location,
         latlng: req.body.mapCoord,
         country: req.body.campgroundCountry,
+        countryCode: req.body.campgroundCountryCode.toUpperCase(), 
         description: req.body.desc, 
         image: req.body.image
     }
