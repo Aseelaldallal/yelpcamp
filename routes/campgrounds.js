@@ -9,7 +9,6 @@ var express         = require("express"),
     router          = express.Router(),
     Campground      = require("../models/campground"),
     Comment         = require("../models/comment"),
-    Rating          = require("../models/rating"),
     middleware      = require("../middleware"),
     aws             = require('aws-sdk'),
     multer          = require('multer'),
@@ -65,7 +64,7 @@ router.get("/", function(req,res) {
 });
 
 function findCampgrounds(countryName, countryCode, req, res) {
-    Campground.find({country: countryName}).populate("ratings").exec(function(err, allCampgrounds) {
+    Campground.find({countryCode: countryCode}).populate("ratings").exec(function(err, allCampgrounds) {
        if (err) {
             flashUnexpectedError(req, res, err);
        } else {

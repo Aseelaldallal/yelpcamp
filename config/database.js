@@ -1,8 +1,10 @@
 
 
+var url =  process.env.DATABASEURL || "mongodb://localhost/yelp_camp";
+
 module.exports = {
 
-    'url' : process.env.DB_URL
+    'url' : url
 
 };
 

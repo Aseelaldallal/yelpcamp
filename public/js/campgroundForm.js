@@ -71,10 +71,12 @@ function checkIfCountrySpecified(place) {
     if(place && place.geometry) {
         var address = place.address_components;
         var country;
+        var countryCode;
         address.forEach(function(component) {
             var types = component.types;
             if (types.indexOf('country') > -1) {
                 country = component.long_name;
+                countryCode = component.short_name;
             }
         });
         if(country === undefined) {
@@ -82,6 +84,7 @@ function checkIfCountrySpecified(place) {
             displayError($("#location"), errMsg);
         } else {
             $("#campgroundCountry").val(country);
+            $("#campgroundCountryCode").val(countryCode);
         }
     }
 };
